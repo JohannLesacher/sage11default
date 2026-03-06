@@ -2,23 +2,71 @@
   "$schema": "https://schemas.wp.org/trunk/theme.json",
   "version": 3,
   "settings": {
+    "appearanceTools": true,
     "layout": {
-      "contentSize": "48rem"
+      "contentSize": "900px",
+      "wideSize": "1100px"
     },
     "background": {
       "backgroundImage": true
     },
+    "border": {
+      "color": true,
+      "radius": true,
+      "style": true,
+      "width": true
+    },
     "color": {
-      "custom": false,
-      "customDuotone": false,
-      "customGradient": false,
+      "custom": true,
+      "customGradient": true,
       "defaultDuotone": false,
       "defaultGradients": false,
       "defaultPalette": false,
-      "duotone": []
+      "link": true,
+      "palette": [
+        {
+          "slug": "blanc-casse",
+          "color": "#F6F5EE",
+          "name": "Blanc Cassé"
+        },
+        {
+          "slug": "bleu",
+          "color": "#64A0DC",
+          "name": "Bleu"
+        },
+        {
+          "slug": "jaune",
+          "color": "#FAD246",
+          "name": "Jaune"
+        },
+        {
+          "slug": "rose",
+          "color": "#F2CBD2",
+          "name": "Rose"
+        },
+        {
+          "slug": "orange",
+          "color": "#DC5328",
+          "name": "Orange"
+        },
+        {
+          "slug": "rouge",
+          "color": "#B43228",
+          "name": "Rouge"
+        },
+        {
+          "slug": "bordeaux",
+          "color": "#691700",
+          "name": "Bordeaux"
+        },
+        {
+          "slug": "noir",
+          "color": "#000000",
+          "name": "Noir"
+        }
+      ]
     },
     "custom": {
-      "spacing": {},
       "typography": {
         "font-size": {},
         "line-height": {}
@@ -26,11 +74,127 @@
     },
     "spacing": {
       "padding": true,
-      "units": ["px", "%", "em", "rem", "vw", "vh"]
+      "margin": true,
+      "blockGap": true,
+      "units": [
+        "px",
+        "%",
+        "em",
+        "rem",
+        "vw",
+        "vh"
+      ]
     },
     "typography": {
       "defaultFontSizes": false,
-      "customFontSize": false
+      "customFontSize": true,
+      "lineHeight": true,
+      "fluid": false,
+      "fontFamilies": [
+        {
+          "name": "Inter",
+          "slug": "inter",
+          "fontFamily": "Inter, sans-serif"
+        },
+        {
+          "name": "Instrument",
+          "slug": "instrument",
+          "fontFamily": "Instrument, serif"
+        },
+        {
+          "name": "LT Museum",
+          "slug": "lt-museum",
+          "fontFamily": "LT Museum, serif"
+        }
+      ],
+      "fontSizes": [
+        {
+          "name": "Extra Extra Small",
+          "slug": "xx-small",
+          "size": "10px",
+          "fluid": false
+        },
+        {
+          "name": "Extra Small",
+          "slug": "x-small",
+          "size": "14px",
+          "fluid": false
+        },
+        {
+          "name": "Small",
+          "slug": "small",
+          "size": "16px",
+          "fluid": false
+        },
+        {
+          "name": "Medium",
+          "slug": "medium",
+          "size": "18px",
+          "fluid": false
+        },
+        {
+          "name": "Medium-Large",
+          "slug": "medium-large",
+          "size": "22px",
+          "fluid": false
+        },
+        {
+          "name": "Medium-Extra-Large",
+          "slug": "medium-x-large",
+          "size": "26px",
+          "fluid": false
+        },
+        {
+          "name": "Medium-Extra-Extra-Large",
+          "slug": "medium-xx-large",
+          "size": "30px",
+          "fluid": false
+        },
+        {
+          "name": "Large",
+          "slug": "large",
+          "size": "36px",
+          "fluid": {
+            "min": "24px",
+            "max": "36px"
+          }
+        },
+        {
+          "name": "Extra Large",
+          "slug": "x-large",
+          "size": "48px",
+          "fluid": {
+            "min": "32px",
+            "max": "48px"
+          }
+        },
+        {
+          "name": "Extra Extra Large",
+          "slug": "xx-large",
+          "size": "56px",
+          "fluid": {
+            "min": "32px",
+            "max": "56px"
+          }
+        }
+      ]
+    },
+    "blocks": {
+      "core/group": {
+        "background": {
+          "backgroundImage": true,
+          "backgroundSize": true
+        }
+      }
+    }
+  },
+  "styles": {
+    "typography": {
+      "fontFamily": "'Inter', sans-serif",
+      "fontSize": "16px"
+    },
+    "spacing": {
+      "blockGap": "2rem"
     }
   }
 }

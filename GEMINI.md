@@ -7,3 +7,4 @@
 
 ## Project Preferences
 - Specifics: Focus on high-performance Vanilla JS modules for the front-end.
+- Styles (colors, spacing, typos): refer to theme.json
