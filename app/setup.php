@@ -48,17 +48,6 @@ add_action('admin_head', function () {
 });
 
 /**
- * Use the generated theme.json file.
- *
- * @return string
- */
-add_filter('theme_file_path', function ($path, $file) {
-    return $file === 'theme.json'
-        ? public_path('build/assets/theme.json')
-        : $path;
-}, 10, 2);
-
-/**
  * Disable on-demand block asset loading.
  *
  * @link https://core.trac.wordpress.org/ticket/61965
