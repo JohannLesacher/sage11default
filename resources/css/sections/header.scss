@@ -149,8 +149,9 @@
       justify-content: center;
       align-items: center;
       padding: var(--container-padding);
-
       margin-top: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
 
       ul {
         padding: 0;
