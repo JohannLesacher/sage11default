@@ -1,0 +1,94 @@
+:root {
+  --content-width: 720px;
+  --wide-width: 816px;
+  --extra-wide-width: 1100px;
+  --container-padding: 1.5rem;
+  --header-height: 75px;
+  --wp--preset--spacing--20: clamp(0.26rem, 0.2rem + 0.33vw, 0.44rem);
+  --wp--preset--spacing--30: clamp(0.4rem, 0.3rem + 0.5vw, 0.67rem);
+  --wp--preset--spacing--40: clamp(0.6rem, 0.45rem + 0.74vw, 1rem);
+  --wp--preset--spacing--50: clamp(0.9rem, 0.68rem + 1.11vw, 1.5rem);
+  --wp--preset--spacing--60: clamp(1.35rem, 1.02rem + 1.67vw, 2.25rem);
+  --wp--preset--spacing--70: clamp(2.03rem, 1.54rem + 2.5vw, 3.38rem);
+  --wp--preset--spacing--80: clamp(3.04rem, 2.3rem + 3.75vw, 5.06rem);
+
+  @media screen and (min-width: 769px) {
+    --container-padding: 2.5rem;
+  }
+}
+
+.main,
+.innergrid,
+.main > .alignfull {
+  display: grid;
+
+  grid-template-columns:
+    [fullwidth-start] minmax(var(--container-padding), 1fr)
+    [extra-wide-start wide-start content-start]
+    repeat(12, minmax(0, calc((100% - (var(--container-padding) * 2)) / 12)))
+    [content-end wide-end extra-wide-end]
+    minmax(var(--container-padding), 1fr) [fullwidth-end];
+
+  @media (min-width: 769px) {
+    grid-template-columns:
+      [fullwidth-start] minmax(var(--container-padding), 1fr)
+      [extra-wide-start wide-start]
+      minmax(0, calc((var(--wide-width) - var(--content-width)) / 2))
+      [content-start]
+      repeat(12, minmax(0, calc(var(--content-width) / 12)))
+      [content-end]
+      minmax(0, calc((var(--wide-width) - var(--content-width)) / 2))
+      [wide-end extra-wide-end]
+      minmax(var(--container-padding), 1fr) [fullwidth-end];
+  }
+
+  @media (min-width: 1100px) {
+    grid-template-columns:
+      [fullwidth-start] minmax(var(--container-padding), 1fr)
+      [extra-wide-start] minmax(0, calc((var(--extra-wide-width) - var(--wide-width)) / 2))
+      [wide-start] minmax(0, calc((var(--wide-width) - var(--content-width)) / 2))
+      [content-start]
+      repeat(12, minmax(0, calc(var(--content-width) / 12)))
+      [content-end]
+      minmax(0, calc((var(--wide-width) - var(--content-width)) / 2))
+      [wide-end] minmax(0, calc((var(--extra-wide-width) - var(--wide-width)) / 2))
+      [extra-wide-end]
+      minmax(var(--container-padding), 1fr) [fullwidth-end];
+  }
+
+  > * {
+    grid-column: content;
+    width: 100%;
+
+    &.wp-block-cover__image-background {
+      grid-column: initial;
+    }
+  }
+
+  .alignfull {
+    grid-column: fullwidth;
+  }
+
+  .alignwide {
+    grid-column: wide;
+  }
+
+  .alignextrawide {
+    grid-column: extra-wide;
+  }
+}
+
+.is-layout-constrained > :where(.alignwide) {
+  max-width: var(--wide-width);
+}
+
+.is-layout-constrained > :where(.alignextrawide) {
+  max-width: var(--extra-wide-width);
+}
+
+.main img,
+.main video {
+  width: 100%;
+  height: auto;
+  display: block;
+}

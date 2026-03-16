@@ -40,6 +40,9 @@
   },
   "require": {
     "php": ">=8.2",
+    "blade-ui-kit/blade-icons": "^1.9",
+    "johnbillion/extended-cpts": "^5.1",
+    "log1x/navi": "^3.1",
     "roots/acorn": "^5.0"
   },
   "require-dev": {

@@ -6,12 +6,12 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
-class BlockMakeCommand extends Command {
-    protected $signature = 'block:create {name} {--js} {--vc}';
+class MakeBlockCommand extends Command {
+    protected $signature = 'make:block {name} {--js} {--vc}';
     protected $description = 'Crée un bloc MB Blocks (Sage 11)';
 
     public function handle(): void {
-        $name      = Str::ascii($this->argument( 'name' ));
+        $name      = Str::ascii( $this->argument( 'name' ) );
         $className = Str::studly( $name );
         $slug      = Str::kebab( $name );
         $hasJs     = $this->option( 'js' );

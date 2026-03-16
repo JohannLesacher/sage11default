@@ -1,0 +1,93 @@
+@use "../config/variables" as *;
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.focus\:not-sr-only:focus,
+.focus\:not-sr-only:focus-within {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-family: $textFont;
+}
+
+body {
+  background-color: $blancCasse;
+  line-height: 1.5;
+  scroll-behavior: smooth;
+  font-size: var(--wp--preset--font-size--medium);
+
+  &.has-fixed-header {
+    .main {
+      padding-top: var(--header-height);
+    }
+  }
+
+  &.overflow-hidden {
+    overflow: hidden !important;
+    touch-action: none;
+  }
+}
+
+a {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $titleFont;
+  font-synthesis: none;
+}
+
+h1 {
+  font-size: var(--wp--preset--font-size--xx-large);
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: var(--wp--preset--font-size--x-large);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+h3 {
+  font-size: var(--wp--preset--font-size--large);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+a {
+  color: inherit;
+}
+
+.hp-banner {
+  .wp-block-cover__image-background {
+    object-fit: contain;
+    object-position: 0 0;
+  }
+}
+
+.main .extra-wide {
+  grid-column: extra-wide;
+}

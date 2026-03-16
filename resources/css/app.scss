@@ -1,2 +1,9 @@
-@source "../views/";
-@source "../../app/";
+@use "config/reset";
+@use "config/fonts";
+@use "config/external";
+
+@use "base/layout";
+@use "base/global";
+
+@use "sections/header";
+@use "sections/footer";
