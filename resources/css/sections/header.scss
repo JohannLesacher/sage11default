@@ -8,7 +8,7 @@
   background-color: var(--banner-bg);
   color: var(--banner-color);
   z-index: 1000;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s, height 0.3s;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s;
   align-items: center;
 
   &__wrapper {
@@ -101,6 +101,7 @@
     justify-self: end;
     width: 28px;
     height: 18px;
+    gap: 1px;
     position: relative;
     cursor: pointer;
     background: none;
@@ -130,13 +131,28 @@
     transform: none !important;
     overflow-y: auto;
     align-items: flex-start;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s;
 
     .brand,
-    .burger,
     .banner__actions {
       height: var(--header-height);
       display: flex;
       align-items: center;
+    }
+
+    .burger {
+      span {
+        transform-origin: 3px 1px;
+      }
+      span:nth-child(1) {
+        transform: rotate(45deg);
+      }
+      span:nth-child(2) {
+        opacity: 0;
+      }
+      span:nth-child(3) {
+        transform: rotate(-45deg);
+      }
     }
 
     .banner__nav {
