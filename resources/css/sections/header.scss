@@ -50,7 +50,7 @@
 
   &__nav {
     grid-column: content;
-    display: none; // Mobile par défaut
+    display: none;
 
     @media (min-width: 1024px) {
       display: block;
