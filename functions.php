@@ -1,5 +1,8 @@
 <?php
 
+use App\Providers\ThemeServiceProvider;
+use App\Providers\BlockServiceProvider;
+use App\Providers\PostTypesServiceProvider;
 use Roots\Acorn\Application;
 
 /*
@@ -33,9 +36,9 @@ require $composer;
 
 Application::configure()
     ->withProviders([
-        App\Providers\ThemeServiceProvider::class,
-        App\Providers\PostTypesServiceProvider::class,
-        App\Providers\BlockServiceProvider::class,
+        ThemeServiceProvider::class,
+        PostTypesServiceProvider::class,
+        BlockServiceProvider::class,
     ])
     ->boot();
 
