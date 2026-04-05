@@ -64,4 +64,15 @@ class Post extends Composer
             'after' => '</p>',
         ]);
     }
+
+    /**
+     * Should display title
+     */
+    public function shouldDisplayTitle(): bool {
+        if ( is_page() ) {
+            return get_post_meta( get_the_ID(), 'display_title', true );
+        }
+
+        return true;
+    }
 }
