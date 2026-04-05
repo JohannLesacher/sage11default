@@ -230,6 +230,95 @@ Les composers sont **auto-découverts** depuis `app/View/Composers/`.
 | `wp acorn make:block <name>` | `--js`, `--vc` | Génère un bloc MB Blocks complet |
 | `wp acorn make:header` | `--fixed`, `--align=`, `--lang`, `--cta` | Scaffold du View Composer Header |
 
+## Style CSS
+
+Pas de Tailwind. Le thème utilise **SCSS pur**, organisé dans `resources/css/`.
+
+### Organisation des fichiers
+
+```
+resources/css/
+├── app.scss              # Entry point principal (@use de tout le reste)
+├── editor.scss           # Entry point éditeur Gutenberg
+├── config/
+│   ├── reset.scss        # Reset CSS
+│   ├── fonts.scss        # Déclarations @font-face
+│   ├── external.scss     # Imports externes (ex: Splide)
+│   └── variables.scss    # Variables SCSS ($colors, $fonts…)
+├── base/
+│   ├── global.scss       # Styles globaux (html, body, typographie de base)
+│   ├── layout.scss       # Grille et structure de page
+│   └── animation.scss    # Keyframes et transitions
+├── sections/
+│   ├── header.scss
+│   └── footer.scss
+└── blocks/               # Un fichier par bloc (généré par make:block)
+    └── <slug>.scss
+```
+
+### Variables SCSS vs variables WordPress
+
+Le projet utilise **deux systèmes** en parallèle :
+
+- **Variables SCSS** (`resources/css/config/variables.scss`) — pour les valeurs internes au SCSS (maps, calculs, valeurs partagées entre fichiers)
+- **Variables CSS WordPress** — générées automatiquement par WordPress à partir de `theme.json`, utilisées dans les règles CSS
+
+Toujours préférer les variables WordPress pour les couleurs, tailles de police et familles de caractères, afin de rester cohérent avec ce que l'éditeur Gutenberg propose aux rédacteurs.
+
+### Variables CSS générées par theme.json
+
+WordPress génère ces variables sur `:root` à partir de `theme.json`.
+
+#### Couleurs — `--wp--preset--color--{slug}`
+
+| Variable | Valeur |
+|----------|--------|
+| `--wp--preset--color--blanc-casse` | `#F6F5EE` |
+| `--wp--preset--color--bleu` | `#64A0DC` |
+| `--wp--preset--color--jaune` | `#FAD246` |
+| `--wp--preset--color--rose` | `#F2CBD2` |
+| `--wp--preset--color--orange` | `#DC5328` |
+| `--wp--preset--color--rouge` | `#B43228` |
+| `--wp--preset--color--bordeaux` | `#691700` |
+| `--wp--preset--color--noir` | `#000000` |
+
+#### Tailles de police — `--wp--preset--font-size--{slug}`
+
+| Variable | Valeur |
+|----------|--------|
+| `--wp--preset--font-size--xx-small` | `10px` |
+| `--wp--preset--font-size--x-small` | `14px` |
+| `--wp--preset--font-size--small` | `16px` |
+| `--wp--preset--font-size--medium` | `18px` |
+| `--wp--preset--font-size--medium-large` | `22px` |
+| `--wp--preset--font-size--medium-x-large` | `26px` |
+| `--wp--preset--font-size--medium-xx-large` | `30px` |
+| `--wp--preset--font-size--large` | `36px` (fluid 24–36px) |
+| `--wp--preset--font-size--x-large` | `48px` (fluid 32–48px) |
+| `--wp--preset--font-size--xx-large` | `56px` (fluid 32–56px) |
+
+#### Familles de caractères — `--wp--preset--font-family--{slug}`
+
+| Variable | Valeur |
+|----------|--------|
+| `--wp--preset--font-family--inter` | `Inter, sans-serif` |
+| `--wp--preset--font-family--instrument` | `Instrument, serif` |
+| `--wp--preset--font-family--lt-museum` | `LT Museum, serif` |
+
+### Exemple d'utilisation
+
+```scss
+.mon-element {
+    color: var(--wp--preset--color--bordeaux);
+    font-size: var(--wp--preset--font-size--large);
+    font-family: var(--wp--preset--font-family--instrument);
+}
+```
+
+### Référence WordPress
+
+Le schéma complet des variables générées est documenté dans la [référence theme.json (living)](https://developer.wordpress.org/block-editor/reference-guides/theme-json-reference/theme-json-living/#styles). Le pattern de nommage est : `--wp--preset--{category}--{slug}` avec les slugs en kebab-case.
+
 ## Bonnes pratiques
 
 1. Créer les blocs via `wp acorn make:block` — ne jamais écrire la structure à la main
@@ -237,3 +326,4 @@ Les composers sont **auto-découverts** depuis `app/View/Composers/`.
 3. Utiliser les View Composers pour la logique de données, pas les templates Blade
 4. Déclarer les hooks WordPress dans les Service Providers, pas dans `functions.php`
 5. Suivre PSR-12, tout typer (paramètres et retours)
+6. Utiliser les variables CSS WordPress (`--wp--preset--*`) plutôt que des valeurs codées en dur pour les couleurs et tailles de police
