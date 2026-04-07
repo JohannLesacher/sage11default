@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh"
+  },
+  "permissions": {
+    "allow": [
+      "Bash(npm run build)",
+      "Bash(npm run dev)",
+      "Bash(npm run format:all:check)",
+      "Bash(npm run translate)",
+      "Bash(npx prettier:*)",
+      "Bash(wp mcp-adapter:*)",
+      "Bash(wp acorn:*)",
+      "Bash(vendor/bin/pint:*)",
+      "mcp__figma__get_design_context",
+      "mcp__figma__get_screenshot",
+      "mcp__figma__get_metadata",
+      "mcp__figma__get_variable_defs",
+      "mcp__figma__get_code_connect_map",
+      "mcp__figma__whoami"
+    ],
+    "deny": [
+      "Bash(rm -rf:*)",
+      "Bash(git push --force:*)",
+      "Bash(chmod 777:*)",
+      "Read(.env)",
+      "Read(.env.*)",
+      "Read(auth.json)",
+      "Read(node_modules/**)",
+      "Read(vendor/**/*.php)"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/pre-bash-validation.sh"
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/pre-commit-secrets.sh"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/post-edit-format.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the conversation. Did Claude discover new patterns, design tokens, recurring errors, or architectural decisions during this session that are NOT already documented in .claude/memory.md? If yes, respond with {\"decision\": \"block\", \"reason\": \"Update .claude/memory.md with the new discoveries before stopping. Add to the appropriate section (Key Facts, Learned patterns, or Recurring errors to avoid). Only append, never overwrite.\"}. If nothing new was discovered, respond with {\"decision\": \"allow\"}."
+          }
+        ]
+      }
+    ]
+  }
+}
