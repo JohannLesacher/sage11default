@@ -152,8 +152,9 @@ class Page
 
 Les blocs utilisent **MetaBox MB Blocks**, pas `block.json`. ACF n'est pas utilisé.
 
-### Créer un bloc
+### Créer un bloc — TOUJOURS passer par la commande
 
+> **Règle absolue :** ne jamais créer les fichiers d'un bloc manuellement. Toujours utiliser `wp acorn make:block` — c'est déterministe, ça génère la structure correcte et ça évite les erreurs de registration.
 ```bash
 wp acorn make:block nom-du-bloc          # CSS uniquement
 wp acorn make:block nom-du-bloc --js     # Avec JS
@@ -161,7 +162,12 @@ wp acorn make:block nom-du-bloc --vc     # Avec View Composer
 wp acorn make:block nom-du-bloc --js --vc
 ```
 
-Génère automatiquement : classe PHP, vue Blade, SCSS, JS (optionnel), Composer (optionnel). Aucune registration manuelle nécessaire.
+La commande génère : classe PHP, vue Blade, SCSS, JS (optionnel), Composer (optionnel). Aucune registration manuelle nécessaire.
+
+**Workflow correct pour créer un bloc :**
+1. Exécuter `wp acorn make:block nom-du-bloc [--js] [--vc]` via bash
+2. Modifier les fichiers générés pour ajouter champs, vue, CSS. Le but est d'avoir un bloc prêt à l'emploi.
+3. Ne jamais créer les fichiers manuellement, même si bash n'est pas disponible — demander à l'utilisateur d'exécuter la commande et attendre sa confirmation
 
 ### Anatomie d'une classe de bloc
 
@@ -205,8 +211,9 @@ class MonBloc extends BlockEngine
 
 ### Vue Blade
 
+Pas de commentaire de chemin en haut du fichier — c'est inutile.
+
 ```blade
-{{-- resources/views/blocks/mon-bloc.blade.php --}}
 <section class="block-mon-bloc {{ $attributes['className'] ?? '' }}">
     {{-- $data = champs MetaBox, $attributes = attrs Gutenberg, $is_preview = bool --}}
 </section>
@@ -214,14 +221,27 @@ class MonBloc extends BlockEngine
 
 ### InnerBlocks vs champs MetaBox
 
+> **`<InnerBlocks />` est le choix par défaut pour tout contenu éditorial.** Le champ `wysiwyg` MetaBox est à proscrire — il isole le contenu de l'expérience Gutenberg et prive le rédacteur des blocs natifs.
+
 | Situation | Approche |
 |-----------|----------|
-| Contenu riche (texte, titres, images…) | `<InnerBlocks />` |
-| Texte court sans mise en forme | Champ `text` MetaBox |
+| Tout contenu que le rédacteur composerait avec des blocs | `<InnerBlocks />` |
+| Texte court non mis en forme (titre, label, slug…) | Champ `text` MetaBox |
 | URL, lien externe | Champ `url` MetaBox |
-| Données structurées (options, coordonnées…) | Champ MetaBox adapté |
+| Données structurées non-éditoriales (options, coordonnées…) | Champ MetaBox adapté |
 
-**Règle simple :** si le rédacteur utiliserait des blocs Gutenberg pour ce contenu → `<InnerBlocks />`.
+**Exemples concrets :**
+```
+Bloc Card (titre + contenu libre + CTA) :
+❌ titre (text) + contenu (wysiwyg) + cta_label (text) + cta_url (url)
+✓  titre (text) + <InnerBlocks /> pour le contenu + cta_label (text) + cta_url (url)
+
+Bloc Hero (visuel + texte + bouton) :
+❌ image (single_image) + texte (wysiwyg) + bouton (text + url)
+✓  image (single_image) + <InnerBlocks /> pour le texte et le bouton
+```
+
+**Règle simple :** doute → `<InnerBlocks />`. Le champ `wysiwyg` n'a quasiment aucun cas d'usage légitime.
 
 ---
 

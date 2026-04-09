@@ -1,7 +1,17 @@
 {
   "permissions": {
     "allow": [
-      "Bash(wp acorn:*)"
+      "Bash(wp acorn:*)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(json.dumps\\({'palette': d.get\\('settings',{}\\).get\\('color',{}\\).get\\('palette',[]\\), 'fontSizes': d.get\\('settings',{}\\).get\\('typography',{}\\).get\\('fontSizes',[]\\)}, indent=2\\)\\)\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d.get\\('settings',{}\\).get\\('color',{}\\).get\\('palette',[]\\), indent=2\\)\\); print\\('---'\\); print\\(json.dumps\\(d.get\\('settings',{}\\).get\\('typography',{}\\).get\\('fontFamilies',[]\\), indent=2\\)\\); print\\('---'\\); print\\(json.dumps\\(d.get\\('settings',{}\\).get\\('typography',{}\\).get\\('fontSizes',[]\\), indent=2\\)\\)\")",
+      "Read(//home/johann/Dev/sage11default/**)",
+      "Bash(wp rewrite:*)"
     ]
-  }
+  },
+  "enabledMcpjsonServers": [
+    "wordpress"
+  ],
+  "disabledMcpjsonServers": [
+    "figma"
+  ]
 }

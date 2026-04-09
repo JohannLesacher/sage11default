@@ -1,0 +1,23 @@
+{
+  "mcpServers": {
+    "figma": {
+      "command": "npx",
+      "args": [
+        "@figma/mcp-server-figma"
+      ]
+    },
+    "wordpress": {
+      "command": "wp",
+      "args": [
+        "--path=/home/johann/Dev/sage11default/web/wp",
+        "mcp-adapter",
+        "serve",
+        "--server=mcp-adapter-default-server",
+        "--user=admin"
+      ],
+      "env": {
+        "WP_CLI_CUSTOM_SHELL": "/bin/bash"
+      }
+    }
+  }
+}
