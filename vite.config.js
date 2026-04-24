@@ -21,6 +21,7 @@ export default defineConfig({
         ...globSync('resources/{css,js}/blocks/*.{scss,js}'),
       ],
       refresh: true,
+      assets: ['resources/images/**', 'resources/fonts/**'],
     }),
 
     wordpressPlugin(),
