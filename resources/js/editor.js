@@ -1,6 +1,2 @@
-import domReady from '@wordpress/dom-ready';
 import '@scripts/admin/animation';
-
-domReady(() => {
-  //
-});
+import '@scripts/admin/responsive-panel';

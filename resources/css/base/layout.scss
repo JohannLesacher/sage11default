@@ -4,13 +4,6 @@
   --extra-wide-width: 1100px;
   --container-padding: 1.5rem;
   --header-height: 75px;
-  --wp--preset--spacing--20: clamp(0.26rem, 0.2rem + 0.33vw, 0.44rem);
-  --wp--preset--spacing--30: clamp(0.4rem, 0.3rem + 0.5vw, 0.67rem);
-  --wp--preset--spacing--40: clamp(0.6rem, 0.45rem + 0.74vw, 1rem);
-  --wp--preset--spacing--50: clamp(0.9rem, 0.68rem + 1.11vw, 1.5rem);
-  --wp--preset--spacing--60: clamp(1.35rem, 1.02rem + 1.67vw, 2.25rem);
-  --wp--preset--spacing--70: clamp(2.03rem, 1.54rem + 2.5vw, 3.38rem);
-  --wp--preset--spacing--80: clamp(3.04rem, 2.3rem + 3.75vw, 5.06rem);
 
   @media screen and (min-width: 769px) {
     --container-padding: 2.5rem;

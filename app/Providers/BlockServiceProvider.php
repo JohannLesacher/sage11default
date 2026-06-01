@@ -20,6 +20,10 @@ class BlockServiceProvider extends ServiceProvider {
         foreach ( File::allFiles( $blocksPath ) as $file ) {
             $className = 'App\\Blocks\\' . $file->getFilenameWithoutExtension();
 
+            if ( method_exists( $className, 'boot' ) ) {
+                $className::boot();
+            }
+
             if ( method_exists( $className, 'register_block' ) ) {
                 $meta_boxes = $className::register_block( $meta_boxes );
             }

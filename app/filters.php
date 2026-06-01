@@ -42,3 +42,24 @@ add_filter( 'register_block_type_args', function ( $args, $name ) {
 
     return $args;
 }, 10, 2 );
+
+/**
+ * Custom block category
+ */
+add_filter( 'block_categories_all', function ( $categories ) {
+    return [
+        [
+            'slug'  => 'sur-mesure',
+            'title' => __( 'Sur-mesure', 'sage' ),
+            'icon'  => null,
+        ],
+        ...$categories,
+    ];
+} );
+
+
+add_filter('image_size_names_choose', function ($sizes) {
+    return array_merge($sizes, [
+        'very-large' => __('Très large', 'sage'),
+    ]);
+});

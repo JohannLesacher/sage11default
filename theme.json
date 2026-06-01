@@ -83,6 +83,17 @@
         "rem",
         "vw",
         "vh"
+      ],
+      "defaultSpacingSizes": false,
+      "spacingScale": { "steps": 0 },
+      "spacingSizes": [
+        { "slug": "20", "size": "clamp(0.26rem, 0.2rem + 0.33vw, 0.44rem)", "name": "2XS" },
+        { "slug": "30", "size": "clamp(0.4rem, 0.3rem + 0.5vw, 0.67rem)", "name": "XS" },
+        { "slug": "40", "size": "clamp(0.6rem, 0.45rem + 0.74vw, 1rem)", "name": "S" },
+        { "slug": "50", "size": "clamp(0.9rem, 0.68rem + 1.11vw, 1.5rem)", "name": "M" },
+        { "slug": "60", "size": "clamp(1.35rem, 1.02rem + 1.67vw, 2.25rem)", "name": "L" },
+        { "slug": "70", "size": "clamp(2.43rem, 1.74rem + 2.5vw, 3.88rem)", "name": "XL" },
+        { "slug": "80", "size": "clamp(3.44rem, 2.9rem + 3.75vw, 7.06rem)", "name": "2XL" }
       ]
     },
     "typography": {
