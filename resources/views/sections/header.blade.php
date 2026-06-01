@@ -1,7 +1,7 @@
 <header class="banner {{ $is_fixed ? 'is-fixed' : '' }} innergrid" data-header>
   <div class="banner__wrapper">
     <a class="brand" href="{{ home_url('/') }}">
-      @svg('logo')
+      <img src="{!! $logo_url !!}" alt="{!! get_bloginfo('name')!!}" />
     </a>
 
     @if($navigation)

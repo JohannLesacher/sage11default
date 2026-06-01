@@ -2,10 +2,9 @@
   "$schema": "https://schemas.wp.org/trunk/theme.json",
   "version": 3,
   "settings": {
-    "appearanceTools": true,
     "layout": {
-      "contentSize": "900px",
-      "wideSize": "1100px"
+      "contentSize": "1150px",
+      "wideSize": "1250px"
     },
     "background": {
       "backgroundImage": true
@@ -25,44 +24,49 @@
       "link": true,
       "palette": [
         {
-          "slug": "blanc-casse",
-          "color": "#F6F5EE",
-          "name": "Blanc Cassé"
+          "slug": "beige-0",
+          "color": "#EDDDC4",
+          "name": "Beige"
         },
         {
-          "slug": "bleu",
-          "color": "#64A0DC",
-          "name": "Bleu"
+          "slug": "burgondy-0",
+          "color": "#971436",
+          "name": "Burgondy"
         },
         {
-          "slug": "jaune",
-          "color": "#FAD246",
-          "name": "Jaune"
+          "slug": "light-blue",
+          "color": "#A9CDD2",
+          "name": "Light Blue"
         },
         {
-          "slug": "rose",
-          "color": "#F2CBD2",
-          "name": "Rose"
+          "slug": "blue-0",
+          "color": "#65888D",
+          "name": "Blue"
         },
         {
-          "slug": "orange",
-          "color": "#DC5328",
-          "name": "Orange"
+          "slug": "blue-1",
+          "color": "#587579",
+          "name": "Blue 1"
         },
         {
-          "slug": "rouge",
-          "color": "#B43228",
-          "name": "Rouge"
+          "slug": "blue-2",
+          "color": "#516d71",
+          "name": "Blue 2"
         },
         {
-          "slug": "bordeaux",
-          "color": "#691700",
-          "name": "Bordeaux"
+          "slug": "blue-3",
+          "color": "#3d5255",
+          "name": "Blue 3"
         },
         {
-          "slug": "noir",
+          "slug": "black",
           "color": "#000000",
-          "name": "Noir"
+          "name": "Black"
+        },
+        {
+          "slug": "white",
+          "color": "#FFFFFF",
+          "name": "White"
         }
       ]
     },
@@ -87,13 +91,13 @@
       "defaultSpacingSizes": false,
       "spacingScale": { "steps": 0 },
       "spacingSizes": [
-        { "slug": "20", "size": "clamp(0.26rem, 0.2rem + 0.33vw, 0.44rem)", "name": "2XS" },
-        { "slug": "30", "size": "clamp(0.4rem, 0.3rem + 0.5vw, 0.67rem)", "name": "XS" },
-        { "slug": "40", "size": "clamp(0.6rem, 0.45rem + 0.74vw, 1rem)", "name": "S" },
-        { "slug": "50", "size": "clamp(0.9rem, 0.68rem + 1.11vw, 1.5rem)", "name": "M" },
-        { "slug": "60", "size": "clamp(1.35rem, 1.02rem + 1.67vw, 2.25rem)", "name": "L" },
-        { "slug": "70", "size": "clamp(2.43rem, 1.74rem + 2.5vw, 3.88rem)", "name": "XL" },
-        { "slug": "80", "size": "clamp(3.44rem, 2.9rem + 3.75vw, 7.06rem)", "name": "2XL" }
+        { "slug": "20", "size": "clamp(0.375rem, 0.32rem + 0.24vw, 0.5rem)", "name": "2XS" },
+        { "slug": "30", "size": "clamp(0.625rem, 0.5rem + 0.54vw, 0.875rem)", "name": "XS" },
+        { "slug": "40", "size": "clamp(0.9rem, 0.71rem + 0.85vw, 1.375rem)", "name": "S" },
+        { "slug": "50", "size": "clamp(1.25rem, 0.97rem + 1.22vw, 1.875rem)", "name": "M" },
+        { "slug": "60", "size": "clamp(2.275rem, 1.87rem + 1.79vw, 3.75rem)", "name": "L" },
+        { "slug": "70", "size": "clamp(2.6rem, 2.04rem + 2.5vw, 5rem)", "name": "XL" },
+        { "slug": "80", "size": "clamp(2.925rem, 2.3rem + 2.77vw, 6.25rem)", "name": "2XL" }
       ]
     },
     "typography": {
@@ -103,32 +107,21 @@
       "fluid": false,
       "fontFamilies": [
         {
-          "name": "Inter",
-          "slug": "inter",
-          "fontFamily": "Inter, sans-serif"
+          "name": "Hanken Grotesk",
+          "slug": "hanken-grotesk",
+          "fontFamily": "Hanken Grotesk, sans-serif"
         },
         {
-          "name": "Instrument",
-          "slug": "instrument",
-          "fontFamily": "Instrument, serif"
-        },
-        {
-          "name": "LT Museum",
-          "slug": "lt-museum",
-          "fontFamily": "LT Museum, serif"
+          "name": "EB Garamond",
+          "slug": "eb-garamond",
+          "fontFamily": "EB Garamond, serif"
         }
       ],
       "fontSizes": [
         {
-          "name": "Extra Extra Small",
-          "slug": "xx-small",
-          "size": "10px",
-          "fluid": false
-        },
-        {
           "name": "Extra Small",
           "slug": "x-small",
-          "size": "14px",
+          "size": "12px",
           "fluid": false
         },
         {
@@ -144,48 +137,30 @@
           "fluid": false
         },
         {
-          "name": "Medium-Large",
-          "slug": "medium-large",
-          "size": "22px",
-          "fluid": false
-        },
-        {
-          "name": "Medium-Extra-Large",
-          "slug": "medium-x-large",
-          "size": "26px",
-          "fluid": false
-        },
-        {
-          "name": "Medium-Extra-Extra-Large",
-          "slug": "medium-xx-large",
-          "size": "30px",
-          "fluid": false
-        },
-        {
           "name": "Large",
           "slug": "large",
-          "size": "36px",
+          "size": "32px",
           "fluid": {
             "min": "24px",
-            "max": "36px"
+            "max": "32px"
           }
         },
         {
           "name": "Extra Large",
           "slug": "x-large",
-          "size": "48px",
+          "size": "40px",
           "fluid": {
-            "min": "32px",
-            "max": "48px"
+            "min": "28px",
+            "max": "40px"
           }
         },
         {
           "name": "Extra Extra Large",
           "slug": "xx-large",
-          "size": "56px",
+          "size": "72px",
           "fluid": {
-            "min": "32px",
-            "max": "56px"
+            "min": "44px",
+            "max": "72px"
           }
         }
       ]
@@ -206,6 +181,18 @@
     },
     "spacing": {
       "blockGap": "2rem"
+    },
+    "blocks": {
+      "core/button": {
+        "border": {
+          "radius": {
+            "topLeft": "0",
+            "topRight": "0",
+            "bottomLeft": "0",
+            "bottomRight": "0"
+          }
+        }
+      }
     }
   }
 }

@@ -9,7 +9,7 @@
     </ul>
   </nav>
   <div class="site-footer__logo">
-    <img src="{!! Vite::asset('resources/images/logo.svg') !!}" alt="{!! get_bloginfo('name') !!}">
+    <img src="{!! $logo_url !!}" width="100" alt="{!! get_bloginfo('name') !!}">
   </div>
   <nav class="site-footer__nav">
     <ul class="nav-primary">

@@ -2,6 +2,8 @@
 
 namespace App\View\Composers;
 
+use App\Services\ThemeSettings;
+use Illuminate\Support\Facades\Vite;
 use Log1x\Navi\Facades\Navi;
 use Roots\Acorn\View\Composer;
 
@@ -20,6 +22,7 @@ class Footer extends Composer {
             'footerNav' => $this->buildNav( 'footer_navigation' ),
             'legalNav'  => $this->buildNav( 'legal_footer_navigation' ),
             'contact'   => $this->contact(),
+            'logo_url'       => $this->getLogoUrl(),
         ];
     }
 
@@ -53,5 +56,19 @@ class Footer extends Composer {
         $nav = Navi::build( $location );
 
         return $nav->isEmpty() ? [] : $nav->all();
+    }
+
+    private function getLogoUrl(): string
+    {
+        $id = (int) ThemeSettings::get('logo_header');
+
+        if ($id) {
+            $url = wp_get_attachment_image_url($id, 'medium');
+            if ($url) {
+                return $url;
+            }
+        }
+
+        return Vite::asset('resources/images/logo.svg');
     }
 }

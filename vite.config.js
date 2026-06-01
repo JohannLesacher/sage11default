@@ -2,6 +2,7 @@ import {defineConfig} from 'vite'
 import laravel from 'laravel-vite-plugin'
 import {wordpressPlugin} from '@roots/vite-plugin';
 import {globSync} from 'glob';
+import react from '@vitejs/plugin-react';
 
 // Set APP_URL if it doesn't exist for Laravel Vite plugin
 if (!process.env.APP_URL) {
@@ -9,7 +10,7 @@ if (!process.env.APP_URL) {
 }
 
 export default defineConfig({
-  base: '/app/themes/default/public/build/',
+  base: '/app/themes/taste/public/build/',
   plugins: [
     laravel({
       input: [
@@ -25,6 +26,7 @@ export default defineConfig({
     }),
 
     wordpressPlugin(),
+    react(),
   ],
   resolve: {
     alias: {

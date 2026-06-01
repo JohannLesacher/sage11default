@@ -1,14 +1,22 @@
-$blancCasse: #eeecde;
-$turquoise: #7FB2A2;
-$or: #D1B15C;
-$noir: #000;
+$beige: #EDDDC4;
+$burgondy: #971436;
+$blue: #65888D;
+$blue-1: #587579;
+$blue-2: #516d71;
+$blue-3: #3d5255;
+$noir: #000000;
+$blanc: #FFFFFF;
 
 $colors: (
-  "blancCasse": $blancCasse,
-  "turquoise": $turquoise,
-  "or": $or,
-  "noir": $noir
+  "beige": $beige,
+  "burgondy": $burgondy,
+  "blue": $blue,
+  "blue-1": $blue-1,
+  "blue-2": $blue-2,
+  "blue-3": $blue-3,
+  "noir": $noir,
+  "blanc": $blanc
 );
 
-$textFont: 'Verdana', sans-serif;
-$titleFont: 'Georgia', serif;
+$textFont: 'Hanken Grotesk', sans-serif;
+$titleFont: 'EB Garamond', serif;
