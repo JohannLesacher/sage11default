@@ -1,0 +1,126 @@
+.block-menu {
+    --menu-bg: var(--wp--preset--color--blue-2);
+    --menu-fg: var(--wp--preset--color--beige-0);
+    --menu-muted: color-mix(in srgb, var(--menu-fg) 60%, transparent);
+    --menu-line: color-mix(in srgb, var(--menu-fg) 22%, transparent);
+
+    background: var(--menu-bg);
+    color: var(--menu-fg);
+
+    &__inner {
+        max-width: 36rem;
+        margin-inline: auto;
+        padding: clamp(1.75rem, 4vw, 3rem);
+    }
+
+    &__head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1.5rem;
+        margin-bottom: 2.5rem;
+    }
+
+    &__title {
+        margin: 0;
+        font-family: var(--wp--preset--font-family--eb-garamond);
+        font-style: italic;
+        font-weight: 500;
+        font-size: clamp(1.75rem, 4vw, 2.25rem);
+        line-height: 1.1;
+    }
+
+    &__subtitle {
+        margin: 0.5rem 0 0;
+        font-family: var(--wp--preset--font-family--hanken-grotesk);
+        font-size: 0.75rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--menu-muted);
+    }
+
+    &__icon {
+        flex-shrink: 0;
+
+        img {
+            display: block;
+            width: 1.75rem;
+            height: auto;
+        }
+    }
+
+    &__list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    &__item {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1.25rem 0;
+
+        & + & {
+            border-top: 1px solid var(--menu-line);
+        }
+    }
+
+    &__item-text {
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+      color: var(--wp--preset--color--white);
+    }
+
+    &__item-title {
+        font-family: var(--wp--preset--font-family--eb-garamond);
+        font-size: 1.25rem;
+        line-height: 1.2;
+    }
+
+    &__item-subtitle {
+        font-family: var(--wp--preset--font-family--hanken-grotesk);
+        font-size: 0.8rem;
+        color: var(--menu-muted);
+    }
+
+    &__item-price {
+        flex-shrink: 0;
+        font-family: var(--wp--preset--font-family--eb-garamond);
+        font-size: 1.125rem;
+        white-space: nowrap;
+    }
+
+    &__cta {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.6rem;
+        margin-top: 2rem;
+        padding: 1rem 1.5rem;
+        border: 1px solid var(--menu-line);
+        font-family: var(--wp--preset--font-family--hanken-grotesk);
+        font-size: 0.75rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: var(--menu-fg);
+        transition: background-color 0.25s ease, color 0.25s ease;
+
+        &::after {
+            content: "";
+            width: 0.9rem;
+            height: 0.9rem;
+            background-color: currentColor;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M12 3v12m0 0l-4-4m4 4l4-4M4 19h16'/%3E%3C/svg%3E") no-repeat center / contain;
+        }
+
+        &:hover,
+        &:focus-visible {
+            background: var(--menu-fg);
+            color: var(--menu-bg);
+        }
+    }
+}

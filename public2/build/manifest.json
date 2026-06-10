@@ -1,0 +1,135 @@
+{
+  "editor.deps.json": {
+    "file": "assets/editor.deps-CSb32XMd.json",
+    "src": "editor.deps.json"
+  },
+  "resources/css/app.scss": {
+    "file": "assets/app-BEcq08nN.css",
+    "name": "app",
+    "names": [
+      "app.css"
+    ],
+    "src": "resources/css/app.scss",
+    "isEntry": true,
+    "assets": [
+      "assets/hanken-grotesk-v12-latin-regular-BG6hkEXj.woff2",
+      "assets/hanken-grotesk-v12-latin-italic-Bserb8X5.woff2",
+      "assets/hanken-grotesk-v12-latin-700-CeQ8H3UY.woff2",
+      "assets/hanken-grotesk-v12-latin-700italic-DXW9nYqg.woff2",
+      "assets/eb-garamond-v32-latin-regular-DSJrtJSV.woff2",
+      "assets/eb-garamond-v32-latin-italic-KGnr19QW.woff2",
+      "assets/eb-garamond-v32-latin-700-CVbms4T2.woff2",
+      "assets/eb-garamond-v32-latin-700italic-C0WsZ43B.woff2"
+    ]
+  },
+  "resources/css/blocks/buttons.scss": {
+    "file": "assets/buttons-s9eXhFsS.css",
+    "name": "buttons",
+    "names": [
+      "buttons.css"
+    ],
+    "src": "resources/css/blocks/buttons.scss",
+    "isEntry": true
+  },
+  "resources/css/blocks/menu.scss": {
+    "file": "assets/menu-Bo13Stqz.css",
+    "name": "menu",
+    "names": [
+      "menu.css"
+    ],
+    "src": "resources/css/blocks/menu.scss",
+    "isEntry": true
+  },
+  "resources/css/blocks/upcoming-event.scss": {
+    "file": "assets/upcoming-event-D-lb0zyq.css",
+    "name": "upcoming-event",
+    "names": [
+      "upcoming-event.css"
+    ],
+    "src": "resources/css/blocks/upcoming-event.scss",
+    "isEntry": true
+  },
+  "resources/css/editor.scss": {
+    "file": "assets/editor-BLTE2EVm.css",
+    "name": "editor",
+    "names": [
+      "editor.css"
+    ],
+    "src": "resources/css/editor.scss",
+    "isEntry": true,
+    "assets": [
+      "assets/hanken-grotesk-v12-latin-regular-BG6hkEXj.woff2",
+      "assets/hanken-grotesk-v12-latin-italic-Bserb8X5.woff2",
+      "assets/hanken-grotesk-v12-latin-700-CeQ8H3UY.woff2",
+      "assets/hanken-grotesk-v12-latin-700italic-DXW9nYqg.woff2",
+      "assets/eb-garamond-v32-latin-regular-DSJrtJSV.woff2",
+      "assets/eb-garamond-v32-latin-italic-KGnr19QW.woff2",
+      "assets/eb-garamond-v32-latin-700-CVbms4T2.woff2",
+      "assets/eb-garamond-v32-latin-700italic-C0WsZ43B.woff2"
+    ]
+  },
+  "resources/fonts/eb-garamond-v32-latin-700.woff2": {
+    "file": "assets/eb-garamond-v32-latin-700-CVbms4T2.woff2",
+    "src": "resources/fonts/eb-garamond-v32-latin-700.woff2"
+  },
+  "resources/fonts/eb-garamond-v32-latin-700italic.woff2": {
+    "file": "assets/eb-garamond-v32-latin-700italic-C0WsZ43B.woff2",
+    "src": "resources/fonts/eb-garamond-v32-latin-700italic.woff2"
+  },
+  "resources/fonts/eb-garamond-v32-latin-italic.woff2": {
+    "file": "assets/eb-garamond-v32-latin-italic-KGnr19QW.woff2",
+    "src": "resources/fonts/eb-garamond-v32-latin-italic.woff2"
+  },
+  "resources/fonts/eb-garamond-v32-latin-regular.woff2": {
+    "file": "assets/eb-garamond-v32-latin-regular-DSJrtJSV.woff2",
+    "src": "resources/fonts/eb-garamond-v32-latin-regular.woff2"
+  },
+  "resources/fonts/hanken-grotesk-v12-latin-700.woff2": {
+    "file": "assets/hanken-grotesk-v12-latin-700-CeQ8H3UY.woff2",
+    "src": "resources/fonts/hanken-grotesk-v12-latin-700.woff2"
+  },
+  "resources/fonts/hanken-grotesk-v12-latin-700italic.woff2": {
+    "file": "assets/hanken-grotesk-v12-latin-700italic-DXW9nYqg.woff2",
+    "src": "resources/fonts/hanken-grotesk-v12-latin-700italic.woff2"
+  },
+  "resources/fonts/hanken-grotesk-v12-latin-italic.woff2": {
+    "file": "assets/hanken-grotesk-v12-latin-italic-Bserb8X5.woff2",
+    "src": "resources/fonts/hanken-grotesk-v12-latin-italic.woff2"
+  },
+  "resources/fonts/hanken-grotesk-v12-latin-regular.woff2": {
+    "file": "assets/hanken-grotesk-v12-latin-regular-BG6hkEXj.woff2",
+    "src": "resources/fonts/hanken-grotesk-v12-latin-regular.woff2"
+  },
+  "resources/images/logo.svg": {
+    "file": "assets/logo-g_ecMhjh.svg",
+    "src": "resources/images/logo.svg"
+  },
+  "resources/images/social/instagram.svg": {
+    "file": "assets/instagram-BzfmB1u5.svg",
+    "src": "resources/images/social/instagram.svg"
+  },
+  "resources/images/social/linkedin.svg": {
+    "file": "assets/linkedin-D-MANXgS.svg",
+    "src": "resources/images/social/linkedin.svg"
+  },
+  "resources/images/social/x.svg": {
+    "file": "assets/x-DMQ97Ywy.svg",
+    "src": "resources/images/social/x.svg"
+  },
+  "resources/images/social/youtube.svg": {
+    "file": "assets/youtube-DZLwyBte.svg",
+    "src": "resources/images/social/youtube.svg"
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-B-uIagUM.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  },
+  "resources/js/editor.js": {
+    "file": "assets/editor-BP1wMZuk.js",
+    "name": "editor",
+    "src": "resources/js/editor.js",
+    "isEntry": true
+  }
+}

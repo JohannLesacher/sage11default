@@ -16,9 +16,15 @@ export const initHeader = () => {
 
     if (CONFIG.smart) {
       if (currentScroll > CONFIG.threshold) {
-        if (currentScroll > lastScroll && !header.classList.contains('is-hidden')) {
+        if (
+          currentScroll > lastScroll &&
+          !header.classList.contains('is-hidden')
+        ) {
           header.classList.add('is-hidden');
-        } else if (currentScroll < lastScroll && header.classList.contains('is-hidden')) {
+        } else if (
+          currentScroll < lastScroll &&
+          header.classList.contains('is-hidden')
+        ) {
           header.classList.remove('is-hidden');
         }
       } else {
@@ -29,27 +35,46 @@ export const initHeader = () => {
   };
 
   let raf;
-  window.addEventListener('scroll', () => {
-    cancelAnimationFrame(raf);
-    raf = requestAnimationFrame(onScroll);
-  }, { passive: true });
+  window.addEventListener(
+    'scroll',
+    () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(onScroll);
+    },
+    { passive: true },
+  );
+
+  const closeMenu = () => {
+    header.classList.remove('is-menu-open');
+    document.body.style.paddingRight = '';
+    document.body.classList.remove('overflow-hidden');
+    document.body.removeEventListener('touchmove', preventDefault);
+  };
 
   burger?.addEventListener('click', () => {
     const isOpening = !header.classList.contains('is-menu-open');
 
-    header.classList.toggle('is-menu-open');
-
     if (isOpening) {
-      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      header.classList.add('is-menu-open');
+      const scrollbarWidth =
+        window.innerWidth - document.documentElement.clientWidth;
       document.body.style.paddingRight = `${scrollbarWidth}px`;
       document.body.classList.add('overflow-hidden');
 
-      document.body.addEventListener('touchmove', preventDefault, { passive: false });
+      document.body.addEventListener('touchmove', preventDefault, {
+        passive: false,
+      });
     } else {
-      document.body.style.paddingRight = '';
-      document.body.classList.remove('overflow-hidden');
-      document.body.removeEventListener('touchmove', preventDefault);
+      closeMenu();
     }
+  });
+
+  header.querySelectorAll('.banner__nav a').forEach((link) => {
+    link.addEventListener('click', () => {
+      if (header.classList.contains('is-menu-open')) {
+        closeMenu();
+      }
+    });
   });
 
   function preventDefault(e) {

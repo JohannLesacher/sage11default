@@ -15,6 +15,7 @@ class Header extends Composer
     {
         return [
             'navigation' => $this->getNavigation(),
+            'headerLinks' => $this->getHeaderLinks(),
             'languages' => [],
             'logo_url'   => $this->getLogoUrl(),
             'is_fixed'   => true,
@@ -43,6 +44,16 @@ class Header extends Composer
         }
 
         return Vite::asset('resources/images/logo.svg');
+    }
+
+    private function getHeaderLinks(): array {
+        $wineAndSakeUrl = ThemeSettings::get('header_wine_sake_list_url_en');
+        $reservationUrl = ThemeSettings::get('header_reservation_url_en');
+
+        return [
+            'wine_and_sake_url' => $wineAndSakeUrl,
+            'reservation_url' => $reservationUrl,
+        ];
     }
 }
 

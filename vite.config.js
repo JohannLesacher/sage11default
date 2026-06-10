@@ -2,11 +2,10 @@ import {defineConfig} from 'vite'
 import laravel from 'laravel-vite-plugin'
 import {wordpressPlugin} from '@roots/vite-plugin';
 import {globSync} from 'glob';
-import react from '@vitejs/plugin-react';
 
 // Set APP_URL if it doesn't exist for Laravel Vite plugin
 if (!process.env.APP_URL) {
-  process.env.APP_URL = 'https://sage11default.test';
+  process.env.APP_URL = 'https://sane.test';
 }
 
 export default defineConfig({
@@ -24,10 +23,13 @@ export default defineConfig({
       refresh: true,
       assets: ['resources/images/**', 'resources/fonts/**'],
     }),
-
     wordpressPlugin(),
-    react(),
   ],
+  esbuild: {
+    jsx: 'transform',
+    jsxFactory: 'wp.element.createElement',
+    jsxFragment: 'wp.element.Fragment',
+  },
   resolve: {
     alias: {
       '@scripts': '/resources/js',

@@ -1,6 +1,8 @@
+@use "../config/variables" as *;
+
 .banner {
   --banner-bg: transparent;
-  --banner-scrolled-bg: rgba(255, 255, 255, 0.55);
+  --banner-scrolled-bg: rgba(0, 0, 0, 0.55);
   --banner-color: #000;
   --burger-color: var(--banner-color);
 
@@ -10,10 +12,22 @@
   z-index: 1000;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s;
   align-items: center;
+  border-bottom: 1px solid rgba($beige, 0.4);
 
   &__wrapper {
     grid-column: content;
     display: flex;
+    gap: 1rem;
+    align-items: center;
+
+    @media screen and (min-width: 768px) {
+      gap: 4rem;
+    }
+
+    @media screen and (max-width: 1400px) {
+      grid-column: fullwidth;
+      padding: 0 1.5rem;
+    }
   }
 
   &.is-fixed {
@@ -42,15 +56,36 @@
     flex-shrink: 0;
     height: calc(var(--header-height) * 0.6);
 
-    svg {
-      height: calc(var(--header-height) * 0.6);
+    img {
+      height: calc(var(--header-height) * 0.3);
       transition: max-height 0.3s;
+    }
+
+    @media (min-width: 768px) {
+      height: calc(var(--header-height) * 0.6);
     }
   }
 
   &__nav {
     grid-column: content;
     display: none;
+
+    a {
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--wp--preset--color--beige-0);
+      font-size: var(--wp--preset--font-size--x-small);
+      letter-spacing: 0.15em;
+      line-height: 1.2;
+
+      &:hover {
+        color: var(--wp--preset--color--burgondy-0);
+
+        .is-scrolled & {
+          color: var(--wp--preset--color--white);
+        }
+      }
+    }
 
     @media (min-width: 1024px) {
       display: block;
@@ -94,6 +129,59 @@
         font-size: 0.875rem;
       }
     }
+
+    .wp-block-button__link {
+      padding: 0.75em 3em;
+      font-size: var(--wp--preset--font-size--x-small);
+      font-weight: 500;
+      letter-spacing: 2px;
+
+      &.is-style-wine-sake {
+        background: transparent;
+        color: var(--wp--preset--color--beige-0);
+
+        &:hover {
+          background-color: var(--wp--preset--color--beige-0);
+          color: var(--wp--preset--color--burgondy-0);
+          border-color: var(--wp--preset--color--beige-0);
+        }
+      }
+
+      &.is-style-reservations {
+        background: var(--wp--preset--color--burgondy-0);
+
+        &:hover {
+          background-color: var(--wp--preset--color--beige-0);
+          color: var(--wp--preset--color--burgondy-0);
+          border-color: var(--wp--preset--color--beige-0);
+        }
+      }
+
+      @media screen and (max-width: 1200px) {
+        padding: 0.75em 1em;
+        letter-spacing: 0;
+      }
+    }
+  }
+
+  &__cta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    @media screen and (max-width: 768px) {
+      justify-content: center;
+      gap: 2rem;
+      position: fixed;
+      bottom: 0;
+      top: 100dvh;
+      background: #000000cc;
+      left: 0;
+      right: 0;
+      padding: 0.5em 1em;
+      transform: translateY(-100%);
+      height: 60px;
+    }
   }
 
   .burger {
@@ -119,7 +207,7 @@
       display: block;
       width: 100%;
       height: 2px;
-      background-color: var(--burger-color);
+      background-color: #fff;
       transition: all 0.3s ease;
       transform-origin: center;
     }
@@ -127,7 +215,7 @@
 
   &.is-menu-open {
     height: 100vh !important;
-    background-color: #fff !important;
+    background-color: var(--wp--preset--color--blue-2) !important;
     transform: none !important;
     overflow-y: auto;
     align-items: flex-start;
@@ -144,12 +232,15 @@
       span {
         transform-origin: 3px 1px;
       }
+
       span:nth-child(1) {
         transform: rotate(45deg);
       }
+
       span:nth-child(2) {
         opacity: 0;
       }
+
       span:nth-child(3) {
         transform: rotate(-45deg);
       }
@@ -159,7 +250,7 @@
       display: flex;
       position: fixed;
       inset: 0;
-      background: #fff;
+      background: var(--wp--preset--color--blue-2);
       z-index: 1005;
       flex-direction: column;
       justify-content: center;

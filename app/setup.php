@@ -72,11 +72,11 @@ add_action('after_setup_theme', function () {
      *
      * @link https://developer.wordpress.org/reference/functions/register_nav_menus/
      */
-    register_nav_menus( [
-        'primary_navigation'      => __( 'Menu principal', 'sage' ),
-        'footer_navigation'       => __( 'Menu Footer', 'sage' ),
-        'legal_footer_navigation' => __( 'Menu Mentions Légales', 'sage' ),
-    ] );
+    register_nav_menus([
+        'primary_navigation' => __('Menu principal', 'sage'),
+        'footer_navigation' => __('Menu Footer', 'sage'),
+        'legal_footer_navigation' => __('Menu Mentions Légales', 'sage'),
+    ]);
 
     /**
      * Disable the default block patterns.
@@ -102,8 +102,8 @@ add_action('after_setup_theme', function () {
     /**
      * Register custom image sizes.
      */
-    add_image_size( 'very-large', 1920, 1080 );
-    add_image_size( 'lowres', 38, 22, true );
+    add_image_size('very-large', 1920, 1080);
+    add_image_size('lowres', 38, 22, true);
 
     /**
      * Enable responsive embed support.
@@ -139,12 +139,12 @@ add_action('after_setup_theme', function () {
      *
      * @link https://developer.wordpress.org/block-editor/developers/themes/theme-support/#align-wide
      */
-    add_theme_support( 'align-wide' );
+    add_theme_support('align-wide');
 
     /*
      * Excerpt support
      */
-    add_post_type_support( 'page', 'excerpt' );
+    add_post_type_support('page', 'excerpt');
 }, 20);
 
 /**

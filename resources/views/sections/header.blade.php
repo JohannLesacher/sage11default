@@ -4,6 +4,7 @@
       <img src="{!! $logo_url !!}" alt="{!! get_bloginfo('name')!!}" />
     </a>
 
+
     @if($navigation)
       <nav class="banner__nav banner__nav--{{ $align }}" aria-label="Main">
         <ul class="nav-primary">
@@ -28,8 +29,13 @@
       @endif
 
       @if($has_cta)
-        <div class="banner__cta">
-          <a href="/contact" class="btn btn-primary">Contact</a>
+        <div class="banner__cta wp-block-buttons">
+          <div class="wp-block-button is-style-outline">
+            <a href="{!! $headerLinks['wine_and_sake_url'] !!}" class="wp-block-button__link is-style-wine-sake" target="_blank">WINE & SAKÉ LIST</a>
+          </div>
+          <div class="wp-block-button">
+            <a href="{!! $headerLinks['reservation_url'] !!}" class="wp-block-button__link is-style-reservations" target="_blank">RESERVATIONS</a>
+          </div>
         </div>
       @endif
 

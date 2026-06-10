@@ -1,0 +1,61 @@
+.gform-theme.gform-theme--framework.gform_wrapper {
+  --gf-form-gap-x: 2rem;
+  --gf-form-gap-y: 1rem;
+  --gf-ctrl-label-font-size-primary: var(--wp--preset--font-size--regular);
+  --gf-ctrl-radius: 0;
+  --gf-ctrl-shadow: none;
+  --gf-color-danger: #ffc8c8;
+
+  .gform-field-label {
+    --gf-ctrl-label-font-family-primary: var(--wp--preset--font-family--hanken-grotesk);
+    --gf-ctrl-label-color-primary: var(--wp--preset--color--beige-0);
+    --gf-ctrl-label-font-weight-primary: 400;
+    --gf-ctrl-label-font-size-primary: var(--wp--preset--font-size--small);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+
+  textarea,
+  input[type] {
+    --gf-ctrl-color: #444;
+    --gf-local-bg-color: rgba(255, 255, 255, 0.4);
+    --gf-ctrl-bg-color: rgba(255, 255, 255, 0.4);
+    --gf-ctrl-border-color: rgba(255, 255, 255, 0);
+    --gf-ctrl-outline-color: rgba(255, 255, 255, 0.4);
+
+    &:focus,
+    &:hover {
+      --gf-ctrl-bg-color-hover: rgba(255, 255, 255, 0.4);
+      --gf-ctrl-border-color-hover: rgba(255, 255, 255, 0);
+      --gf-ctrl-color-hover: #444;
+      --gf-ctrl-bg-color-focus: rgba(255, 255, 255, 0.4);
+      --gf-ctrl-border-color-focus: rgba(255, 255, 255, 0);
+      --gf-ctrl-color-focus: #444;
+      --gf-ctrl-outline-color: rgba(255, 255, 255, 0.4);
+      outline: none;
+    }
+  }
+
+  .gform_button,
+  button[type="submit"] {
+    --gf-ctrl-btn-padding-y: 0.75rem;
+    --gf-ctrl-btn-padding-x: 2.5rem;
+    --gf-ctrl-btn-font-weight: 500;
+    --gf-ctrl-btn-font-size: var(--wp--preset--font-size--regular);
+    --gf-ctrl-btn-radius: 0;
+    --gf-ctrl-btn-bg-color-primary: var(--wp--preset--color--burgondy-0);
+    flex-grow: 1;
+    outline: none;
+
+    &:focus,
+    &:hover {
+      --gf-ctrl-btn-bg-color-hover-primary: var(--wp--preset--color--burgondy-0);
+      --gf-ctrl-btn-bg-color-focus-primary: var(--wp--preset--color--burgondy-0);
+      outline: none;
+    }
+  }
+}
+
+.gform_heading {
+  display: none;
+}

@@ -1,6 +1,12 @@
+@use "config/variables" as *;
 @use "config/reset";
 @use "config/fonts";
 @use "config/external";
 
 @use "base/layout";
 @use "base/global";
+@use "base/gravity-forms";
+
+.editor-styles-wrapper {
+  background-color: $blue;
+}

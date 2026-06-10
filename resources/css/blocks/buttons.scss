@@ -1,0 +1,26 @@
+.wp-block-buttons {
+
+}
+
+.wp-block-button {
+  .wp-block-button__link {
+    padding: 1em 4em;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      transition: all 0.2s ease-in-out;
+    }
+  }
+
+  &.is-style-outline {
+    .wp-block-button__link {
+      border-width: 1px;
+
+      &.has-white-color:hover {
+        background: var(--wp--preset--color--white);
+        border-color: var(--wp--preset--color--white);
+        color: var(--wp--preset--color--burgondy-0) !important;
+      }
+    }
+  }
+}

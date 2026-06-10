@@ -51,7 +51,7 @@ a {
   text-decoration: none;
 
   &:hover {
-    text-decoration: underline;
+    text-decoration: none;
   }
 }
 
@@ -74,4 +74,9 @@ a {
 
 .main .extra-wide {
   grid-column: extra-wide;
+}
+
+iframe {
+  max-width: 90dvw;
+  margin-inline: auto;
 }
