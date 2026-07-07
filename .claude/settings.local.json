@@ -7,7 +7,15 @@
       "Read(//home/johann/Dev/sage11default/**)",
       "Bash(wp rewrite:*)",
       "Bash(wp plugin *)",
-      "Bash(python3 *)"
+      "Bash(python3 *)",
+      "Bash(php -l app/Services/MenuPdf.php)",
+      "Bash(php -l app/Services/ThemeSettings.php)",
+      "Bash(php -l app/Providers/ThemeSettingsServiceProvider.php)",
+      "Bash(php -l app/View/Composers/Header.php)",
+      "Bash(php -l app/View/Composers/Blocks/Menu.php)",
+      "Bash(curl -sk -o /dev/null -w \"home: %{http_code}\\\\n\" \"https://sane.test\")",
+      "Bash(curl -sk -o /dev/null -w \"wine.pdf: %{http_code}\\\\n\" \"https://sane.test/menus/wine.pdf\")",
+      "Bash(curl *)"
     ]
   },
   "enabledMcpjsonServers": [

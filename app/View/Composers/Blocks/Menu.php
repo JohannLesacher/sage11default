@@ -2,6 +2,7 @@
 
 namespace App\View\Composers\Blocks;
 
+use App\Services\MenuPdf;
 use Roots\Acorn\View\Composer;
 
 class Menu extends Composer
@@ -45,12 +46,13 @@ class Menu extends Composer
 
     public function cta(): array
     {
-        $ctaLink = $this->data()['cta_url'] ?? [];
-        $ctaText = $this->data()['cta_text'] ?? '';
+        $pdfMenu = $this->data()['pdf_menu'] ?? '';
+        $link = $pdfMenu ? app(MenuPdf::class)->url($pdfMenu) : null;
 
         return [
-            'link' => $ctaLink,
-            'text' => $ctaText,
+            'link' => $link ?? $this->data()['cta_url'] ?? '',
+            'text' => $this->data()['cta_text'] ?? '',
+            'download' => $link !== null,
         ];
     }
 }

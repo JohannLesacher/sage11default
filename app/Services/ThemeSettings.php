@@ -18,7 +18,7 @@ class ThemeSettings
             $pages[] = [
                 'id' => 'theme-settings',
                 'option_name' => self::OPTION_NAME,
-                'menu_title' => 'Réglages du thème',
+                'menu_title' => 'Theme Settings',
                 'icon_url' => 'dashicons-admin-appearance',
                 'position' => 60,
                 'tabs' => $tabs,
@@ -72,7 +72,32 @@ class ThemeSettings
             ];
 
             $meta_boxes[] = [
-                'title' => 'Réseaux sociaux',
+                'title' => 'Menus PDF',
+                'id' => 'theme-settings-menus-pdf',
+                'settings_pages' => 'theme-settings',
+                'tab' => 'global',
+                'fields' => [
+                    [
+                        'id' => 'menu_pdf_wine',
+                        'name' => 'Wine & Sake menu (PDF)',
+                        'type' => 'file_advanced',
+                        'max_file_uploads' => 1,
+                        'mime_type' => 'application/pdf',
+                        'desc' => 'Public URL : '.home_url('/menus/wine.pdf'),
+                    ],
+                    [
+                        'id' => 'menu_pdf_food',
+                        'name' => 'Food menu (PDF)',
+                        'type' => 'file_advanced',
+                        'max_file_uploads' => 1,
+                        'mime_type' => 'application/pdf',
+                        'desc' => 'Public URL : '.home_url('/menus/food.pdf'),
+                    ],
+                ],
+            ];
+
+            $meta_boxes[] = [
+                'title' => 'Social Networks',
                 'id' => 'theme-settings-social',
                 'settings_pages' => 'theme-settings',
                 'tab' => 'global',
@@ -122,7 +147,7 @@ class ThemeSettings
             ],
             [
                 'id' => "footer_phone_{$lang}",
-                'name' => 'Téléphone',
+                'name' => 'Phone',
                 'type' => 'text',
             ],
             [
@@ -132,10 +157,10 @@ class ThemeSettings
             ],
             [
                 'id' => "footer_copyright_text_{$lang}",
-                'name' => 'Texte copyright',
+                'name' => 'Copyright Text',
                 'type' => 'text',
                 'placeholder' => 'All rights reserved.',
-                'desc' => "L'année courante est ajoutée automatiquement : © ".date('Y').' {votre texte}',
+                'desc' => "Current year is added automatically : © ".date('Y').' {votre texte}',
             ],
         ];
     }

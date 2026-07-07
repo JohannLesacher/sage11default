@@ -2,10 +2,11 @@
 
 namespace App\View\Composers;
 
+use App\Services\MenuPdf;
 use App\Services\ThemeSettings;
 use Illuminate\Support\Facades\Vite;
-use Roots\Acorn\View\Composer;
 use Log1x\Navi\Facades\Navi;
+use Roots\Acorn\View\Composer;
 
 class Header extends Composer
 {
@@ -17,11 +18,11 @@ class Header extends Composer
             'navigation' => $this->getNavigation(),
             'headerLinks' => $this->getHeaderLinks(),
             'languages' => [],
-            'logo_url'   => $this->getLogoUrl(),
-            'is_fixed'   => true,
-            'has_lang'   => false,
-            'has_cta'    => true,
-            'align'      => 'right',
+            'logo_url' => $this->getLogoUrl(),
+            'is_fixed' => true,
+            'has_lang' => false,
+            'has_cta' => true,
+            'align' => 'right',
         ];
     }
 
@@ -46,8 +47,10 @@ class Header extends Composer
         return Vite::asset('resources/images/logo.svg');
     }
 
-    private function getHeaderLinks(): array {
-        $wineAndSakeUrl = ThemeSettings::get('header_wine_sake_list_url_en');
+    private function getHeaderLinks(): array
+    {
+        $wineAndSakeUrl = app(MenuPdf::class)->url('wine')
+            ?? ThemeSettings::get('header_wine_sake_list_url_en');
         $reservationUrl = ThemeSettings::get('header_reservation_url_en');
 
         return [
@@ -62,5 +65,6 @@ class Header extends Composer
  */
 add_filter('body_class', function (array $classes) {
     $classes[] = 'has-fixed-header';
+
     return $classes;
 });

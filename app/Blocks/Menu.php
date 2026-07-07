@@ -69,15 +69,26 @@ class Menu extends BlockEngine
                     ],
                 ],
                 [
+                    'id' => 'pdf_menu',
+                    'name' => 'PDF menu',
+                    'type' => 'select',
+                    'options' => [
+                        'wine' => 'Wine & Sake menu (theme settings PDF)',
+                        'food' => 'Food menu (theme settings PDF)',
+                    ],
+                    'placeholder' => '— Custom link below —',
+                ],
+                [
                     'id' => 'cta_url',
                     'name' => 'Download Button (Link)',
                     'type' => 'url',
+                    'desc' => 'Used only if no PDF menu is selected above.',
                 ],
                 [
                     'id' => 'cta_text',
                     'name' => 'Download Button (Text)',
                     'type' => 'text',
-                ]
+                ],
             ],
         ];
 

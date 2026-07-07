@@ -12,7 +12,7 @@ class Page {
             'fields'     => [
                 [
                     'id'      => 'display_title',
-                    'name'    => 'Afficher le titre de la page ?',
+                    'name'    => 'Display the page title ?',
                     'type'    => 'checkbox',
                     'std'     => 1,
                 ],
