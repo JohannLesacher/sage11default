@@ -19,6 +19,7 @@
 - **CPTs**: `evenement` (slug: `evenements`) — avec meta `date_event`
 - **Taxonomies**: aucune pour l'instant
 - **Pre-commit**: Husky → `npm run format:all:check` (Prettier + Pint + Blade Formatter)
+- **Remotes**: `origin` = JohannLesacher/sage11default (starter template), `upstream` = roots/sage (`upstream/main`)
 
 ## Architectural decisions
 
@@ -26,6 +27,7 @@
 - **`@include()` for Blade**: components included with `@include()`, not `<x-component>`
 - **Extended CPTs config-based**: post types and taxonomies defined in `config/post-types.php`, auto-registered
 - **Storybook as source of truth**: if configured, it's the source of truth for components
+- **Fork CI divergence (2026-10-28)**: `.github/renovate.json` deliberately removed; CI matrix kept at Node 20 / PHP 8.2 — on upstream merges keep these, take only action version bumps
 - **`<section>` tag rule**: ACF blocks and macro components (page section organisms, excluding header/footer) use `<section>` as root tag
 
 ## Components créés
@@ -40,5 +42,8 @@
 - **InnerBlocks over wysiwyg**: for any free-form editorial content in a block, always use `<InnerBlocks />` — never `wysiwyg` MetaBox field. CTA uses separate `text` + `url` fields.
 
 ## Recurring errors to avoid
+
+- **Client work pushed to template origin (2026-10-28)**: 3 client-project commits landed on `origin/master` by mistake; archived in `archive/client-work`, origin reset. Check remote before pushing from client clones
+- **Force-push on master blocked by hook**: user must run `git push --force-with-lease ...` manually
 
 ## Important files
