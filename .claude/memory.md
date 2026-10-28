@@ -39,11 +39,13 @@
 - **wysiwyg field with `'raw' => true`**: needed so MetaBox returns raw HTML instead of escaped content; required for `{!! !!}` rendering in Blade
 - **`$is_preview` for editor placeholders**: use `@elseif ($is_preview)` branches to show placeholder content in Gutenberg editor when fields are empty
 - **Block template path convention**: `BlockEngine::renderBlock()` resolves view as `blocks.{block-id}` (e.g. `blocks.card` → `resources/views/blocks/card.blade.php`)
+- **No JSX in editor scripts**: write `.js` with `import { createElement as el } from '@wordpress/element'` (same as `resources/js/admin/blocks/*-editor.js`) — no React installed, no JSX config in Vite
 - **InnerBlocks over wysiwyg**: for any free-form editorial content in a block, always use `<InnerBlocks />` — never `wysiwyg` MetaBox field. CTA uses separate `text` + `url` fields.
 
 ## Recurring errors to avoid
 
 - **Client work pushed to template origin (2026-10-28)**: 3 client-project commits landed on `origin/master` by mistake; archived in `archive/client-work`, origin reset. Check remote before pushing from client clones
+- **`react/jsx-runtime` unresolved on build (2026-10-28)**: caused by `.jsx` files (Vite 8 automatic JSX runtime); fixed by converting `admin/*.jsx` to `.js` + `el()`
 - **Force-push on master blocked by hook**: user must run `git push --force-with-lease ...` manually
 
 ## Important files

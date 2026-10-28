@@ -1,7 +1,7 @@
-import {defineConfig} from 'vite'
-import laravel from 'laravel-vite-plugin'
-import {wordpressPlugin} from '@roots/vite-plugin';
-import {globSync} from 'glob';
+import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
+import { wordpressPlugin } from '@roots/vite-plugin';
+import { globSync } from 'glob';
 
 // Set APP_URL if it doesn't exist for Laravel Vite plugin
 if (!process.env.APP_URL) {
@@ -34,4 +34,4 @@ export default defineConfig({
       '@images': '/resources/images',
     },
   },
-})
+});
