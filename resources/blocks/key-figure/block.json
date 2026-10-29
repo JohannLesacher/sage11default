@@ -1,0 +1,23 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "sur-mesure/key-figure",
+  "title": "Chiffre clé",
+  "category": "sur-mesure",
+  "icon": "chart-bar",
+  "attributes": {
+    "prefixe": { "type": "string", "default": "" },
+    "valeur": { "type": "string", "default": "" },
+    "unite": { "type": "string", "default": "" },
+    "libelle": { "type": "string", "default": "" },
+    "valueColor": { "type": "string" },
+    "customValueColor": { "type": "string" }
+  },
+  "supports": {
+    "align": ["wide", "full"],
+    "anchor": true,
+    "color": { "text": true, "background": true },
+    "spacing": { "padding": true },
+    "typography": { "textAlign": true }
+  }
+}

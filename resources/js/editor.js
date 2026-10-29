@@ -1,6 +1,6 @@
 import '@scripts/admin/animation';
 import '@scripts/admin/responsive-panel';
 import '@scripts/admin/responsive-options';
-import '@scripts/admin/blocks/slider-editor';
-import '@scripts/admin/blocks/slide-editor';
-import '@scripts/admin/blocks/key-figure-editor';
+
+// Éditeurs des blocs natifs : resources/blocks/{name}/editor.jsx, importés automatiquement
+import.meta.glob('../blocks/*/editor.jsx', { eager: true });

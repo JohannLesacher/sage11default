@@ -1,6 +1,6 @@
 import { registerBlockType } from '@wordpress/blocks';
 import { InnerBlocks, useBlockProps } from '@wordpress/block-editor';
-import metadata from '@blocks/slide/block.json';
+import metadata from './block.json';
 
 const TEMPLATE = [['core/paragraph', { placeholder: 'Contenu de la slide…' }]];
 

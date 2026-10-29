@@ -6,7 +6,7 @@ use Roots\Acorn\View\Composer;
 use WP_Block_Supports;
 
 /**
- * Base des composers de blocs (MB Blocks et natifs).
+ * Base des composers de blocs.
  *
  * Dans la vue : <div {!! $wrapperAttributes('block-mon-bloc') !!}>
  * → classes, styles et ancre des supports Gutenberg (align, couleurs, espacements, className, anchor).
@@ -30,11 +30,11 @@ abstract class BlockComposer extends Composer
     }
 
     /**
-     * Champ MB Blocks, en chaîne nettoyée.
+     * Attribut du bloc, en chaîne nettoyée.
      */
     protected function field(string $key): string
     {
-        return trim((string) ($this->view->getData()['data'][$key] ?? ''));
+        return trim((string) $this->attribute($key, ''));
     }
 
     protected function attribute(string $key, mixed $default = null): mixed

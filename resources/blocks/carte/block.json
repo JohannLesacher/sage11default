@@ -1,0 +1,20 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "sur-mesure/carte",
+  "title": "Carte",
+  "description": "Carte centrée sur une adresse (fournisseur choisi dans les réglages du thème).",
+  "category": "sur-mesure",
+  "icon": "location-alt",
+  "keywords": ["carte", "map", "openstreetmap", "google maps", "adresse"],
+  "attributes": {
+    "adresse": { "type": "string", "default": "" },
+    "latitude": { "type": "string", "default": "" },
+    "longitude": { "type": "string", "default": "" },
+    "zoom": { "type": "number", "default": 15 }
+  },
+  "supports": {
+    "align": ["wide", "full"],
+    "anchor": true
+  }
+}

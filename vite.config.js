@@ -104,7 +104,6 @@ export default defineConfig({
       '@styles': '/resources/css',
       '@fonts': '/resources/fonts',
       '@images': '/resources/images',
-      '@blocks': '/resources/blocks',
       'react/jsx-runtime': '/resources/js/lib/react-jsx-runtime.js',
     },
   },

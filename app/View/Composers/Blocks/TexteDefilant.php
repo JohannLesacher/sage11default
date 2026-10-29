@@ -51,7 +51,7 @@ class TexteDefilant extends BlockComposer
 
     public function pause(): bool
     {
-        return (bool) $this->field('pause');
+        return (bool) $this->attribute('pause', false);
     }
 
     private function whitelist(string $key, array $allowed, string $default): string

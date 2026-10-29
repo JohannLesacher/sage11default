@@ -67,6 +67,7 @@
 - **Logo**: `partials/logo.blade.php` (composer `Logo`) — theme settings `logo` image if set, else `@svg('logo')` + sr-only site name; used in header and footer
 - **Navigation partial**: `partials/navigation.blade.php` (recursive, `sub-menu` children, `aria-current`) used by header and footer menus
 - **JSX enabled (2026-10-29)**: line "No JSX in editor scripts" obsolete. `.jsx` editor files use the standard automatic runtime: `wordpressJsx()` plugin in vite.config.js compiles JSX before `@roots/vite-plugin` (else dev emits `require()`), `react/jsx-runtime` aliased to `resources/js/lib/react-jsx-runtime.js` which imports WP's `ReactJSXRuntime` via `externalMappings` (deps: `react-jsx-runtime`). Never bundle React / `@vitejs/plugin-react` (duplicate React → invalid hook call in editor)
+- **Full native blocks (2026-10-29)**: MB Blocks dropped for blocks (MetaBox kept for settings pages / post metas). Lines above about MB Blocks fields / `data` attr / `resources/js/admin/blocks/` are obsolete. One block = `resources/blocks/{name}/block.json` + `editor.jsx` (auto-imported via `import.meta.glob` in editor.js) + `views/blocks/{name}.blade.php`. Attribute-driven blocks: `InspectorControls` + `ServerPreview` (`resources/js/admin/components/server-preview.jsx`, ServerSideRender `skipBlockSupportAttributes`) → Blade stays single HTML source; `$is_preview` = `wp_is_serving_rest_request()`. `make:block {name} [--inner] [--js] [--vc]`. Old `meta-box/*` content converted with a one-shot wp eval-file script (data → typed attrs)
 
 ## Recurring errors to avoid
 

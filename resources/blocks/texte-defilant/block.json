@@ -1,0 +1,23 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "sur-mesure/texte-defilant",
+  "title": "Texte défilant",
+  "category": "sur-mesure",
+  "icon": "text",
+  "attributes": {
+    "texte": { "type": "string", "default": "" },
+    "separateur": { "type": "string", "default": "" },
+    "vitesse": { "type": "string", "enum": ["lent", "normal", "rapide"], "default": "normal" },
+    "direction": { "type": "string", "enum": ["gauche", "droite"], "default": "gauche" },
+    "pause": { "type": "boolean", "default": false },
+    "tag": { "type": "string", "enum": ["div", "p", "h1", "h2", "h3", "span"], "default": "div" }
+  },
+  "supports": {
+    "align": ["wide", "full"],
+    "anchor": true,
+    "color": { "text": true, "background": true },
+    "spacing": { "padding": true },
+    "typography": { "fontSize": true }
+  }
+}

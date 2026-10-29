@@ -9,12 +9,12 @@ use Illuminate\Support\Str;
 class MakeBlockCommand extends Command
 {
     protected $signature = 'make:block {name}
-                            {--native : Bloc natif (block.json + éditeur JS, InnerBlocks, sans classe PHP) au lieu de MB Blocks}
+                            {--inner : Bloc conteneur (InnerBlocks) au lieu d\'attributs + aperçu serveur}
                             {--js : Script front (resources/js/blocks)}
                             {--vc : View Composer}
                             {--force : Écrase les fichiers existants}';
 
-    protected $description = 'Crée un bloc Gutenberg (MB Blocks ou natif), auto-enregistré par BlockServiceProvider';
+    protected $description = 'Crée un bloc natif (block.json + editor.jsx + vue Blade), auto-enregistré';
 
     private string $className;
 
@@ -46,11 +46,7 @@ class MakeBlockCommand extends Command
             File::put($path, $content);
         }
 
-        if ($this->option('native')) {
-            $this->registerEditorScript();
-        }
-
-        $this->info("Bloc {$this->className} généré (auto-enregistré via BlockServiceProvider).");
+        $this->info("Bloc sur-mesure/{$this->slug} généré (auto-enregistré, éditeur importé automatiquement).");
         $this->warn('Relancer `npm run dev` ou `npm run build` : les nouveaux assets doivent être connus de Vite avant le rendu du bloc.');
 
         return self::SUCCESS;
@@ -58,21 +54,12 @@ class MakeBlockCommand extends Command
 
     private function files(): array
     {
-        $native = $this->option('native');
-
         $files = [
-            resource_path("views/blocks/{$this->slug}.blade.php") => $native ? $this->nativeView() : $this->metaBoxView(),
+            resource_path("blocks/{$this->slug}/block.json") => $this->blockJson(),
+            resource_path("blocks/{$this->slug}/editor.jsx") => $this->option('inner') ? $this->innerEditor() : $this->previewEditor(),
+            resource_path("views/blocks/{$this->slug}.blade.php") => $this->view(),
             resource_path("css/blocks/{$this->slug}.scss") => ".block-{$this->slug} {\n}\n",
         ];
-
-        if (! $native) {
-            $files[app_path("Blocks/{$this->className}.php")] = $this->metaBoxClass();
-        }
-
-        if ($native) {
-            $files[resource_path("blocks/{$this->slug}/block.json")] = $this->blockJson();
-            $files[resource_path("js/admin/blocks/{$this->slug}-editor.js")] = $this->editorScript();
-        }
 
         if ($this->option('js')) {
             $files[resource_path("js/blocks/{$this->slug}.js")] = $this->frontScript();
@@ -85,49 +72,10 @@ class MakeBlockCommand extends Command
         return $files;
     }
 
-    private function metaBoxClass(): string
-    {
-        return <<<PHP
-<?php
-
-namespace App\Blocks;
-
-use App\Blocks\Base\MetaBoxBlock;
-
-class {$this->className} extends MetaBoxBlock
-{
-    protected static function definition(): array
-    {
-        return [
-            'title' => '{$this->title}',
-            'icon' => 'admin-generic',
-            'supports' => [
-                'align' => ['wide', 'full'],
-                'anchor' => true,
-                'customClassName' => true,
-            ],
-            'fields' => [
-                //
-            ],
-        ];
-    }
-}
-
-PHP;
-    }
-
-    private function metaBoxView(): string
-    {
-        return "<section {!! \$wrapperAttributes('block-{$this->slug}') !!}>\n    <InnerBlocks />\n</section>\n";
-    }
-
-    private function nativeView(): string
-    {
-        return "<section {!! \$wrapperAttributes('block-{$this->slug}') !!}>\n    {!! \$content !!}\n</section>\n";
-    }
-
     private function blockJson(): string
     {
+        $attributes = $this->option('inner') ? (object) [] : ['titre' => ['type' => 'string', 'default' => '']];
+
         return json_encode([
             '$schema' => 'https://schemas.wp.org/trunk/block.json',
             'apiVersion' => 3,
@@ -135,7 +83,7 @@ PHP;
             'title' => $this->title,
             'category' => 'sur-mesure',
             'icon' => 'admin-generic',
-            'attributes' => (object) [],
+            'attributes' => $attributes,
             'supports' => [
                 'align' => ['wide', 'full'],
                 'anchor' => true,
@@ -143,21 +91,63 @@ PHP;
         ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)."\n";
     }
 
-    private function editorScript(): string
+    private function view(): string
     {
-        return <<<JS
+        $body = $this->option('inner')
+            ? '{!! $content !!}'
+            : "@if(\$attributes['titre'])\n        <h2>{!! esc_html(\$attributes['titre']) !!}</h2>\n    @elseif(\$is_preview)\n        <p>Renseignez le titre.</p>\n    @endif";
+
+        return "<section {!! \$wrapperAttributes('block-{$this->slug}') !!}>\n    {$body}\n</section>\n";
+    }
+
+    private function previewEditor(): string
+    {
+        return <<<'JSX'
 import { registerBlockType } from '@wordpress/blocks';
-import metadata from '@blocks/{$this->slug}/block.json';
-import { InnerBlocks, useBlockProps } from '@wordpress/block-editor';
-import { createElement as el } from '@wordpress/element';
+import { InspectorControls } from '@wordpress/block-editor';
+import { PanelBody, TextControl } from '@wordpress/components';
+import ServerPreview, { binder } from '@scripts/admin/components/server-preview';
+import metadata from './block.json';
 
 registerBlockType(metadata, {
-  edit: () => el('div', useBlockProps(), el(InnerBlocks)),
+  edit: ({ name, attributes, setAttributes }) => {
+    const bind = binder(attributes, setAttributes);
 
-  save: () => el(InnerBlocks.Content),
+    return (
+      <>
+        <InspectorControls>
+          <PanelBody title="Réglages">
+            <TextControl label="Titre" {...bind('titre')} />
+          </PanelBody>
+        </InspectorControls>
+
+        <ServerPreview name={name} attributes={attributes} />
+      </>
+    );
+  },
 });
 
-JS;
+JSX;
+    }
+
+    private function innerEditor(): string
+    {
+        return <<<'JSX'
+import { registerBlockType } from '@wordpress/blocks';
+import { InnerBlocks, useBlockProps } from '@wordpress/block-editor';
+import metadata from './block.json';
+
+registerBlockType(metadata, {
+  edit: () => (
+    <div {...useBlockProps()}>
+      <InnerBlocks />
+    </div>
+  ),
+
+  save: () => <InnerBlocks.Content />,
+});
+
+JSX;
     }
 
     private function frontScript(): string
@@ -180,15 +170,5 @@ class {$this->className} extends BlockComposer
 }
 
 PHP;
-    }
-
-    private function registerEditorScript(): void
-    {
-        $path = resource_path('js/editor.js');
-        $import = "import '@scripts/admin/blocks/{$this->slug}-editor';";
-
-        if (! str_contains(File::get($path), $import)) {
-            File::append($path, $import."\n");
-        }
     }
 }
