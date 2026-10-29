@@ -1,13 +1,7 @@
+@use "../config/mixins";
+
 .sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
+  @include mixins.sr-only;
 }
 
 .focus\:not-sr-only:focus,
@@ -58,15 +52,4 @@ h1, h2, h3, h4, h5, h6 {
 
 a {
   color: inherit;
-}
-
-.hp-banner {
-  .wp-block-cover__image-background {
-    object-fit: contain;
-    object-position: 0 0;
-  }
-}
-
-.main .extra-wide {
-  grid-column: extra-wide;
 }

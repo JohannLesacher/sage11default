@@ -2,55 +2,68 @@
 
 namespace App\View\Composers;
 
+use App\Services\ThemeSettings;
 use Log1x\Navi\Facades\Navi;
 use Roots\Acorn\View\Composer;
 
-class Footer extends Composer {
-    protected static $views = [ 'sections.footer' ];
+class Footer extends Composer
+{
+    protected static $views = ['sections.footer'];
 
-    protected array $settings;
+    private const SOCIAL = [
+        'x' => 'X (Twitter)',
+        'linkedin' => 'LinkedIn',
+        'youtube' => 'YouTube',
+    ];
 
-    protected string $lang;
-
-    public function with(): array {
-        $this->settings = get_option( 'theme_settings', [] );
-        $this->lang     = function_exists( 'pll_current_language' ) ? pll_current_language() : 'fr';
+    public function with(): array
+    {
+        $settings = app(ThemeSettings::class);
 
         return [
-            'footerNav' => $this->buildNav( 'footer_navigation' ),
-            'legalNav'  => $this->buildNav( 'legal_footer_navigation' ),
-            'contact'   => $this->contact(),
+            'footerNav' => $this->buildNav('footer_navigation'),
+            'legalNav' => $this->buildNav('legal_footer_navigation'),
+            'contact' => $this->contact($settings),
+            'social' => $this->social($settings),
+            'copyright' => $this->copyright($settings),
         ];
     }
 
-    protected function contact(): array {
-        return [
-            'address' => $this->t( 'footer_address' ),
-            'phone'   => $this->t( 'footer_phone' ),
-            'email'   => $this->t( 'footer_email' ),
-        ];
+    private function contact(ThemeSettings $settings): array
+    {
+        $phone = $settings->translated('footer_phone');
+
+        return array_filter([
+            'address' => $settings->translated('footer_address'),
+            'phone' => $phone,
+            'phoneHref' => $phone !== '' ? 'tel:'.preg_replace('/[^\d+]/', '', $phone) : '',
+            'email' => $settings->translated('footer_email'),
+        ]);
     }
 
-    protected function social(): array {
-        return [
-            'x'        => $this->settings['footer_social_x'] ?? '',
-            'linkedin' => $this->settings['footer_social_linkedin'] ?? '',
-            'youtube'  => $this->settings['footer_social_youtube'] ?? '',
-        ];
+    private function social(ThemeSettings $settings): array
+    {
+        $links = [];
+
+        foreach (self::SOCIAL as $network => $label) {
+            if ($url = $settings->get("footer_social_{$network}")) {
+                $links[] = ['network' => $network, 'label' => $label, 'url' => $url];
+            }
+        }
+
+        return $links;
     }
 
-    protected function copyright(): string {
-        return '© ' . date( 'Y' ) . ' ' . $this->t( 'footer_copyright_text', 'Sopara. All rights reserved.' );
+    private function copyright(ThemeSettings $settings): string
+    {
+        $default = get_bloginfo('name').'. Tous droits réservés.';
+
+        return '© '.date('Y').' '.$settings->translated('footer_copyright_text', $default);
     }
 
-    protected function t( string $key, string $default = '' ): string {
-        return $this->settings["{$key}_{$this->lang}"]
-               ?? $this->settings["{$key}_fr"]
-                  ?? $default;
-    }
-
-    protected function buildNav( string $location ): array {
-        $nav = Navi::build( $location );
+    private function buildNav(string $location): array
+    {
+        $nav = Navi::build($location);
 
         return $nav->isEmpty() ? [] : $nav->all();
     }

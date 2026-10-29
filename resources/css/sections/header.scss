@@ -42,8 +42,10 @@
     flex-shrink: 0;
     height: calc(var(--header-height) * 0.6);
 
-    svg {
+    svg,
+    img {
       height: calc(var(--header-height) * 0.6);
+      width: auto;
       transition: max-height 0.3s;
     }
   }

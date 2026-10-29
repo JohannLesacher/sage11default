@@ -1,3 +1,5 @@
+import { onScroll } from '../global/scroll.js';
+
 export const initHeader = () => {
   const header = document.querySelector('.banner');
   const burger = document.querySelector('.burger');
@@ -10,8 +12,7 @@ export const initHeader = () => {
 
   let lastScroll = 0;
 
-  const onScroll = () => {
-    const currentScroll = window.pageYOffset;
+  const update = (currentScroll) => {
     header.classList.toggle('is-scrolled', currentScroll > 50);
 
     if (CONFIG.smart) {
@@ -28,11 +29,7 @@ export const initHeader = () => {
     }
   };
 
-  let raf;
-  window.addEventListener('scroll', () => {
-    cancelAnimationFrame(raf);
-    raf = requestAnimationFrame(onScroll);
-  }, { passive: true });
+  onScroll(update);
 
   burger?.addEventListener('click', () => {
     const isOpening = !header.classList.contains('is-menu-open');

@@ -1,7 +1,7 @@
 <header class="banner {{ $is_fixed ? 'is-fixed' : '' }} innergrid" data-header>
   <div class="banner__wrapper">
-    <a class="brand" href="{{ home_url('/') }}">
-      @svg('logo')
+    <a class="brand" href="{!! esc_url(home_url('/')) !!}">
+      @include('partials.logo')
     </a>
 
     @if($navigation)

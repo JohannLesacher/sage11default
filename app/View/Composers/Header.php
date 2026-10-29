@@ -12,18 +12,17 @@ class Header extends Composer {
         return [
             'navigation' => $this->getNavigation(),
             'languages'  => $this->getLanguages(),
-            'logo'       => get_custom_logo(),
-            'is_fixed'   => true,
-            'has_lang'   => false,
-            'has_cta'    => false,
-            'align'      => 'left',
+            'is_fixed'   => config( 'theme.header.fixed' ),
+            'has_lang'   => config( 'theme.header.lang' ),
+            'has_cta'    => config( 'theme.header.cta' ),
+            'align'      => config( 'theme.header.align' ),
         ];
     }
 
     private function getNavigation(): array {
-        return Navi::build( 'primary_navigation' )->isEmpty()
-            ? []
-            : Navi::build( 'primary_navigation' )->all();
+        $nav = Navi::build( 'primary_navigation' );
+
+        return $nav->isEmpty() ? [] : $nav->all();
     }
 
     private function getLanguages(): array {
@@ -32,12 +31,3 @@ class Header extends Composer {
             : [];
     }
 }
-
-/**
- * Add "has-fixed-header" class to body when fixed option is active.
- */
-add_filter( 'body_class', function ( array $classes ) {
-    $classes[] = 'has-fixed-header';
-
-    return $classes;
-} );
