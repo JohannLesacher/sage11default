@@ -66,6 +66,12 @@ function wordpressJsx() {
   };
 }
 
+function blockPrefix(path) {
+  const match = path?.match(/resources\/blocks\/([^/]+)\//);
+
+  return match ? `${match[1]}-` : '';
+}
+
 export default defineConfig({
   base: `/app/themes/${themeName}/public/build/`,
   plugins: [
@@ -79,7 +85,7 @@ export default defineConfig({
         'resources/css/editor.scss',
         'resources/js/editor.js',
         // Scan dynamique des blocs
-        ...globSync('resources/{css,js}/blocks/*.{scss,js}'),
+        ...globSync('resources/blocks/*/{style.scss,script.js}'),
       ],
       refresh: true,
       assets: ['resources/images/**', 'resources/fonts/**'],
@@ -92,6 +98,15 @@ export default defineConfig({
       },
     }),
   ],
+  // Fichiers des blocs préfixés par leur dossier (carte-style-….css plutôt que style-….css)
+  build: {
+    rolldownOptions: {
+      output: {
+        entryFileNames: (chunk) => `assets/${blockPrefix(chunk.facadeModuleId)}[name]-[hash].js`,
+        assetFileNames: (asset) => `assets/${blockPrefix(asset.originalFileNames?.[0])}[name]-[hash][extname]`,
+      },
+    },
+  },
   // Même réglage JSX pour le pré-scan des dépendances (sinon il cherche react/jsx-dev-runtime)
   optimizeDeps: {
     rolldownOptions: {

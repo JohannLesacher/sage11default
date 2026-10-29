@@ -11,8 +11,8 @@ class MakeBlockCommand extends Command
     protected $signature = 'make:block {name}
                             {--inline : Édition directe dans le bloc (RichText) au lieu des réglages + aperçu serveur}
                             {--inner : Bloc conteneur (InnerBlocks)}
-                            {--js : Script front (resources/js/blocks)}
-                            {--vc : View Composer}
+                            {--js : Script front (script.js)}
+                            {--vc : View Composer (logique de la vue)}
                             {--force : Écrase les fichiers existants}';
 
     protected $description = 'Crée un bloc natif (block.json + editor.jsx + vue Blade), auto-enregistré';
@@ -47,7 +47,7 @@ class MakeBlockCommand extends Command
             File::put($path, $content);
         }
 
-        $this->info("Bloc sur-mesure/{$this->slug} généré (auto-enregistré, éditeur importé automatiquement).");
+        $this->info("Bloc sur-mesure/{$this->slug} généré (auto-enregistré).");
         $this->warn('Relancer `npm run dev` ou `npm run build` : les nouveaux assets doivent être connus de Vite avant le rendu du bloc.');
 
         return self::SUCCESS;
@@ -63,11 +63,11 @@ class MakeBlockCommand extends Command
                 default => $this->previewEditor(),
             },
             resource_path("views/blocks/{$this->slug}.blade.php") => $this->view(),
-            resource_path("css/blocks/{$this->slug}.scss") => ".block-{$this->slug} {\n}\n",
+            resource_path("blocks/{$this->slug}/style.scss") => ".block-{$this->slug} {\n}\n",
         ];
 
         if ($this->option('js')) {
-            $files[resource_path("js/blocks/{$this->slug}.js")] = $this->frontScript();
+            $files[resource_path("blocks/{$this->slug}/script.js")] = $this->frontScript();
         }
 
         if ($this->option('vc')) {

@@ -2,26 +2,21 @@
 
 namespace App\Blocks;
 
-use Illuminate\Support\Facades\Vite;
+use App\Blocks\Base\ExtendsCoreBlock;
 use WP_HTML_Tag_Processor;
 
-use function Roots\view;
-
 /**
- * Exemple d'extension d'un bloc core (boot() appelé sur init par BlockServiceProvider) :
- * - style de bloc « Flèche » (classe is-style-fleche, CSS dans resources/css/blocks/core-button.scss)
- * - rendu modifié : lien ouvert dans un nouvel onglet → mention pour les lecteurs d'écran (vue Blade)
+ * Extension de core/button (fichiers dans resources/blocks/core-button/) :
+ * - style de bloc « Flèche » (is-style-fleche)
+ * - lien ouvert dans un nouvel onglet → mention pour les lecteurs d'écran (filtre de rendu)
  */
 class CoreButton
 {
+    use ExtendsCoreBlock;
+
     public static function boot(): void
     {
-        register_block_style('core/button', ['name' => 'fleche', 'label' => 'Flèche']);
-
-        wp_enqueue_block_style('core/button', [
-            'handle' => 'block-core-button',
-            'src' => Vite::asset('resources/css/blocks/core-button.scss'),
-        ]);
+        static::blockStyle('core/button', 'fleche', 'Flèche', 'core-button');
 
         add_filter('render_block_core/button', [static::class, 'render']);
     }
@@ -34,6 +29,6 @@ class CoreButton
             return $content;
         }
 
-        return preg_replace('#</a>#', view('partials.new-tab-label')->render().'</a>', $content, 1);
+        return preg_replace('#</a>#', '<span class="sr-only"> (s’ouvre dans un nouvel onglet)</span></a>', $content, 1);
     }
 }
