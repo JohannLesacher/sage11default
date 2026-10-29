@@ -12,7 +12,7 @@
   align-items: center;
   gap: var(--wp--preset--spacing--50) var(--wp--preset--spacing--60);
 
-  @media (min-width: 782px) {
+  @include mixins.breakpoint(tablet, up) {
     --logo-height: 64px;
   }
 

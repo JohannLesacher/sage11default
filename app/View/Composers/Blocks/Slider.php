@@ -8,10 +8,6 @@ class Slider extends BlockComposer
 {
     protected static $views = ['blocks.slider'];
 
-    private const BREAKPOINT_TABLET = 1024;
-
-    private const BREAKPOINT_MOBILE = 640;
-
     public function label(): string
     {
         return $this->attribute('label') ?: __('Carrousel', 'sage');
@@ -29,11 +25,12 @@ class Slider extends BlockComposer
             'pagination' => (bool) $this->attribute('pagination'),
             'autoplay' => (bool) $this->attribute('autoplay'),
             'interval' => max(1, (int) $this->attribute('interval', 5)) * 1000,
+            // Clés = largeur max (Splide) : points de rupture tablet et mobile de theme.json (settings.viewport)
             'breakpoints' => [
-                self::BREAKPOINT_TABLET => [
+                $this->breakpoint('tablet', 782) => [
                     'perPage' => (int) ($this->attribute('perPageTablet') ?? max(1, $perPage - 1)),
                 ],
-                self::BREAKPOINT_MOBILE => [
+                $this->breakpoint('mobile', 480) => [
                     'perPage' => (int) ($this->attribute('perPageMobile') ?? 1),
                 ],
             ],
@@ -48,6 +45,11 @@ class Slider extends BlockComposer
         }
 
         return wp_json_encode($options);
+    }
+
+    private function breakpoint(string $name, int $default): int
+    {
+        return (int) (wp_get_global_settings(['viewport', $name]) ?: $default);
     }
 
     private function gap(): string

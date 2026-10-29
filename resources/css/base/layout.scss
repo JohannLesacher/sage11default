@@ -1,11 +1,14 @@
+@use "../config/mixins";
+
 :root {
-  --content-width: 1560px;
-  --wide-width: 1600px;
-  --extra-wide-width: 1600px;
+  // Largeurs : settings.layout (contentSize, wideSize) et custom.layout.extraWideSize de theme.json
+  --content-width: var(--wp--style--global--content-size);
+  --wide-width: var(--wp--style--global--wide-size);
+  --extra-wide-width: var(--wp--custom--layout--extra-wide-size);
   --container-padding: 1.5rem;
   --header-height: 75px;
 
-  @media screen and (min-width: 769px) {
+  @include mixins.breakpoint(tablet, up) {
     --container-padding: 2.5rem;
   }
 }
@@ -22,7 +25,7 @@
     [content-end wide-end extra-wide-end]
     minmax(var(--container-padding), 1fr) [fullwidth-end];
 
-  @media (min-width: 769px) {
+  @include mixins.breakpoint(tablet, up) {
     grid-template-columns:
       [fullwidth-start] minmax(var(--container-padding), 1fr)
       [extra-wide-start wide-start]
@@ -35,7 +38,7 @@
       minmax(var(--container-padding), 1fr) [fullwidth-end];
   }
 
-  @media (min-width: 1100px) {
+  @include mixins.breakpoint(large, up) {
     grid-template-columns:
       [fullwidth-start] minmax(var(--container-padding), 1fr)
       [extra-wide-start] minmax(0, calc((var(--extra-wide-width) - var(--wide-width)) / 2))

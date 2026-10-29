@@ -1,6 +1,7 @@
 import { registerBlockType } from '@wordpress/blocks';
 import { InnerBlocks, InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { PanelBody, RangeControl, TextControl, ToggleControl } from '@wordpress/components';
+import { breakpoints } from '@scripts/config/breakpoints';
 import metadata from './block.json';
 
 const TEMPLATE = [['sur-mesure/slide'], ['sur-mesure/slide'], ['sur-mesure/slide']];
@@ -21,14 +22,14 @@ registerBlockType(metadata, {
               max={6}
             />
             <RangeControl
-              label="Slides par page (tablette ≤ 1024px)"
+              label={`Slides par page (tablette ≤ ${breakpoints.tablet}px)`}
               value={perPageTablet ?? Math.max(1, perPage - 1)}
               onChange={(value) => setAttributes({ perPageTablet: value })}
               min={1}
               max={6}
             />
             <RangeControl
-              label="Slides par page (mobile ≤ 640px)"
+              label={`Slides par page (mobile ≤ ${breakpoints.mobile}px)`}
               value={perPageMobile ?? 1}
               onChange={(value) => setAttributes({ perPageMobile: value })}
               min={1}

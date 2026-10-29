@@ -48,7 +48,8 @@ $spacing: (
   "80": var(--wp--preset--spacing--80),
 );
 
-$viewport: (
+$breakpoints: (
   "mobile": 480px,
   "tablet": 782px,
+  "large": 1024px,
 );

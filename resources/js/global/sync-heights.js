@@ -1,4 +1,5 @@
-const BREAKPOINT = 768;
+import { breakpoints } from '@scripts/config/breakpoints';
+
 const SELECTOR = '.sync-element-heights';
 const EXCLUDE_CLASS = 'exclude-from-sync-element-heights';
 
@@ -70,7 +71,7 @@ const applyRows = (rows) => {
 };
 
 const sync = (group) => {
-  if (!group.alwaysSync && window.innerWidth < BREAKPOINT) {
+  if (!group.alwaysSync && window.innerWidth <= breakpoints.tablet) {
     resetRows(group.rows);
     return;
   }

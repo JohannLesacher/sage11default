@@ -1,3 +1,5 @@
+@use "../config/mixins";
+
 .horizontal-scroll {
   position: relative;
   z-index: 10;
@@ -6,7 +8,7 @@
   &__wrapper {
     grid-column: span 12;
 
-    @media (min-width: 1000px) {
+    @include mixins.breakpoint(large, up) {
       height: 100vh;
       padding: 4rem 0;
       position: sticky;
@@ -17,7 +19,7 @@
   }
 
   &__view {
-    @media (min-width: 1000px) {
+    @include mixins.breakpoint(large, up) {
       display: inline-flex;
       align-items: stretch;
       flex-wrap: nowrap;
@@ -38,7 +40,7 @@
     height: var(--scroller-height, 200vh);
     margin: 25vh 0 0;
 
-    @media (max-width: 999px) {
+    @include mixins.breakpoint(large) {
       display: none;
     }
   }

@@ -14,10 +14,11 @@ if (!process.env.APP_URL) {
   process.env.APP_URL = loadEnv('', bedrockRoot, '').WP_HOME ?? 'http://localhost';
 }
 
-// Génère resources/css/config/_theme.scss depuis theme.json (couleurs, polices, tailles, espacements)
-function themeJsonToScss() {
+// Génère depuis theme.json :
+// - resources/css/config/_theme.scss : couleurs, polices, tailles, espacements, points de rupture
+// - resources/js/config/breakpoints.js : points de rupture (en px)
+function themeJsonTokens() {
   const src = 'theme.json';
-  const out = 'resources/css/config/_theme.scss';
 
   const map = (name, items, prefix) =>
     `$${name}: (\n${items.map((item) => `  "${item.slug}": var(--wp--preset--${prefix}--${item.slug}),`).join('\n')}\n);\n`;
@@ -25,20 +26,29 @@ function themeJsonToScss() {
   const generate = () => {
     const { settings } = JSON.parse(readFileSync(src, 'utf8'));
 
-    writeFileSync(out, [
+    // Points de rupture : viewport de WordPress (mobile, tablet ; défauts core si absents) + custom.breakpoints
+    const breakpoints = { mobile: '480px', tablet: '782px', ...settings.viewport, ...settings.custom?.breakpoints };
+
+    writeFileSync('resources/css/config/_theme.scss', [
       '// Généré depuis theme.json par vite.config.js — ne pas éditer\n',
       map('colors', settings.color.palette, 'color'),
       `$colors-hex: (\n${settings.color.palette.map((color) => `  "${color.slug}": ${color.color},`).join('\n')}\n);\n`,
       map('fonts', settings.typography.fontFamilies, 'font-family'),
       map('font-sizes', settings.typography.fontSizes, 'font-size'),
       map('spacing', settings.spacing.spacingSizes, 'spacing'),
-      // Breakpoints partagés avec la visibilité par viewport de WordPress (défauts core si absents)
-      `$viewport: (\n${Object.entries({ mobile: '480px', tablet: '782px', ...settings.viewport }).map(([slug, size]) => `  "${slug}": ${size},`).join('\n')}\n);\n`,
+      `$breakpoints: (\n${Object.entries(breakpoints).map(([name, size]) => `  "${name}": ${size},`).join('\n')}\n);\n`,
+    ].join('\n'));
+
+    writeFileSync('resources/js/config/breakpoints.js', [
+      '// Généré depuis theme.json par vite.config.js — ne pas éditer',
+      '// Points de rupture en px : « jusqu\'à » = width <= valeur, « au-delà » = width > valeur',
+      `export const breakpoints = ${JSON.stringify(Object.fromEntries(Object.entries(breakpoints).map(([name, size]) => [name, parseInt(size, 10)])))};`,
+      '',
     ].join('\n'));
   };
 
   return {
-    name: 'theme-json-to-scss',
+    name: 'theme-json-tokens',
     buildStart: generate,
     configureServer(server) {
       server.watcher.add(src);
@@ -76,7 +86,7 @@ export default defineConfig({
   base: `/app/themes/${themeName}/public/build/`,
   plugins: [
     wordpressJsx(),
-    themeJsonToScss(),
+    themeJsonTokens(),
 
     laravel({
       input: [

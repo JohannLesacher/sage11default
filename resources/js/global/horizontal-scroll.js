@@ -1,6 +1,8 @@
+import { breakpoints } from '@scripts/config/breakpoints';
+
 export class HorizontalScroll {
   static SELECTOR = '[js-horizontal-scroll]';
-  static MEDIA_QUERY = '(min-width: 1000px)';
+  static MEDIA_QUERY = `(width > ${breakpoints.large}px)`;
 
   constructor(element) {
     this.el = element;

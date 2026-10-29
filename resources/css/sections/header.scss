@@ -1,3 +1,5 @@
+@use "../config/mixins";
+
 .banner {
   --banner-bg: transparent;
   --banner-scrolled-bg: color-mix(in srgb, var(--wp--preset--color--background) 55%, transparent);
@@ -60,7 +62,7 @@
       list-style: none;
     }
 
-    @media (min-width: 1024px) {
+    @include mixins.breakpoint(large, up) {
       display: block;
 
       .nav-primary {
@@ -120,7 +122,7 @@
 
     .banner__lang {
       display: none;
-      @media (min-width: 1024px) {
+      @include mixins.breakpoint(large, up) {
         display: flex;
         gap: var(--wp--preset--spacing--20);
         font-weight: 600;
@@ -144,7 +146,7 @@
     justify-content: space-between;
     padding: 0;
 
-    @media (min-width: 1024px) {
+    @include mixins.breakpoint(large, up) {
       display: none;
     }
 

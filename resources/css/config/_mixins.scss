@@ -1,10 +1,19 @@
 @use "sass:map";
 @use "theme";
 
-// Media query alignée sur settings.viewport de theme.json (mobile : ≤ 480px, tablet : ≤ 782px)
-@mixin viewport($name) {
-  @media (width <= #{map.get(theme.$viewport, $name)}) {
-    @content;
+// Media query sur un point de rupture de theme.json (mobile 480px, tablet 782px : viewport de WordPress ;
+// large 1024px : custom.breakpoints). down = jusqu'au point inclus, up = au-delà.
+@mixin breakpoint($name, $direction: down) {
+  $size: map.get(theme.$breakpoints, $name);
+
+  @if $direction == up {
+    @media (width > #{$size}) {
+      @content;
+    }
+  } @else {
+    @media (width <= #{$size}) {
+      @content;
+    }
   }
 }
 

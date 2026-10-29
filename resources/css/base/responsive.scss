@@ -9,7 +9,7 @@
   }
 }
 
-@include mixins.viewport(mobile) {
+@include mixins.breakpoint(mobile) {
   .is-responsive-center-mobile {
     text-align: center;
 
