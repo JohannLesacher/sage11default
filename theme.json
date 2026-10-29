@@ -4,8 +4,8 @@
   "settings": {
     "appearanceTools": true,
     "layout": {
-      "contentSize": "900px",
-      "wideSize": "1100px"
+      "contentSize": "1560px",
+      "wideSize": "1600px"
     },
     "background": {
       "backgroundImage": true

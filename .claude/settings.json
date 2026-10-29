@@ -34,38 +34,14 @@
   },
   "enableAllProjectMcpServers": true,
   "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/pre-bash-validation.sh"
-          },
-          {
-            "type": "command",
-            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/pre-commit-secrets.sh"
-          }
-        ]
-      }
-    ],
-    "PostToolUse": [
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/post-edit-format.sh"
-          }
-        ]
-      }
-    ],
     "Stop": [
       {
         "hooks": [
           {
-            "type": "prompt",
-            "prompt": "Review the conversation. Did Claude discover new patterns, design tokens, recurring errors, or architectural decisions during this session that are NOT already documented in .claude/memory.md? If yes, respond with {\"decision\": \"block\", \"reason\": \"Update .claude/memory.md with the new discoveries before stopping. Add to the appropriate section (Key Facts, Learned patterns, or Recurring errors to avoid). Only append, never overwrite.\"}. If nothing new was discovered, respond with {\"decision\": \"allow\"}."
+            "type": "agent",
+            "timeout": 90,
+            "statusMessage": "Vérification de .claude/memory.md…",
+            "prompt": "Hook input: $ARGUMENTS\n\nDecide whether Claude must update .claude/memory.md before stopping.\n\n1. If stop_hook_active is true, answer ok immediately (never block twice in a row).\n2. Read .claude/memory.md (project root of the theme) in full.\n3. Read the end of the transcript at transcript_path (the last user request and what Claude did after it). Only consider work done since the last user message.\n4. Answer ok:false ONLY if that recent work produced a concrete, durable, non-obvious discovery (pattern, design token, recurring error, architectural decision) that is clearly absent from memory.md. Things derivable from the code or git history, pure explanations, questions, and items already covered (even in other words) do NOT count. When in doubt, answer ok.\n5. If ok:false, the reason must name the precise missing item(s) and say: append to the right section of .claude/memory.md (Key Facts, Learned patterns or Recurring errors to avoid), never overwrite."
           }
         ]
       }

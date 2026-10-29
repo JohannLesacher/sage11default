@@ -1,0 +1,23 @@
+.block-key-figure {
+  --key-figure-value-size: var(--wp--preset--font-size--xx-large);
+  --key-figure-value-weight: 700;
+  --key-figure-unit-size: 0.5em;
+  --key-figure-gap: 0.5rem;
+
+  &__value {
+    margin: 0;
+    font-size: var(--key-figure-value-size);
+    font-weight: var(--key-figure-value-weight);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__prefix,
+  &__unit {
+    font-size: var(--key-figure-unit-size);
+  }
+
+  &__label {
+    margin: var(--key-figure-gap) 0 0;
+  }
+}

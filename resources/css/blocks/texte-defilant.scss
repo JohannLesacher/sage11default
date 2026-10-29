@@ -1,0 +1,79 @@
+.block-texte-defilant {
+  --marquee-duration: 20s;
+  --marquee-gap: 0.5em;
+
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: var(--wp--preset--font-size--xx-large);
+  line-height: 1.2;
+
+  // .main > .alignfull devient une grille (layout.scss) et contraint ses enfants
+  // à la colonne content : on neutralise pour laisser la piste en max-content.
+  .main > &.alignfull {
+    display: block;
+  }
+
+  &.alignfull > &__track {
+    width: max-content;
+  }
+
+  &[data-vitesse='lent'] {
+    --marquee-duration: 40s;
+  }
+
+  &[data-vitesse='rapide'] {
+    --marquee-duration: 10s;
+  }
+
+  &__track {
+    display: flex;
+    width: max-content;
+    animation: marquee-gauche var(--marquee-duration) linear infinite;
+  }
+
+  &[data-direction='droite'] &__track {
+    animation-name: marquee-droite;
+  }
+
+  &.has-pause:hover &__track {
+    animation-play-state: paused;
+  }
+
+  &__group {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  &__text,
+  &__separator {
+    margin: 0;
+    padding-inline: var(--marquee-gap);
+    font-size: inherit;
+    line-height: inherit;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &__track {
+      animation: none;
+    }
+  }
+}
+
+@keyframes marquee-gauche {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-droite {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
