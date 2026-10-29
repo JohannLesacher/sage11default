@@ -1,4 +1,4 @@
-<div class="block-key-figure {!! $blockClass() !!}" @if($blockStyle()) style="{!! $blockStyle() !!}" @endif>
+<div {!! $wrapperAttributes('block-key-figure') !!}>
   @if($valeur())
     <p class="block-key-figure__value" @if($valueStyle()) style="{!! esc_attr($valueStyle()) !!}" @endif>
       @if($prefixe())

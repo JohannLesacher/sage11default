@@ -64,24 +64,10 @@ add_filter('wp_handle_upload_prefilter', function ($file) {
 });
 
 /**
- * Animation option
- *
- * Liste à garder synchronisée avec ALLOWED_BLOCKS dans resources/js/admin/animation.js
- * (sur-mesure/slide déclare ses propres attributs dans App\Blocks\Slider).
+ * Animation option (blocs listés dans config/theme.php)
  */
 add_filter('register_block_type_args', function ($args, $name) {
-    $allowed_blocks = [
-        'core/heading',
-        'core/group',
-        'core/columns',
-        'core/column',
-        'core/image',
-        'core/button',
-        'core/cover',
-        'core/accordion-item',
-    ];
-
-    if (in_array($name, $allowed_blocks, true)) {
+    if (in_array($name, config('theme.animation.blocks'), true)) {
         $args['attributes']['animateOnScroll'] = [
             'type' => 'boolean',
             'default' => false,

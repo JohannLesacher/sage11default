@@ -1,0 +1,24 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "sur-mesure/slider",
+  "title": "Slider",
+  "description": "Carrousel de slides au contenu libre.",
+  "category": "sur-mesure",
+  "icon": "slides",
+  "attributes": {
+    "perPage": { "type": "number", "default": 3 },
+    "perPageTablet": { "type": "number" },
+    "perPageMobile": { "type": "number" },
+    "loop": { "type": "boolean", "default": false },
+    "arrows": { "type": "boolean", "default": true },
+    "pagination": { "type": "boolean", "default": false },
+    "autoplay": { "type": "boolean", "default": false },
+    "interval": { "type": "number", "default": 5 },
+    "label": { "type": "string", "default": "" }
+  },
+  "supports": {
+    "align": ["wide", "full"],
+    "spacing": { "blockGap": true, "margin": ["top", "bottom"] }
+  }
+}

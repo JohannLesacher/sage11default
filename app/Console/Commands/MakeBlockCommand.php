@@ -6,155 +6,189 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
-class MakeBlockCommand extends Command {
-    protected $signature = 'make:block {name} {--js} {--vc} {--force : Écrase les fichiers existants}';
-    protected $description = 'Crée un bloc MB Blocks (Sage 11)';
+class MakeBlockCommand extends Command
+{
+    protected $signature = 'make:block {name}
+                            {--native : Bloc natif (block.json + éditeur JS, InnerBlocks, sans classe PHP) au lieu de MB Blocks}
+                            {--js : Script front (resources/js/blocks)}
+                            {--vc : View Composer}
+                            {--force : Écrase les fichiers existants}';
 
-    public function handle(): void {
-        $name      = Str::ascii( $this->argument( 'name' ) );
-        $className = Str::studly( $name );
-        $slug      = Str::kebab( $name );
-        $hasJs     = $this->option( 'js' );
-        $hasVC     = $this->option( 'vc' );
+    protected $description = 'Crée un bloc Gutenberg (MB Blocks ou natif), auto-enregistré par BlockServiceProvider';
 
-        $existing = array_filter( $this->targetPaths( $className, $slug, $hasJs, $hasVC ), fn ( $path ) => File::exists( $path ) );
+    private string $className;
 
-        if ( $existing && ! $this->option( 'force' ) ) {
-            $this->error( 'Fichiers déjà existants (utiliser --force pour écraser) :' );
-            foreach ( $existing as $path ) {
-                $this->line( "  {$path}" );
+    private string $slug;
+
+    private string $title;
+
+    public function handle(): int
+    {
+        $name = Str::ascii($this->argument('name'));
+        $this->className = Str::studly($name);
+        $this->slug = Str::kebab($this->className);
+        $this->title = Str::ucfirst(str_replace('-', ' ', $this->slug));
+
+        $files = $this->files();
+        $existing = array_filter(array_keys($files), fn ($path) => File::exists($path));
+
+        if ($existing && ! $this->option('force')) {
+            $this->error('Fichiers déjà existants (utiliser --force pour écraser) :');
+            foreach ($existing as $path) {
+                $this->line("  {$path}");
             }
 
-            return;
+            return self::FAILURE;
         }
 
-        $this->generatePhpClass( $className, $slug, $hasJs );
-        $this->generateView( $slug );
-        $this->generateStyle( $slug );
-
-        if ( $hasJs ) {
-            $this->generateScript( $slug );
+        foreach ($files as $path => $content) {
+            File::ensureDirectoryExists(dirname($path));
+            File::put($path, $content);
         }
 
-        if ( $hasVC ) {
-            $this->generateViewComposer( $slug );
+        if ($this->option('native')) {
+            $this->registerEditorScript();
         }
 
-        $this->info( "Bloc {$className} généré ! (Auto-enregistré via BlockServiceProvider)" );
+        $this->info("Bloc {$this->className} généré (auto-enregistré via BlockServiceProvider).");
+        $this->warn('Relancer `npm run dev` ou `npm run build` : les nouveaux assets doivent être connus de Vite avant le rendu du bloc.');
+
+        return self::SUCCESS;
     }
 
-    protected function generatePhpClass( $className, $slug, $hasJs ): void {
-        $path  = app_path( "Blocks/{$className}.php" );
-        $title = Str::ucfirst( str_replace( '-', ' ', $slug ) );
+    private function files(): array
+    {
+        $native = $this->option('native');
 
-        // Construction de la closure enqueue_assets
-        $enqueueLogic = "wp_enqueue_style('{$slug}', Vite::asset('resources/css/blocks/{$slug}.scss'), [], null);";
+        $files = [
+            resource_path("views/blocks/{$this->slug}.blade.php") => $native ? $this->nativeView() : $this->metaBoxView(),
+            resource_path("css/blocks/{$this->slug}.scss") => ".block-{$this->slug} {\n}\n",
+        ];
 
-        if ( $hasJs ) {
-            $enqueueLogic .= "\n";
-            $enqueueLogic .= "\n                if ( ! is_admin() ) {";
-            $enqueueLogic .= "\n                    wp_enqueue_script_module('{$slug}', Vite::asset('resources/js/blocks/{$slug}.js'), [], null);";
-            $enqueueLogic .= "\n                }";
+        if (! $native) {
+            $files[app_path("Blocks/{$this->className}.php")] = $this->metaBoxClass();
         }
 
-        $stub = <<<PHP
+        if ($native) {
+            $files[resource_path("blocks/{$this->slug}/block.json")] = $this->blockJson();
+            $files[resource_path("js/admin/blocks/{$this->slug}-editor.js")] = $this->editorScript();
+        }
+
+        if ($this->option('js')) {
+            $files[resource_path("js/blocks/{$this->slug}.js")] = $this->frontScript();
+        }
+
+        if ($this->option('vc')) {
+            $files[app_path("View/Composers/Blocks/{$this->className}.php")] = $this->composer();
+        }
+
+        return $files;
+    }
+
+    private function metaBoxClass(): string
+    {
+        return <<<PHP
 <?php
 
 namespace App\Blocks;
 
-use App\Services\BlockEngine;
-use Illuminate\Support\Facades\Vite;
+use App\Blocks\Base\MetaBoxBlock;
 
-class {$className} extends BlockEngine
+class {$this->className} extends MetaBoxBlock
 {
-    public static function register_block(array \$meta_boxes): array
+    protected static function definition(): array
     {
-        \$meta_boxes[] = [
-            'title'           => '{$title}',
-            'id'              => '{$slug}',
-            'type'            => 'block',
-            'category'        => 'sur-mesure',
-            'context'         => 'normal',
-            'icon'            => 'admin-generic',
-            'render_callback' => [parent::class, 'renderBlock'],
-            'enqueue_assets'  => function () {
-                {$enqueueLogic}
-            },
-            'supports'        => [
-                'align'           => true,
-                'anchor'          => true,
+        return [
+            'title' => '{$this->title}',
+            'icon' => 'admin-generic',
+            'supports' => [
+                'align' => ['wide', 'full'],
+                'anchor' => true,
                 'customClassName' => true,
-                'reusable'        => true,
             ],
-            'fields'          => [
+            'fields' => [
                 //
-            ]
+            ],
         ];
-
-        return \$meta_boxes;
     }
 }
+
 PHP;
-
-        File::put( $path, $stub );
     }
 
-    protected function generateView( $slug ): void {
-        $path = resource_path( "views/blocks/{$slug}.blade.php" );
-        File::ensureDirectoryExists( dirname( $path ) );
-        File::put( $path,
-            "<section class=\"block-{$slug} {{ \$attributes['className'] ?? '' }} align{{ \$attributes['align'] ?? 'normal' }}\">\n    <InnerBlocks />\n</section>\n" );
+    private function metaBoxView(): string
+    {
+        return "<section {!! \$wrapperAttributes('block-{$this->slug}') !!}>\n    <InnerBlocks />\n</section>\n";
     }
 
-    protected function generateStyle( $slug ): void {
-        $path = resource_path( "css/blocks/{$slug}.scss" );
-        File::ensureDirectoryExists( dirname( $path ) );
-        File::put( $path, ".block-{$slug} {\n    // Styles\n}" );
+    private function nativeView(): string
+    {
+        return "<section {!! \$wrapperAttributes('block-{$this->slug}') !!}>\n    {!! \$content !!}\n</section>\n";
     }
 
-    protected function generateScript( $slug ): void {
-        $path = resource_path( "js/blocks/{$slug}.js" );
-        File::ensureDirectoryExists( dirname( $path ) );
-        File::put( $path, "console.log('Block {$slug} initialized');" );
+    private function blockJson(): string
+    {
+        return json_encode([
+            '$schema' => 'https://schemas.wp.org/trunk/block.json',
+            'apiVersion' => 3,
+            'name' => "sur-mesure/{$this->slug}",
+            'title' => $this->title,
+            'category' => 'sur-mesure',
+            'icon' => 'admin-generic',
+            'attributes' => (object) [],
+            'supports' => [
+                'align' => ['wide', 'full'],
+                'anchor' => true,
+            ],
+        ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)."\n";
     }
 
-    private function targetPaths( string $className, string $slug, bool $hasJs, bool $hasVC ): array {
-        return array_filter( [
-            app_path( "Blocks/{$className}.php" ),
-            resource_path( "views/blocks/{$slug}.blade.php" ),
-            resource_path( "css/blocks/{$slug}.scss" ),
-            $hasJs ? resource_path( "js/blocks/{$slug}.js" ) : null,
-            $hasVC ? app_path( 'View/Composers/Blocks/' . Str::studly( $slug ) . '.php' ) : null,
-        ] );
+    private function editorScript(): string
+    {
+        return <<<JS
+import { registerBlockType } from '@wordpress/blocks';
+import metadata from '@blocks/{$this->slug}/block.json';
+import { InnerBlocks, useBlockProps } from '@wordpress/block-editor';
+import { createElement as el } from '@wordpress/element';
+
+registerBlockType(metadata, {
+  edit: () => el('div', useBlockProps(), el(InnerBlocks)),
+
+  save: () => el(InnerBlocks.Content),
+});
+
+JS;
     }
 
-    private function generateViewComposer( string $slug ): void {
-        $className = Str::studly( $slug );
-        $path      = app_path( "View/Composers/Blocks/{$className}.php" );
+    private function frontScript(): string
+    {
+        return "document.querySelectorAll('.block-{$this->slug}').forEach((block) => {\n  //\n});\n";
+    }
 
-        // Création du dossier s'il n'existe pas
-        if ( ! File::isDirectory( dirname( $path ) ) ) {
-            File::makeDirectory( dirname( $path ), 0755, true );
-        }
-
-        $stub = <<<PHP
+    private function composer(): string
+    {
+        return <<<PHP
 <?php
 
 namespace App\View\Composers\Blocks;
 
-use Roots\Acorn\View\Composer;
+use App\View\BlockComposer;
 
-class {$className} extends Composer
+class {$this->className} extends BlockComposer
 {
-    protected static \$views = ['blocks.{$slug}'];
-
-    private function field(string \$key): string
-    {
-        return trim((string) (\$this->view->getData()['data'][\$key] ?? ''));
-    }
+    protected static \$views = ['blocks.{$this->slug}'];
 }
-PHP;
 
-        File::put( $path, $stub );
+PHP;
+    }
+
+    private function registerEditorScript(): void
+    {
+        $path = resource_path('js/editor.js');
+        $import = "import '@scripts/admin/blocks/{$this->slug}-editor';";
+
+        if (! str_contains(File::get($path), $import)) {
+            File::append($path, $import."\n");
+        }
     }
 }

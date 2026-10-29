@@ -2,28 +2,15 @@
 
 namespace App\Blocks;
 
-use App\Services\BlockEngine;
-use Illuminate\Support\Facades\Vite;
+use App\Blocks\Base\MetaBoxBlock;
 
-class TexteDefilant extends BlockEngine
+class TexteDefilant extends MetaBoxBlock
 {
-    public static function register_block($meta_boxes)
+    protected static function definition(): array
     {
-        $meta_boxes[] = [
+        return [
             'title' => 'Texte défilant',
-            'id' => 'texte-defilant',
-            'type' => 'block',
-            'category' => 'sur-mesure',
-            'context' => 'side',
             'icon' => 'text',
-            'render_callback' => [parent::class, 'renderBlock'],
-            'enqueue_assets' => function () {
-                wp_enqueue_style('texte-defilant', Vite::asset('resources/css/blocks/texte-defilant.scss'), [], null);
-
-                if (! is_admin()) {
-                    wp_enqueue_script_module('texte-defilant', Vite::asset('resources/js/blocks/texte-defilant.js'), [], null);
-                }
-            },
             'supports' => [
                 'align' => ['full', 'wide'],
                 'anchor' => true,
@@ -96,7 +83,5 @@ class TexteDefilant extends BlockEngine
                 ],
             ],
         ];
-
-        return $meta_boxes;
     }
 }

@@ -2,9 +2,9 @@
 
 namespace App\View\Composers\Blocks;
 
-use Roots\Acorn\View\Composer;
+use App\View\BlockComposer;
 
-class TexteDefilant extends Composer
+class TexteDefilant extends BlockComposer
 {
     protected static $views = ['blocks.texte-defilant'];
 
@@ -13,6 +13,11 @@ class TexteDefilant extends Composer
     private const VITESSES = ['lent', 'normal', 'rapide'];
 
     private const DIRECTIONS = ['gauche', 'droite'];
+
+    public function classes(): string
+    {
+        return 'block-texte-defilant'.($this->pause() ? ' has-pause' : '');
+    }
 
     public function texte(): string
     {
@@ -26,7 +31,7 @@ class TexteDefilant extends Composer
 
     public function ariaLabel(): string
     {
-        return esc_attr($this->field('texte'));
+        return $this->field('texte');
     }
 
     public function tag(): string
@@ -54,10 +59,5 @@ class TexteDefilant extends Composer
         $value = $this->field($key);
 
         return in_array($value, $allowed, true) ? $value : $default;
-    }
-
-    private function field(string $key): string
-    {
-        return trim((string) ($this->view->getData()['data'][$key] ?? ''));
     }
 }

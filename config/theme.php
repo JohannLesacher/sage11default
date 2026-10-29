@@ -50,4 +50,28 @@ return [
         'lowres' => ['width' => 38, 'height' => 22, 'crop' => true], // Placeholder flou d'apparition
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Animations
+    |--------------------------------------------------------------------------
+    |
+    | Blocs qui reçoivent l'option « Animer l'apparition » (attributs déclarés
+    | en PHP dans app/filters.php, exposés à l'éditeur via window.theme)
+    |
+    */
+
+    'animation' => [
+        'blocks' => [
+            'core/heading',
+            'core/group',
+            'core/columns',
+            'core/column',
+            'core/image',
+            'core/button',
+            'core/cover',
+            'core/accordion-item',
+            'sur-mesure/slide',
+        ],
+    ],
+
 ];

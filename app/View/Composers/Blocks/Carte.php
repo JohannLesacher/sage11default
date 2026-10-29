@@ -3,9 +3,9 @@
 namespace App\View\Composers\Blocks;
 
 use App\Services\ThemeSettings;
-use Roots\Acorn\View\Composer;
+use App\View\BlockComposer;
 
-class Carte extends Composer
+class Carte extends BlockComposer
 {
     protected static $views = ['blocks.carte'];
 
@@ -93,10 +93,5 @@ class Carte extends Composer
     private function format(float $nombre): string
     {
         return sprintf('%.6F', $nombre);
-    }
-
-    private function field(string $key): string
-    {
-        return trim((string) ($this->view->getData()['data'][$key] ?? ''));
     }
 }

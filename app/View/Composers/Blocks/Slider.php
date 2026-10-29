@@ -2,7 +2,9 @@
 
 namespace App\View\Composers\Blocks;
 
-class Slider extends Common
+use App\View\BlockComposer;
+
+class Slider extends BlockComposer
 {
     protected static $views = ['blocks.slider'];
 
@@ -12,7 +14,7 @@ class Slider extends Common
 
     public function label(): string
     {
-        return esc_attr($this->attribute('label') ?: __('Carrousel', 'sage'));
+        return $this->attribute('label') ?: __('Carrousel', 'sage');
     }
 
     public function splideOptions(): string
@@ -22,7 +24,7 @@ class Slider extends Common
         $options = [
             'type' => $this->attribute('loop') ? 'loop' : 'slide',
             'perPage' => $perPage,
-            'gap' => $this->blockGap() ?? '1.5rem',
+            'gap' => $this->gap(),
             'arrows' => (bool) $this->attribute('arrows', true),
             'pagination' => (bool) $this->attribute('pagination'),
             'autoplay' => (bool) $this->attribute('autoplay'),
@@ -45,7 +47,19 @@ class Slider extends Common
             ];
         }
 
-        return esc_attr(wp_json_encode($options));
+        return wp_json_encode($options);
+    }
+
+    private function gap(): string
+    {
+        $gap = $this->attribute('style')['spacing']['blockGap'] ?? null;
+        $gap = is_array($gap) ? ($gap['left'] ?? $gap['top'] ?? null) : $gap;
+
+        if (! is_string($gap) || $gap === '') {
+            return '1.5rem';
+        }
+
+        return preg_replace('/^var:preset\|([\w-]+)\|([\w-]+)$/', 'var(--wp--preset--$1--$2)', $gap);
     }
 
     private function i18n(): array
@@ -64,10 +78,5 @@ class Slider extends Common
             'slide' => __('diapositive', 'sage'),
             'slideLabel' => __('%s sur %s', 'sage'),
         ];
-    }
-
-    private function attribute(string $key, mixed $default = null): mixed
-    {
-        return $this->view->getData()['attributes'][$key] ?? $default;
     }
 }

@@ -1,4 +1,4 @@
-<section class="block-carte {{ $attributes['className'] ?? '' }} align{{ $attributes['align'] ?? 'normal' }}">
+<section {!! $wrapperAttributes('block-carte') !!}>
     @if($estComplet())
         <div class="block-carte__cadre">
             <iframe src="{!! esc_url($embedUrl()) !!}" title="{!! esc_attr($titre()) !!}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>

@@ -42,6 +42,11 @@ add_action('admin_head', function () {
             }
         }
     }
+    // Config partagée avec les scripts éditeur (source unique : config/theme.php)
+    printf('<script>window.theme = %s;</script>', wp_json_encode([
+        'animationBlocks' => config('theme.animation.blocks'),
+    ]));
+
     echo Vite::withEntryPoints([
         'resources/js/editor.js',
     ])->toHtml();

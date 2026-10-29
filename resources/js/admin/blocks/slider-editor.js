@@ -1,4 +1,5 @@
 import { registerBlockType } from '@wordpress/blocks';
+import metadata from '@blocks/slider/block.json';
 import {
   InnerBlocks,
   InspectorControls,
@@ -12,28 +13,7 @@ import {
   ToggleControl,
 } from '@wordpress/components';
 
-registerBlockType('sur-mesure/slider', {
-  apiVersion: 3,
-  title: 'Slider',
-  description: 'Carrousel de slides au contenu libre.',
-  category: 'sur-mesure',
-  icon: 'slides',
-  attributes: {
-    perPage: { type: 'number', default: 3 },
-    perPageTablet: { type: 'number' },
-    perPageMobile: { type: 'number' },
-    loop: { type: 'boolean', default: false },
-    arrows: { type: 'boolean', default: true },
-    pagination: { type: 'boolean', default: false },
-    autoplay: { type: 'boolean', default: false },
-    interval: { type: 'number', default: 5 },
-    label: { type: 'string', default: '' },
-  },
-  supports: {
-    align: ['wide', 'full'],
-    spacing: { blockGap: true, margin: ['top', 'bottom'] },
-  },
-
+registerBlockType(metadata, {
   edit: ({ attributes, setAttributes }) => {
     const blockProps = useBlockProps({ className: 'editor-slider' });
 

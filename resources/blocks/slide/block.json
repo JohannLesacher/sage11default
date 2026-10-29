@@ -1,0 +1,14 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "sur-mesure/slide",
+  "title": "Slide",
+  "description": "Une diapositive du slider, contenu libre.",
+  "category": "sur-mesure",
+  "icon": "media-interactive",
+  "parent": ["sur-mesure/slider"],
+  "supports": {
+    "color": { "background": true, "text": true },
+    "spacing": { "padding": true }
+  }
+}

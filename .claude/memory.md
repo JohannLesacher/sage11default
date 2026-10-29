@@ -36,6 +36,11 @@
 - **Starter content kept on purpose**: CPT `evenement` = example CPT of the starter; image size `lowres` = blur-up placeholder; `config/external.scss` empty on purpose (third-party CSS). Splide CSS stays in `blocks/slider.scss` (loaded only with the block)
 - **`config/theme.php` scope (2026-10-29)**: also `menus` (register_nav_menus) and `image_sizes` (add_image_size, `label` → shown in editor). `make:header` command removed (header options live in config)
 - **Vite paths (2026-10-29)**: `base` derived from theme folder name, `APP_URL` from env or Bedrock `.env` `WP_HOME` → theme can be duplicated/renamed without editing vite.config.js
+- **Block architecture (2026-10-29)**: `app/Blocks/Base/` (not scanned) holds `MetaBoxBlock` (subclass implements `definition()`, id = kebab class name, `register()` fed to rwmb_meta_boxes) and `NativeBlock` (metadata in `resources/blocks/{name}/block.json`, single source PHP + editor JS via `@blocks` alias). `BlockEngine` and `register_block()` removed. `make:block [--native] [--js] [--vc] [--force]`
+- **Block assets (2026-10-29)**: `LoadsAssets` trait auto-loads `css/blocks/{slug}.scss` + `js/blocks/{slug}.js` if they exist: in head when `has_block()`, else at render; always in editor. Before this, MB `enqueue_assets` and native `style_handles` loaded every block CSS on every page
+- **Block composers (2026-10-29)**: extend `App\View\BlockComposer` (`field()`, `attribute()`, public `wrapperAttributes($class, $extra)` → `get_block_wrapper_attributes`). Views: `<div {!! $wrapperAttributes('block-x', [...]) !!}>`; composers return raw values (escaped by wrapper). `Common` only exposes it to every `blocks.*` view
+- **Animated blocks list (2026-10-29)**: single source `config('theme.animation.blocks')` → PHP attributes filter + `window.theme.animationBlocks` printed before editor scripts in `app/setup.php`
+- **Update native blocks (2026-10-29)**: no PHP class needed — `BlockServiceProvider` registers every `resources/blocks/*/block.json` with `App\Blocks\Base\NativeBlock` (instance per block); optional `App\Blocks\{Name} extends NativeBlock` overrides it (user found empty classes odd). `make:block --native` generates no class. New block assets need `npm run dev`/`build` before render (Vite manifest)
 
 ## Components créés
 

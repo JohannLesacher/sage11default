@@ -2,10 +2,9 @@
 
 namespace App\Blocks;
 
-use App\Services\BlockEngine;
-use Illuminate\Support\Facades\Vite;
+use App\Blocks\Base\MetaBoxBlock;
 
-class KeyFigure extends BlockEngine
+class KeyFigure extends MetaBoxBlock
 {
     public static function boot(): void
     {
@@ -19,19 +18,11 @@ class KeyFigure extends BlockEngine
         }, 10, 2);
     }
 
-    public static function register_block($meta_boxes)
+    protected static function definition(): array
     {
-        $meta_boxes[] = [
+        return [
             'title' => 'Chiffre clé',
-            'id' => 'key-figure',
-            'type' => 'block',
-            'category' => 'sur-mesure',
-            'context' => 'side',
             'icon' => 'chart-bar',
-            'render_callback' => [parent::class, 'renderBlock'],
-            'enqueue_assets' => function () {
-                wp_enqueue_style('key-figure', Vite::asset('resources/css/blocks/key-figure.scss'), [], null);
-            },
             'supports' => [
                 'align' => ['wide', 'full'],
                 'anchor' => true,
@@ -74,7 +65,5 @@ class KeyFigure extends BlockEngine
                 ],
             ],
         ];
-
-        return $meta_boxes;
     }
 }

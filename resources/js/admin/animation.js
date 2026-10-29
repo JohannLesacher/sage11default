@@ -13,18 +13,8 @@ const ANIMATION_OPTIONS = [
   { label: 'Texte par caractères', value: 'text-chars' },
 ];
 
-// À garder synchronisée avec $allowed_blocks dans app/filters.php
-const ALLOWED_BLOCKS = [
-  'core/heading',
-  'core/group',
-  'core/columns',
-  'core/column',
-  'core/image',
-  'core/button',
-  'core/cover',
-  'core/accordion-item',
-  'sur-mesure/slide',
-];
+// Source unique : config/theme.php (animation.blocks), injectée par app/setup.php
+const ALLOWED_BLOCKS = window.theme?.animationBlocks ?? [];
 
 const addAnimationControl = createHigherOrderComponent((BlockEdit) => {
   return (props) => {

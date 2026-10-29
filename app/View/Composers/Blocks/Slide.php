@@ -2,19 +2,24 @@
 
 namespace App\View\Composers\Blocks;
 
-use Roots\Acorn\View\Composer;
+use App\View\BlockComposer;
 
-class Slide extends Composer
+class Slide extends BlockComposer
 {
     protected static $views = ['blocks.slide'];
 
-    public function animated(): bool
+    public function classes(): string
     {
-        return (bool) ($this->view->getData()['attributes']['animateOnScroll'] ?? false);
+        return 'splide__slide block-slide'.($this->animated() ? ' is-animated is-animated--slide' : '');
     }
 
-    public function animationType(): string
+    public function animation(): ?string
     {
-        return esc_attr($this->view->getData()['attributes']['animationType'] ?? 'fade-up');
+        return $this->animated() ? $this->attribute('animationType', 'fade-up') : null;
+    }
+
+    private function animated(): bool
+    {
+        return (bool) $this->attribute('animateOnScroll', false);
     }
 }

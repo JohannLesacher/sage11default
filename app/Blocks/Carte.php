@@ -2,10 +2,9 @@
 
 namespace App\Blocks;
 
-use App\Services\BlockEngine;
-use Illuminate\Support\Facades\Vite;
+use App\Blocks\Base\MetaBoxBlock;
 
-class Carte extends BlockEngine
+class Carte extends MetaBoxBlock
 {
     public static function boot(): void
     {
@@ -18,21 +17,14 @@ class Carte extends BlockEngine
         }, 10, 2);
     }
 
-    public static function register_block($meta_boxes)
+    protected static function definition(): array
     {
-        $meta_boxes[] = [
+        return [
             'title' => 'Carte',
-            'id' => 'carte',
-            'type' => 'block',
-            'category' => 'sur-mesure',
             'context' => 'normal',
             'icon' => 'location-alt',
             'description' => 'Carte centrée sur une adresse (fournisseur choisi dans les réglages du thème).',
             'keywords' => ['carte', 'map', 'openstreetmap', 'google maps', 'adresse'],
-            'render_callback' => [parent::class, 'renderBlock'],
-            'enqueue_assets' => function () {
-                wp_enqueue_style('carte', Vite::asset('resources/css/blocks/carte.scss'), [], null);
-            },
             'supports' => [
                 'align' => ['wide', 'full'],
                 'anchor' => true,
@@ -70,7 +62,5 @@ class Carte extends BlockEngine
                 ],
             ],
         ];
-
-        return $meta_boxes;
     }
 }

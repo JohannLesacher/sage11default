@@ -2,9 +2,9 @@
 
 namespace App\View\Composers\Blocks;
 
-use Roots\Acorn\View\Composer;
+use App\View\BlockComposer;
 
-class KeyFigure extends Composer
+class KeyFigure extends BlockComposer
 {
     protected static $views = ['blocks.key-figure'];
 
@@ -43,10 +43,5 @@ class KeyFigure extends Composer
         }
 
         return null;
-    }
-
-    private function field(string $key): string
-    {
-        return trim((string) ($this->view->getData()['data'][$key] ?? ''));
     }
 }
