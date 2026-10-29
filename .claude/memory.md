@@ -29,6 +29,11 @@
 - **Storybook as source of truth**: if configured, it's the source of truth for components
 - **Fork CI divergence (2026-10-28)**: `.github/renovate.json` deliberately removed; CI matrix kept at Node 20 / PHP 8.2 — on upstream merges keep these, take only action version bumps
 - **`<section>` tag rule**: ACF blocks and macro components (page section organisms, excluding header/footer) use `<section>` as root tag
+- **SVG upload (2026-10-29)**: WP 7.1 has no native SVG support → `app/filters.php` allows `svg` mime only for `manage_options` and sanitizes on `wp_handle_upload_prefilter` with `enshrined/svg-sanitize` (remote refs removed, invalid file rejected)
+- **Update CI (2026-10-29)**: line above obsolete — CI now on `master`, Node 24 / PHP 8.3 (PHP 8.2 was below composer `php >=8.3`, Node 20 frozen without reason). Keep aligned with real stack, not frozen
+- **Theme settings access (2026-10-29)**: always via `App\Services\ThemeSettings` → `get($key, $default)` / `translated($key, $default)` (Polylang lang → `_fr` fallback); never `get_option('theme_settings')` directly
+- **`config/theme.php` (2026-10-29)**: header options (`fixed`, `align`, `lang`, `cta`) read by Header composer + `body_class` filter in `app/filters.php`
+- **Starter content kept on purpose**: CPT `evenement` = example CPT of the starter; image size `lowres` = blur-up placeholder; `config/external.scss` empty on purpose (third-party CSS). Splide CSS stays in `blocks/slider.scss` (loaded only with the block)
 
 ## Components créés
 
@@ -52,6 +57,7 @@
 - **WP 7.0 core blocks overlap (2026-10-28)**: `core/tabs` (→ `tab-list` + `tab-panels` → `tab-panel`, Interactivity API, no responsive/accordion CSS) and `core/accordion` exist → `sur-mesure/tabs` mostly duplicates core; only extra = mobile accordion. No core slider. Check `wp-includes/blocks/` before building a custom block. **Same day: `sur-mesure/tabs` deleted, use `core/tabs`** (Tabs-related lines above are obsolete)
 - **Render test without browser**: `wp eval 'echo do_blocks("<!-- wp:sur-mesure/tabs ... -->");'` from project root
 - **InnerBlocks over wysiwyg**: for any free-form editorial content in a block, always use `<InnerBlocks />` — never `wysiwyg` MetaBox field. CTA uses separate `text` + `url` fields.
+- **Logo**: `partials/logo.blade.php` (composer `Logo`) — theme settings `logo` image if set, else `@svg('logo')` + sr-only site name; used in header and footer
 
 ## Recurring errors to avoid
 
@@ -63,5 +69,7 @@
 - **Horizontal InnerBlocks editor hides appender (2026-10-28)**: `overflow-x: auto` on slider editor layout pushed the + button out of view → use `flex-wrap: wrap` + `.block-list-appender { flex: 0 0 100% }` on its own row. **Update same day**: user prefers slides stacked vertically in editor (big slides) → no horizontal/grid layout in slider editor, default vertical stacking
 - **Firefox importmap quickfix broke Interactivity API (2026-10-28)**: `app/filters.php` removed whole `WP_Script_Modules::add_hooks` → no `wp-script-module-data-*` printed → `core/tabs` JS error `tabsList is undefined`. Fixed: only move the 3 `wp_footer` print hooks (import map, modules, preloads) to `wp_head`, keep the rest. Affected every Interactivity core block (`core/accordion`, navigation overlay, image lightbox…) — those not re-tested after fix. Works because Sage renders Blade child sections (blocks) before layout's `wp_head`, so modules are known in head
 - **Force-push on master blocked by hook**: user must run `git push --force-with-lease ...` manually
+- **`{{ }}` double-encodes WordPress entities (2026-10-29)**: Blade `e()` re-encodes `&rsquo;` (wptexturize) / `&amp;` (bloginfo) → `&amp;rsquo;` on screen; for WP data use `{!! esc_html() !!}` / `{!! esc_attr() !!}` (no double encoding). `{{ }}` OK for technical values (align, slugs)
+- **Update (2026-10-29)**: `MakeBlockCommand` composer stub import fixed (line above obsolete); command now refuses to overwrite existing files without `--force`
 
 ## Important files

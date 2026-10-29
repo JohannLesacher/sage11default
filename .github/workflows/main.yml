@@ -3,10 +3,10 @@ name: Main
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
-      - main
+      - master
 
 jobs:
   node:
@@ -15,7 +15,7 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
     strategy:
       matrix:
-        node: ['20']
+        node: ['24']
 
     steps:
       - name: Checkout the project
@@ -60,7 +60,7 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
     strategy:
       matrix:
-        php: ['8.2']
+        php: ['8.3']
 
     steps:
       - name: Checkout the project

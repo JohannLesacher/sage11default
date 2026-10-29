@@ -16,7 +16,7 @@ jobs:
     steps:
     - uses: actions/checkout@v6
       with:
-        ref: main
+        ref: master
 
     - name: Validate version
       run: |
