@@ -27,6 +27,8 @@ function themeJsonToScss() {
       map('fonts', settings.typography.fontFamilies, 'font-family'),
       map('font-sizes', settings.typography.fontSizes, 'font-size'),
       map('spacing', settings.spacing.spacingSizes, 'spacing'),
+      // Breakpoints partagés avec la visibilité par viewport de WordPress (défauts core si absents)
+      `$viewport: (\n${Object.entries({ mobile: '480px', tablet: '782px', ...settings.viewport }).map(([slug, size]) => `  "${slug}": ${size},`).join('\n')}\n);\n`,
     ].join('\n'));
   };
 

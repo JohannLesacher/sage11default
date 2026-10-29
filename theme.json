@@ -3,6 +3,10 @@
   "version": 3,
   "settings": {
     "appearanceTools": true,
+    "viewport": {
+      "mobile": "480px",
+      "tablet": "782px"
+    },
     "layout": {
       "contentSize": "1560px",
       "wideSize": "1600px"
@@ -27,17 +31,17 @@
       "palette": [
         {
           "slug": "primary",
-          "color": "#1E3A5F",
+          "color": "#FF0000",
           "name": "Principale"
         },
         {
           "slug": "secondary",
-          "color": "#4F7CAC",
+          "color": "#00FF00",
           "name": "Secondaire"
         },
         {
           "slug": "accent",
-          "color": "#E07A3F",
+          "color": "#0000FF",
           "name": "Accent"
         },
         {

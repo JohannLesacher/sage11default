@@ -11,9 +11,9 @@ $colors: (
 );
 
 $colors-hex: (
-  "primary": #1E3A5F,
-  "secondary": #4F7CAC,
-  "accent": #E07A3F,
+  "primary": #FF0000,
+  "secondary": #00FF00,
+  "accent": #0000FF,
   "text": #1A1A1A,
   "background": #FFFFFF,
   "light": #F4F4F1,
@@ -46,4 +46,9 @@ $spacing: (
   "60": var(--wp--preset--spacing--60),
   "70": var(--wp--preset--spacing--70),
   "80": var(--wp--preset--spacing--80),
+);
+
+$viewport: (
+  "mobile": 480px,
+  "tablet": 782px,
 );

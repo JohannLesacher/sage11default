@@ -1,0 +1,27 @@
+@use "../config/mixins";
+
+// Options du panneau « Responsive » de l'éditeur (resources/js/admin/responsive-options.js)
+
+// Colonnes empilées : core passe en flex-wrap sous 782px (valeur codée en dur dans core/columns)
+@media (max-width: 781px) {
+  .wp-block-columns.is-responsive-reverse-stacked:not(.is-not-stacked-on-mobile) {
+    flex-wrap: wrap-reverse !important;
+  }
+}
+
+@include mixins.viewport(mobile) {
+  .is-responsive-center-mobile {
+    text-align: center;
+
+    &.is-layout-flex {
+      justify-content: center;
+    }
+  }
+
+  .wp-block-buttons.is-responsive-full-mobile {
+    > .wp-block-button,
+    .wp-block-button__link {
+      width: 100%;
+    }
+  }
+}
