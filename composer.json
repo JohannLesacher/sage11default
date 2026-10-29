@@ -1,38 +1,14 @@
 {
-  "name": "roots/sage",
+  "name": "johannlesacher/sage11default",
   "type": "wordpress-theme",
   "license": "MIT",
-  "description": "WordPress starter theme with a modern development workflow",
-  "homepage": "https://roots.io/sage/",
+  "description": "Thème de base WordPress : Sage 11, Acorn, MB Blocks.",
   "authors": [
     {
-      "name": "Ben Word",
-      "email": "ben@benword.com",
-      "homepage": "https://github.com/retlehs"
-    },
-    {
-      "name": "Scott Walkinshaw",
-      "email": "scott.walkinshaw@gmail.com",
-      "homepage": "https://github.com/swalkinshaw"
-    },
-    {
-      "name": "QWp6t",
-      "email": "hi@qwp6t.me",
-      "homepage": "https://github.com/qwp6t"
-    },
-    {
-      "name": "Brandon Nifong",
-      "email": "brandon@tendency.me",
-      "homepage": "https://github.com/log1x"
+      "name": "Johann Lesacher",
+      "email": "lesacher.johann@gmail.com"
     }
   ],
-  "keywords": [
-    "wordpress"
-  ],
-  "support": {
-    "issues": "https://github.com/roots/sage/issues",
-    "forum": "https://discourse.roots.io/"
-  },
   "autoload": {
     "psr-4": {
       "App\\": "app/"
@@ -41,6 +17,7 @@
   "require": {
     "php": ">=8.3",
     "blade-ui-kit/blade-icons": "^1.9",
+    "enshrined/svg-sanitize": "^1.1",
     "johnbillion/extended-cpts": "^5.1",
     "log1x/navi": "^3.1",
     "roots/acorn": "^6.0"
