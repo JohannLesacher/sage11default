@@ -1,0 +1,19 @@
+.wp-block-button.is-style-fleche .wp-block-button__link {
+  &::after {
+    content: '→';
+    display: inline-block;
+    margin-inline-start: 0.5em;
+    transition: transform 0.2s ease;
+  }
+
+  &:hover::after,
+  &:focus-visible::after {
+    transform: translateX(0.25em);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wp-block-button.is-style-fleche .wp-block-button__link::after {
+    transition: none;
+  }
+}

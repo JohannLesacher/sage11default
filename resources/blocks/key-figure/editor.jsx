@@ -1,12 +1,12 @@
 import { registerBlockType } from '@wordpress/blocks';
 import {
   InspectorControls,
+  RichText,
+  useBlockProps,
   getColorObjectByColorValue,
   __experimentalColorGradientSettingsDropdown as ColorGradientSettingsDropdown,
   __experimentalUseMultipleOriginColorsAndGradients as useMultipleOriginColorsAndGradients,
 } from '@wordpress/block-editor';
-import { PanelBody, TextControl, TextareaControl } from '@wordpress/components';
-import ServerPreview, { binder } from '@scripts/admin/components/server-preview';
 import metadata from './block.json';
 
 /**
@@ -48,25 +48,58 @@ function ValueColorControl({ attributes, setAttributes, clientId }) {
   );
 }
 
+/**
+ * Édition directe dans le bloc : le JSX reprend le balisage de la vue Blade (à garder en phase).
+ */
 registerBlockType(metadata, {
   edit: (props) => {
-    const { name, attributes, setAttributes } = props;
-    const bind = binder(attributes, setAttributes);
+    const { attributes, setAttributes, isSelected } = props;
+    const { prefixe, valeur, unite, libelle, valueColor, customValueColor } = attributes;
+
+    const valueStyle = { color: valueColor ? `var(--wp--preset--color--${valueColor})` : customValueColor };
+
+    // Préfixe et unité optionnels : visibles vides seulement quand le bloc est sélectionné
+    const part = (key, className, placeholder) =>
+      (isSelected || attributes[key]) && (
+        <RichText
+          tagName="span"
+          className={className}
+          placeholder={placeholder}
+          allowedFormats={[]}
+          disableLineBreaks
+          value={attributes[key]}
+          onChange={(value) => setAttributes({ [key]: value })}
+        />
+      );
 
     return (
       <>
-        <InspectorControls>
-          <PanelBody title="Chiffre">
-            <TextControl label="Préfixe" placeholder="+" {...bind('prefixe')} />
-            <TextControl label="Valeur" placeholder="120" {...bind('valeur')} />
-            <TextControl label="Unité" placeholder="k€" {...bind('unite')} />
-            <TextareaControl label="Libellé" rows={2} {...bind('libelle')} />
-          </PanelBody>
-        </InspectorControls>
-
         <ValueColorControl {...props} />
 
-        <ServerPreview name={name} attributes={attributes} />
+        <div {...useBlockProps({ className: 'block-key-figure' })}>
+          <p className="block-key-figure__value" style={valueStyle}>
+            {part('prefixe', 'block-key-figure__prefix', '+')}
+            <RichText
+              tagName="span"
+              className="block-key-figure__number"
+              placeholder="00"
+              allowedFormats={[]}
+              disableLineBreaks
+              value={valeur}
+              onChange={(value) => setAttributes({ valeur: value })}
+            />
+            {part('unite', 'block-key-figure__unit', 'k€')}
+          </p>
+
+          <RichText
+            tagName="p"
+            className="block-key-figure__label"
+            placeholder="Libellé"
+            allowedFormats={[]}
+            value={libelle}
+            onChange={(value) => setAttributes({ libelle: value })}
+          />
+        </div>
       </>
     );
   },

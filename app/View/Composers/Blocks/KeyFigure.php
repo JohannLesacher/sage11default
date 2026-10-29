@@ -25,7 +25,8 @@ class KeyFigure extends BlockComposer
 
     public function libelle(): string
     {
-        return nl2br(esc_html($this->field('libelle')));
+        // Saisi en RichText : seuls les retours à la ligne (<br>) sont conservés
+        return nl2br(wp_kses($this->field('libelle'), ['br' => []]));
     }
 
     public function valueStyle(): ?string

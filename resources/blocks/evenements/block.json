@@ -1,0 +1,19 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "sur-mesure/evenements",
+  "title": "Derniers événements",
+  "description": "Liste des derniers événements publiés.",
+  "category": "sur-mesure",
+  "icon": "calendar-alt",
+  "keywords": ["événement", "agenda", "concert"],
+  "attributes": {
+    "nombre": { "type": "number", "default": 3 },
+    "afficherImage": { "type": "boolean", "default": true }
+  },
+  "supports": {
+    "align": ["wide", "full"],
+    "anchor": true,
+    "spacing": { "margin": ["top", "bottom"] }
+  }
+}

@@ -1,0 +1,27 @@
+.block-evenements {
+  &__liste {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+    gap: var(--wp--style--block-gap);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__image {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+  }
+
+  &__titre {
+    margin: 0.75rem 0 0.25rem;
+    font-size: var(--wp--preset--font-size--large);
+  }
+
+  &__date {
+    font-size: var(--wp--preset--font-size--small);
+  }
+}

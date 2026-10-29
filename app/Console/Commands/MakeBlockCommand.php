@@ -9,7 +9,8 @@ use Illuminate\Support\Str;
 class MakeBlockCommand extends Command
 {
     protected $signature = 'make:block {name}
-                            {--inner : Bloc conteneur (InnerBlocks) au lieu d\'attributs + aperçu serveur}
+                            {--inline : Édition directe dans le bloc (RichText) au lieu des réglages + aperçu serveur}
+                            {--inner : Bloc conteneur (InnerBlocks)}
                             {--js : Script front (resources/js/blocks)}
                             {--vc : View Composer}
                             {--force : Écrase les fichiers existants}';
@@ -56,7 +57,11 @@ class MakeBlockCommand extends Command
     {
         $files = [
             resource_path("blocks/{$this->slug}/block.json") => $this->blockJson(),
-            resource_path("blocks/{$this->slug}/editor.jsx") => $this->option('inner') ? $this->innerEditor() : $this->previewEditor(),
+            resource_path("blocks/{$this->slug}/editor.jsx") => match (true) {
+                $this->option('inner') => $this->innerEditor(),
+                $this->option('inline') => $this->inlineEditor(),
+                default => $this->previewEditor(),
+            },
             resource_path("views/blocks/{$this->slug}.blade.php") => $this->view(),
             resource_path("css/blocks/{$this->slug}.scss") => ".block-{$this->slug} {\n}\n",
         ];
@@ -125,6 +130,33 @@ registerBlockType(metadata, {
       </>
     );
   },
+});
+
+JSX;
+    }
+
+    private function inlineEditor(): string
+    {
+        return <<<JSX
+import { registerBlockType } from '@wordpress/blocks';
+import { RichText, useBlockProps } from '@wordpress/block-editor';
+import metadata from './block.json';
+
+/**
+ * Édition directe : le JSX reprend le balisage de la vue Blade (à garder en phase).
+ */
+registerBlockType(metadata, {
+  edit: ({ attributes, setAttributes }) => (
+    <section {...useBlockProps({ className: 'block-{$this->slug}' })}>
+      <RichText
+        tagName="h2"
+        placeholder="Titre"
+        allowedFormats={[]}
+        value={attributes.titre}
+        onChange={(titre) => setAttributes({ titre })}
+      />
+    </section>
+  ),
 });
 
 JSX;
