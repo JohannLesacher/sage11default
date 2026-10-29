@@ -1,0 +1,58 @@
+@use "../config/mixins";
+
+// Style « Logos » du bloc core/gallery.
+// .has-nested-images et :not(#individual-image) reprennent les sélecteurs de core
+// pour passer devant ses largeurs de colonnes, son gap et son recadrage.
+.wp-block-gallery.has-nested-images.is-style-logos {
+  --logo-height: 48px;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: var(--wp--preset--spacing--50) var(--wp--preset--spacing--60);
+
+  @media (min-width: 782px) {
+    --logo-height: 64px;
+  }
+
+  figure.wp-block-image:not(#individual-image) {
+    width: auto;
+    flex: 0 0 auto;
+    margin: 0;
+
+    figcaption {
+      @include mixins.sr-only;
+    }
+
+    a:focus-visible {
+      outline: 2px solid var(--wp--preset--color--accent);
+      outline-offset: 4px;
+    }
+
+    a:hover img,
+    a:focus-visible img {
+      filter: none;
+      opacity: 1;
+    }
+  }
+
+  // .is-cropped listé pour annuler le recadrage de core quand le réglage est actif
+  &,
+  &.is-cropped {
+    figure.wp-block-image:not(#individual-image) img {
+      flex: none;
+      width: auto;
+      height: var(--logo-height);
+      max-width: 160px !important; // core impose max-width: 100% !important
+      object-fit: contain;
+      filter: grayscale(1);
+      opacity: 0.7;
+      transition: filter 200ms, opacity 200ms;
+
+      @media (prefers-reduced-motion: reduce) {
+        transition: none;
+      }
+    }
+  }
+}

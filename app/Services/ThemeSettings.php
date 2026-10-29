@@ -4,6 +4,22 @@ namespace App\Services;
 
 class ThemeSettings
 {
+    private const OPTION = 'theme_settings';
+
+    public function get(string $key, mixed $default = null): mixed
+    {
+        $value = $this->options()[$key] ?? null;
+
+        return $value === null || $value === '' ? $default : $value;
+    }
+
+    public function translated(string $key, string $default = ''): string
+    {
+        $lang = function_exists('pll_current_language') ? pll_current_language() : 'fr';
+
+        return (string) $this->get("{$key}_{$lang}", $this->get("{$key}_fr", $default));
+    }
+
     public function registerSettingsPage(): void
     {
         add_filter('mb_settings_pages', function (array $pages): array {
@@ -15,7 +31,7 @@ class ThemeSettings
 
             $pages[] = [
                 'id' => 'theme-settings',
-                'option_name' => 'theme_settings',
+                'option_name' => self::OPTION,
                 'menu_title' => 'Réglages du thème',
                 'icon_url' => 'dashicons-admin-appearance',
                 'position' => 60,
@@ -41,6 +57,21 @@ class ThemeSettings
             }
 
             $meta_boxes[] = [
+                'title' => 'Identité',
+                'id' => 'theme-settings-identity',
+                'settings_pages' => 'theme-settings',
+                'tab' => 'global',
+                'fields' => [
+                    [
+                        'id' => 'logo',
+                        'name' => 'Logo',
+                        'type' => 'single_image',
+                        'desc' => 'Remplace le logo SVG du thème dans le header et le footer.',
+                    ],
+                ],
+            ];
+
+            $meta_boxes[] = [
                 'title' => 'Réseaux sociaux',
                 'id' => 'theme-settings-social',
                 'settings_pages' => 'theme-settings',
@@ -64,8 +95,33 @@ class ThemeSettings
                 ],
             ];
 
+            $meta_boxes[] = [
+                'title' => 'Carte',
+                'id' => 'theme-settings-carte',
+                'settings_pages' => 'theme-settings',
+                'tab' => 'global',
+                'fields' => [
+                    [
+                        'id' => 'carte_fournisseur',
+                        'name' => 'Fournisseur de carte',
+                        'type' => 'select',
+                        'options' => [
+                            'osm' => 'OpenStreetMap',
+                            'google' => 'Google Maps',
+                        ],
+                        'std' => 'osm',
+                        'desc' => 'Utilisé par tous les blocs « Carte » du site.',
+                    ],
+                ],
+            ];
+
             return $meta_boxes;
         });
+    }
+
+    private function options(): array
+    {
+        return get_option(self::OPTION) ?: [];
     }
 
     private function languages(): array
@@ -98,7 +154,7 @@ class ThemeSettings
                 'id' => "footer_copyright_text_{$lang}",
                 'name' => 'Texte copyright',
                 'type' => 'text',
-                'placeholder' => 'All rights reserved.',
+                'placeholder' => 'Tous droits réservés.',
                 'desc' => "L'année courante est ajoutée automatiquement : © ".date('Y').' {votre texte}',
             ],
         ];

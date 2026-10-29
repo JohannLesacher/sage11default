@@ -1,0 +1,126 @@
+@use "sass:color";
+@use "sass:map";
+@use "../config/variables" as *;
+
+// Gravity Forms — thème "Orbital" (framework) aligné sur theme.json.
+// Les réglages par formulaire en admin deviennent inutiles : tout passe par les variables --gf-*.
+// Pour un client, ajuster uniquement les variables ci-dessous.
+
+$gf-primary: "primary";
+$gf-label-color: var(--wp--preset--color--text);
+$gf-text-color: var(--wp--preset--color--text);
+$gf-ctrl-bg: var(--wp--preset--color--background);
+$gf-ctrl-border: color-mix(in srgb, var(--wp--preset--color--text) 20%, transparent);
+$gf-danger: #c02b0a;
+$gf-radius: 0;
+
+$gf-primary-hex: map.get($colors-hex, $gf-primary);
+$gf-primary-var: map.get($colors, $gf-primary);
+
+.gform-theme.gform-theme--framework.gform_wrapper {
+  // Couleurs globales (cases à cocher, radios, focus, bouton)
+  --gf-color-primary: #{$gf-primary-var};
+  --gf-color-primary-rgb: #{color.channel($gf-primary-hex, "red", $space: rgb)}, #{color.channel($gf-primary-hex, "green", $space: rgb)}, #{color.channel($gf-primary-hex, "blue", $space: rgb)};
+  --gf-color-primary-contrast: var(--wp--preset--color--background);
+  --gf-color-primary-darker: color-mix(in srgb, #{$gf-primary-var} 80%, black);
+  --gf-color-primary-lighter: color-mix(in srgb, #{$gf-primary-var} 80%, white);
+  --gf-color-danger: #{$gf-danger};
+
+  // Grille
+  --gf-form-gap-x: var(--wp--preset--spacing--60);
+  --gf-form-gap-y: var(--wp--preset--spacing--50);
+
+  // Champs
+  --gf-ctrl-radius: #{$gf-radius};
+  --gf-ctrl-shadow: none;
+  --gf-ctrl-font-size: var(--wp--preset--font-size--medium);
+  --gf-ctrl-color: #{$gf-text-color};
+  --gf-ctrl-bg-color: #{$gf-ctrl-bg};
+  --gf-ctrl-border-color: #{$gf-ctrl-border};
+  --gf-ctrl-bg-color-hover: #{$gf-ctrl-bg};
+  --gf-ctrl-border-color-hover: #{$gf-primary-var};
+  --gf-ctrl-color-hover: #{$gf-text-color};
+  --gf-ctrl-bg-color-focus: #{$gf-ctrl-bg};
+  --gf-ctrl-border-color-focus: #{$gf-primary-var};
+  --gf-ctrl-color-focus: #{$gf-text-color};
+  --gf-ctrl-placeholder-color: color-mix(in srgb, #{$gf-text-color} 50%, transparent);
+
+  // Labels, descriptions, requis
+  --gf-ctrl-label-font-family-primary: var(--wp--preset--font-family--body);
+  --gf-ctrl-label-font-size-primary: var(--wp--preset--font-size--small);
+  --gf-ctrl-label-font-weight-primary: 600;
+  --gf-ctrl-label-color-primary: #{$gf-label-color};
+  --gf-ctrl-label-font-family-secondary: var(--wp--preset--font-family--body);
+  --gf-ctrl-label-font-size-secondary: var(--wp--preset--font-size--small);
+  --gf-ctrl-label-color-secondary: #{$gf-label-color};
+  --gf-ctrl-label-color-req: #{$gf-danger};
+  --gf-ctrl-desc-font-size: var(--wp--preset--font-size--x-small);
+  --gf-ctrl-desc-color: color-mix(in srgb, #{$gf-text-color} 70%, transparent);
+
+  // Bouton
+  --gf-ctrl-btn-font-family: var(--wp--preset--font-family--body);
+  --gf-ctrl-btn-font-size: var(--wp--preset--font-size--medium);
+  --gf-ctrl-btn-font-weight: 600;
+  --gf-ctrl-btn-padding-y: var(--wp--preset--spacing--40);
+  --gf-ctrl-btn-padding-x: var(--wp--preset--spacing--60);
+  --gf-ctrl-btn-radius: #{$gf-radius};
+  --gf-ctrl-btn-bg-color-primary: #{$gf-primary-var};
+  --gf-ctrl-btn-bg-color-hover-primary: var(--gf-color-primary-darker);
+  --gf-ctrl-btn-bg-color-focus-primary: var(--gf-color-primary-darker);
+  --gf-ctrl-btn-color-primary: var(--gf-color-primary-contrast);
+  --gf-ctrl-btn-border-color-primary: transparent;
+
+  font-family: var(--wp--preset--font-family--body);
+
+  .gform-field-label {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  // Focus clavier visible, pas d'outline au clic
+  textarea,
+  select,
+  input[type] {
+    &:focus {
+      outline: none;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--gf-color-primary);
+      outline-offset: 2px;
+    }
+  }
+
+  .gform_button,
+  button[type="submit"] {
+    transition: background-color 0.2s ease;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--gf-color-primary);
+      outline-offset: 2px;
+    }
+  }
+
+  // Message de validation global
+  .gform_validation_errors {
+    border-radius: $gf-radius;
+    box-shadow: none;
+  }
+}
+
+// Titre et description du formulaire : gérés dans le contenu de la page
+.gform_heading {
+  display: none;
+}
+
+// Message de confirmation après envoi
+.gform_confirmation_message {
+  padding: var(--wp--preset--spacing--50);
+  background: var(--wp--preset--color--light);
+  border-left: 4px solid var(--wp--preset--color--#{$gf-primary});
+  color: var(--wp--preset--color--text);
+}
