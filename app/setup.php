@@ -72,11 +72,7 @@ add_action('after_setup_theme', function () {
      *
      * @link https://developer.wordpress.org/reference/functions/register_nav_menus/
      */
-    register_nav_menus( [
-        'primary_navigation'      => __( 'Menu principal', 'sage' ),
-        'footer_navigation'       => __( 'Menu Footer', 'sage' ),
-        'legal_footer_navigation' => __( 'Menu Mentions Légales', 'sage' ),
-    ] );
+    register_nav_menus(config('theme.menus'));
 
     /**
      * Disable the default block patterns.
@@ -100,10 +96,11 @@ add_action('after_setup_theme', function () {
     add_theme_support('post-thumbnails');
 
     /**
-     * Register custom image sizes.
+     * Register custom image sizes (config/theme.php).
      */
-    add_image_size( 'very-large', 1920, 1080 );
-    add_image_size( 'lowres', 38, 22, true );
+    foreach (config('theme.image_sizes') as $name => $size) {
+        add_image_size($name, $size['width'], $size['height'], $size['crop'] ?? false);
+    }
 
     /**
      * Enable responsive embed support.

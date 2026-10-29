@@ -34,6 +34,8 @@
 - **Theme settings access (2026-10-29)**: always via `App\Services\ThemeSettings` → `get($key, $default)` / `translated($key, $default)` (Polylang lang → `_fr` fallback); never `get_option('theme_settings')` directly
 - **`config/theme.php` (2026-10-29)**: header options (`fixed`, `align`, `lang`, `cta`) read by Header composer + `body_class` filter in `app/filters.php`
 - **Starter content kept on purpose**: CPT `evenement` = example CPT of the starter; image size `lowres` = blur-up placeholder; `config/external.scss` empty on purpose (third-party CSS). Splide CSS stays in `blocks/slider.scss` (loaded only with the block)
+- **`config/theme.php` scope (2026-10-29)**: also `menus` (register_nav_menus) and `image_sizes` (add_image_size, `label` → shown in editor). `make:header` command removed (header options live in config)
+- **Vite paths (2026-10-29)**: `base` derived from theme folder name, `APP_URL` from env or Bedrock `.env` `WP_HOME` → theme can be duplicated/renamed without editing vite.config.js
 
 ## Components créés
 
@@ -58,6 +60,7 @@
 - **Render test without browser**: `wp eval 'echo do_blocks("<!-- wp:sur-mesure/tabs ... -->");'` from project root
 - **InnerBlocks over wysiwyg**: for any free-form editorial content in a block, always use `<InnerBlocks />` — never `wysiwyg` MetaBox field. CTA uses separate `text` + `url` fields.
 - **Logo**: `partials/logo.blade.php` (composer `Logo`) — theme settings `logo` image if set, else `@svg('logo')` + sr-only site name; used in header and footer
+- **Navigation partial**: `partials/navigation.blade.php` (recursive, `sub-menu` children, `aria-current`) used by header and footer menus
 
 ## Recurring errors to avoid
 

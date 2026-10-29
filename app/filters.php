@@ -119,9 +119,13 @@ add_action('init', function () {
 });
 
 add_filter('image_size_names_choose', function ($sizes) {
-    return array_merge($sizes, [
-        'very-large' => __('Très large', 'sage'),
-    ]);
+    foreach (config('theme.image_sizes') as $name => $size) {
+        if (isset($size['label'])) {
+            $sizes[$name] = $size['label'];
+        }
+    }
+
+    return $sizes;
 });
 
 /**

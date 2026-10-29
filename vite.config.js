@@ -1,12 +1,17 @@
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import { wordpressPlugin } from '@roots/vite-plugin';
 import { globSync } from 'glob';
 import { readFileSync, writeFileSync } from 'node:fs';
+import { basename, resolve } from 'node:path';
 
-// Set APP_URL if it doesn't exist for Laravel Vite plugin
+// Dossier du thème (web/app/themes/<theme>) et racine Bedrock, déduits de l'emplacement du thème
+const themeName = basename(import.meta.dirname);
+const bedrockRoot = resolve(import.meta.dirname, '../../../..');
+
+// APP_URL pour le HMR : variable d'environnement, sinon WP_HOME du .env Bedrock
 if (!process.env.APP_URL) {
-  process.env.APP_URL = 'https://sage11default.test';
+  process.env.APP_URL = loadEnv('', bedrockRoot, '').WP_HOME ?? 'http://localhost';
 }
 
 // Génère resources/css/config/_theme.scss depuis theme.json (couleurs, polices, tailles, espacements)
@@ -43,7 +48,7 @@ function themeJsonToScss() {
 }
 
 export default defineConfig({
-  base: '/app/themes/default/public/build/',
+  base: `/app/themes/${themeName}/public/build/`,
   plugins: [
     themeJsonToScss(),
 

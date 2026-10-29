@@ -5,39 +5,37 @@
     </a>
 
     @if($navigation)
-      <nav class="banner__nav banner__nav--{{ $align }}" aria-label="Main">
-        <ul class="nav-primary">
-          @foreach($navigation as $item)
-            <li class="menu-item {{ $item->active ? 'is-active' : '' }} {{ $item->children ? 'has-children' : '' }}">
-              <a href="{{ $item->url }}">{{ $item->label }}</a>
-            </li>
-          @endforeach
-        </ul>
+      <nav id="primary-navigation" class="banner__nav banner__nav--{{ $align }}" aria-label="Menu principal">
+        @include('partials.navigation', ['items' => $navigation, 'class' => 'nav-primary'])
       </nav>
     @endif
 
     <div class="banner__actions">
       @if($has_lang && $languages)
-        <nav class="banner__lang">
+        <nav class="banner__lang" aria-label="Langues">
           @foreach($languages as $lang)
-            <a href="{{ $lang['url'] }}" class="{{ $lang['current_lang'] ? 'active' : '' }}">
+            <a href="{!! esc_url($lang['url']) !!}" lang="{{ $lang['slug'] }}" hreflang="{{ $lang['slug'] }}"
+               class="{{ $lang['current_lang'] ? 'active' : '' }}"
+               @if($lang['current_lang']) aria-current="true" @endif>
               {{ strtoupper($lang['slug']) }}
             </a>
           @endforeach
         </nav>
       @endif
 
-      @if($has_cta)
+      @if($cta)
         <div class="banner__cta">
-          <a href="/contact" class="btn btn-primary">Contact</a>
+          <a href="{!! esc_url($cta['url']) !!}" class="btn btn-primary">{!! esc_html($cta['label']) !!}</a>
         </div>
       @endif
 
-      <button class="burger" aria-label="Menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+      @if($navigation)
+        <button class="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="primary-navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      @endif
     </div>
   </div>
 </header>

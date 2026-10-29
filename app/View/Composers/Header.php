@@ -14,7 +14,7 @@ class Header extends Composer {
             'languages'  => $this->getLanguages(),
             'is_fixed'   => config( 'theme.header.fixed' ),
             'has_lang'   => config( 'theme.header.lang' ),
-            'has_cta'    => config( 'theme.header.cta' ),
+            'cta'        => config( 'theme.header.cta' ),
             'align'      => config( 'theme.header.align' ),
         ];
     }

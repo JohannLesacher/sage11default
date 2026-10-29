@@ -19,13 +19,7 @@
 
   @if($footerNav)
     <nav class="site-footer__nav" aria-label="Pied de page">
-      <ul>
-        @foreach($footerNav as $item)
-          <li class="menu-item {{ $item->active ? 'is-active' : '' }}">
-            <a href="{!! esc_url($item->url) !!}">{!! esc_html($item->label) !!}</a>
-          </li>
-        @endforeach
-      </ul>
+      @include('partials.navigation', ['items' => $footerNav])
     </nav>
   @endif
 
@@ -44,13 +38,7 @@
 
     @if($legalNav)
       <nav class="site-footer__legal" aria-label="Mentions légales">
-        <ul>
-          @foreach($legalNav as $item)
-            <li class="menu-item {{ $item->active ? 'is-active' : '' }}">
-              <a href="{!! esc_url($item->url) !!}">{!! esc_html($item->label) !!}</a>
-            </li>
-          @endforeach
-        </ul>
+        @include('partials.navigation', ['items' => $legalNav])
       </nav>
     @endif
   </div>

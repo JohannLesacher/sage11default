@@ -31,22 +31,37 @@ export const initHeader = () => {
 
   onScroll(update);
 
-  burger?.addEventListener('click', () => {
-    const isOpening = !header.classList.contains('is-menu-open');
+  const setMenuOpen = (open) => {
+    header.classList.toggle('is-menu-open', open);
+    burger?.setAttribute('aria-expanded', String(open));
 
-    header.classList.toggle('is-menu-open');
-
-    if (isOpening) {
+    if (open) {
       const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
       document.body.style.paddingRight = `${scrollbarWidth}px`;
       document.body.classList.add('overflow-hidden');
-
       document.body.addEventListener('touchmove', preventDefault, { passive: false });
     } else {
       document.body.style.paddingRight = '';
       document.body.classList.remove('overflow-hidden');
       document.body.removeEventListener('touchmove', preventDefault);
     }
+  };
+
+  const isMenuOpen = () => header.classList.contains('is-menu-open');
+
+  burger?.addEventListener('click', () => setMenuOpen(!isMenuOpen()));
+
+  // Échap ferme le menu et rend le focus au burger
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isMenuOpen()) {
+      setMenuOpen(false);
+      burger?.focus();
+    }
+  });
+
+  // Un clic sur un lien (ancre comprise) ferme le menu mobile
+  header.querySelector('.banner__nav')?.addEventListener('click', (e) => {
+    if (e.target.closest('a') && isMenuOpen()) setMenuOpen(false);
   });
 
   function preventDefault(e) {
