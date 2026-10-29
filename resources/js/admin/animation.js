@@ -13,6 +13,7 @@ const ANIMATION_OPTIONS = [
   { label: 'Texte par caractères', value: 'text-chars' },
 ];
 
+// À garder synchronisée avec $allowed_blocks dans app/filters.php
 const ALLOWED_BLOCKS = [
   'core/heading',
   'core/group',

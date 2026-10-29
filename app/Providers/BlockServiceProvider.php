@@ -42,8 +42,8 @@ class BlockServiceProvider extends ServiceProvider
         }
 
         return array_map(
-            fn ($file) => 'App\\Blocks\\'.$file->getFilenameWithoutExtension(),
-            File::allFiles($blocksPath)
+            fn ($file) => 'App\\Blocks\\'.pathinfo($file, PATHINFO_FILENAME),
+            File::glob("{$blocksPath}/*.php")
         );
     }
 }

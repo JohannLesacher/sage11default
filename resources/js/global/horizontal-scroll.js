@@ -88,14 +88,33 @@ export class HorizontalScroll {
 
   destroy() {
     this.detach();
+    this.el.style.removeProperty('--transformation');
+    this.el.style.removeProperty('--scroller-height');
   }
 }
 
+// Monte/démonte les instances selon le media query, une seule fois par page
 export function initHorizontalScroll() {
   const elements = document.querySelectorAll(HorizontalScroll.SELECTOR);
   if (!elements.length) return;
-  if (!window.matchMedia(HorizontalScroll.MEDIA_QUERY).matches) return;
 
+  const mq = window.matchMedia(HorizontalScroll.MEDIA_QUERY);
+  let destroy = null;
+
+  const sync = () => {
+    if (mq.matches && !destroy) {
+      destroy = mount(elements);
+    } else if (!mq.matches && destroy) {
+      destroy();
+      destroy = null;
+    }
+  };
+
+  sync();
+  mq.addEventListener('change', sync);
+}
+
+function mount(elements) {
   const instances = new Map();
 
   const observer = new IntersectionObserver((entries) => {

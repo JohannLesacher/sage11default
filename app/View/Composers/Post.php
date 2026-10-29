@@ -69,8 +69,9 @@ class Post extends Composer
      * Should display title
      */
     public function shouldDisplayTitle(): bool {
-        if ( is_page() ) {
-            return get_post_meta( get_the_ID(), 'display_title', true );
+        // Page jamais enregistrée depuis l'ajout de la metabox : on applique le défaut (affiché)
+        if ( is_page() && metadata_exists( 'post', get_the_ID(), 'display_title' ) ) {
+            return (bool) get_post_meta( get_the_ID(), 'display_title', true );
         }
 
         return true;

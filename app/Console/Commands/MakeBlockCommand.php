@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 class MakeBlockCommand extends Command {
-    protected $signature = 'make:block {name} {--js} {--vc}';
+    protected $signature = 'make:block {name} {--js} {--vc} {--force : Écrase les fichiers existants}';
     protected $description = 'Crée un bloc MB Blocks (Sage 11)';
 
     public function handle(): void {
@@ -16,6 +16,17 @@ class MakeBlockCommand extends Command {
         $slug      = Str::kebab( $name );
         $hasJs     = $this->option( 'js' );
         $hasVC     = $this->option( 'vc' );
+
+        $existing = array_filter( $this->targetPaths( $className, $slug, $hasJs, $hasVC ), fn ( $path ) => File::exists( $path ) );
+
+        if ( $existing && ! $this->option( 'force' ) ) {
+            $this->error( 'Fichiers déjà existants (utiliser --force pour écraser) :' );
+            foreach ( $existing as $path ) {
+                $this->line( "  {$path}" );
+            }
+
+            return;
+        }
 
         $this->generatePhpClass( $className, $slug, $hasJs );
         $this->generateView( $slug );
@@ -33,7 +44,8 @@ class MakeBlockCommand extends Command {
     }
 
     protected function generatePhpClass( $className, $slug, $hasJs ): void {
-        $path = app_path( "Blocks/{$className}.php" );
+        $path  = app_path( "Blocks/{$className}.php" );
+        $title = Str::ucfirst( str_replace( '-', ' ', $slug ) );
 
         // Construction de la closure enqueue_assets
         $enqueueLogic = "wp_enqueue_style('{$slug}', Vite::asset('resources/css/blocks/{$slug}.scss'), [], null);";
@@ -55,10 +67,10 @@ use Illuminate\Support\Facades\Vite;
 
 class {$className} extends BlockEngine
 {
-    public static function register_block(\$meta_boxes)
+    public static function register_block(array \$meta_boxes): array
     {
         \$meta_boxes[] = [
-            'title'           => '{$className}',
+            'title'           => '{$title}',
             'id'              => '{$slug}',
             'type'            => 'block',
             'category'        => 'sur-mesure',
@@ -91,7 +103,7 @@ PHP;
         $path = resource_path( "views/blocks/{$slug}.blade.php" );
         File::ensureDirectoryExists( dirname( $path ) );
         File::put( $path,
-            "<article class=\"block-{$slug} {{ \$attributes['className'] ?? '' }}\">\n    <InnerBlocks />\n</article>" );
+            "<section class=\"block-{$slug} {{ \$attributes['className'] ?? '' }} align{{ \$attributes['align'] ?? 'normal' }}\">\n    <InnerBlocks />\n</section>\n" );
     }
 
     protected function generateStyle( $slug ): void {
@@ -106,29 +118,14 @@ PHP;
         File::put( $path, "console.log('Block {$slug} initialized');" );
     }
 
-    protected function registerInServiceProvider( $className ): void {
-        $path = app_path( 'Providers/BlockServiceProvider.php' );
-        if ( ! File::exists( $path ) ) {
-            return;
-        }
-
-        $content = File::get( $path );
-
-        // Ajout de l'import use
-        if ( ! str_contains( $content, "use App\Blocks\\{$className};" ) ) {
-            $content = str_replace( "namespace App\Providers;",
-                "namespace App\Providers;\nuse App\Blocks\\{$className};", $content );
-        }
-
-        // Ajout au filter
-        $search = "add_filter( 'rwmb_meta_boxes', [";
-        if ( str_contains( $content, $search ) ) {
-            $content = str_replace( $search,
-                "add_filter( 'rwmb_meta_boxes', [ {$className}::class, 'register_block' ] );\n        add_filter( 'rwmb_meta_boxes', [",
-                $content );
-        }
-
-        File::put( $path, $content );
+    private function targetPaths( string $className, string $slug, bool $hasJs, bool $hasVC ): array {
+        return array_filter( [
+            app_path( "Blocks/{$className}.php" ),
+            resource_path( "views/blocks/{$slug}.blade.php" ),
+            resource_path( "css/blocks/{$slug}.scss" ),
+            $hasJs ? resource_path( "js/blocks/{$slug}.js" ) : null,
+            $hasVC ? app_path( 'View/Composers/Blocks/' . Str::studly( $slug ) . '.php' ) : null,
+        ] );
     }
 
     private function generateViewComposer( string $slug ): void {
@@ -145,27 +142,15 @@ PHP;
 
 namespace App\View\Composers\Blocks;
 
+use Roots\Acorn\View\Composer;
+
 class {$className} extends Composer
 {
-    /**
-     * List of views served by this composer.
-     *
-     * @var array
-     */
-    protected static \$views = [
-        'blocks.{$slug}',
-    ];
+    protected static \$views = ['blocks.{$slug}'];
 
-    /**
-     * Data to be passed to view before rendering.
-     *
-     * @return array
-     */
-    public function with()
+    private function field(string \$key): string
     {
-        return [
-            // 'items' => get_field('items'),
-        ];
+        return trim((string) (\$this->view->getData()['data'][\$key] ?? ''));
     }
 }
 PHP;

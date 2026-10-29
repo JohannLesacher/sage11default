@@ -12,5 +12,3 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeader();
   initHorizontalScroll();
 })
-
-window.addEventListener('resize', initHorizontalScroll);

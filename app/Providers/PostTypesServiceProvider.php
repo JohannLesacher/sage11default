@@ -16,8 +16,8 @@ class PostTypesServiceProvider extends ServiceProvider {
             return;
         }
 
-        foreach ( File::allFiles( $path ) as $file ) {
-            $class = 'App\\PostTypes\\' . $file->getFilenameWithoutExtension();
+        foreach ( File::glob( "{$path}/*.php" ) as $file ) {
+            $class = 'App\\PostTypes\\' . pathinfo( $file, PATHINFO_FILENAME );
             $this->app->singleton( $class );
         }
     }
@@ -56,8 +56,8 @@ class PostTypesServiceProvider extends ServiceProvider {
             return $meta_boxes;
         }
 
-        foreach ( File::allFiles( $path ) as $file ) {
-            $class = 'App\\PostTypes\\' . $file->getFilenameWithoutExtension();
+        foreach ( File::glob( "{$path}/*.php" ) as $file ) {
+            $class = 'App\\PostTypes\\' . pathinfo( $file, PATHINFO_FILENAME );
 
             if ( class_exists( $class ) ) {
                 $instance = $this->app->make( $class );
