@@ -1,4 +1,4 @@
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig, loadEnv, transformWithOxc } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import { wordpressPlugin } from '@roots/vite-plugin';
 import { globSync } from 'glob';
@@ -47,9 +47,29 @@ function themeJsonToScss() {
   };
 }
 
+// Compile le JSX (runtime automatique) avant @roots/vite-plugin, en dev comme en build.
+// react/jsx-runtime est ensuite redirigé vers le runtime fourni par WordPress (resolve.alias).
+function wordpressJsx() {
+  return {
+    name: 'wordpress-jsx',
+    enforce: 'pre',
+    async transform(code, id) {
+      if (!id.endsWith('.jsx')) return null;
+
+      const { code: js, map } = await transformWithOxc(code, id, {
+        lang: 'jsx',
+        jsx: { runtime: 'automatic', development: false },
+      });
+
+      return { code: js, map };
+    },
+  };
+}
+
 export default defineConfig({
   base: `/app/themes/${themeName}/public/build/`,
   plugins: [
+    wordpressJsx(),
     themeJsonToScss(),
 
     laravel({
@@ -65,8 +85,19 @@ export default defineConfig({
       assets: ['resources/images/**', 'resources/fonts/**'],
     }),
 
-    wordpressPlugin(),
+    wordpressPlugin({
+      externalMappings: {
+        'wp-react-jsx-runtime': { global: ['ReactJSXRuntime'], handle: 'react-jsx-runtime' },
+        react: { global: ['React'], handle: 'react' },
+      },
+    }),
   ],
+  // Même réglage JSX pour le pré-scan des dépendances (sinon il cherche react/jsx-dev-runtime)
+  optimizeDeps: {
+    rolldownOptions: {
+      transform: { jsx: { runtime: 'automatic', development: false } },
+    },
+  },
   resolve: {
     alias: {
       '@scripts': '/resources/js',
@@ -74,6 +105,7 @@ export default defineConfig({
       '@fonts': '/resources/fonts',
       '@images': '/resources/images',
       '@blocks': '/resources/blocks',
+      'react/jsx-runtime': '/resources/js/lib/react-jsx-runtime.js',
     },
   },
 });

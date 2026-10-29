@@ -66,6 +66,7 @@
 - **InnerBlocks over wysiwyg**: for any free-form editorial content in a block, always use `<InnerBlocks />` — never `wysiwyg` MetaBox field. CTA uses separate `text` + `url` fields.
 - **Logo**: `partials/logo.blade.php` (composer `Logo`) — theme settings `logo` image if set, else `@svg('logo')` + sr-only site name; used in header and footer
 - **Navigation partial**: `partials/navigation.blade.php` (recursive, `sub-menu` children, `aria-current`) used by header and footer menus
+- **JSX enabled (2026-10-29)**: line "No JSX in editor scripts" obsolete. `.jsx` editor files use the standard automatic runtime: `wordpressJsx()` plugin in vite.config.js compiles JSX before `@roots/vite-plugin` (else dev emits `require()`), `react/jsx-runtime` aliased to `resources/js/lib/react-jsx-runtime.js` which imports WP's `ReactJSXRuntime` via `externalMappings` (deps: `react-jsx-runtime`). Never bundle React / `@vitejs/plugin-react` (duplicate React → invalid hook call in editor)
 
 ## Recurring errors to avoid
 
@@ -79,5 +80,6 @@
 - **Force-push on master blocked by hook**: user must run `git push --force-with-lease ...` manually
 - **`{{ }}` double-encodes WordPress entities (2026-10-29)**: Blade `e()` re-encodes `&rsquo;` (wptexturize) / `&amp;` (bloginfo) → `&amp;rsquo;` on screen; for WP data use `{!! esc_html() !!}` / `{!! esc_attr() !!}` (no double encoding). `{{ }}` OK for technical values (align, slugs)
 - **Update (2026-10-29)**: `MakeBlockCommand` composer stub import fixed (line above obsolete); command now refuses to overwrite existing files without `--force`
+- **JSX dev scan (2026-10-29)**: Vite dep scan ignores `oxc` config and looks for `react/jsx-dev-runtime` → "Failed to run dependency scan" + no pre-bundling; fixed with `optimizeDeps.rolldownOptions.transform.jsx` (`automatic`, `development: false`)
 
 ## Important files
