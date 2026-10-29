@@ -1,14 +1,9 @@
-$blancCasse: #eeecde;
-$turquoise: #7FB2A2;
-$or: #D1B15C;
-$noir: #000;
+// Couleurs, polices, tailles et espacements : générés depuis theme.json
+@forward "theme";
 
-$colors: (
-  "blancCasse": $blancCasse,
-  "turquoise": $turquoise,
-  "or": $or,
-  "noir": $noir
+// Uniquement ce que theme.json ne sait pas exprimer
+$breakpoints: (
+  "md": 769px,
+  "lg": 1024px,
+  "xl": 1100px
 );
-
-$textFont: 'Verdana', sans-serif;
-$titleFont: 'Georgia', serif;

@@ -1,7 +1,7 @@
 .banner {
   --banner-bg: transparent;
-  --banner-scrolled-bg: rgba(255, 255, 255, 0.55);
-  --banner-color: #000;
+  --banner-scrolled-bg: color-mix(in srgb, var(--wp--preset--color--background) 55%, transparent);
+  --banner-color: var(--wp--preset--color--text);
   --burger-color: var(--banner-color);
 
   height: var(--header-height);
@@ -127,7 +127,7 @@
 
   &.is-menu-open {
     height: 100vh !important;
-    background-color: #fff !important;
+    background-color: var(--wp--preset--color--background) !important;
     transform: none !important;
     overflow-y: auto;
     align-items: flex-start;
@@ -159,7 +159,7 @@
       display: flex;
       position: fixed;
       inset: 0;
-      background: #fff;
+      background: var(--wp--preset--color--background);
       z-index: 1005;
       flex-direction: column;
       justify-content: center;

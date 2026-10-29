@@ -17,52 +17,48 @@
       "width": true
     },
     "color": {
-      "custom": true,
-      "customGradient": true,
+      "custom": false,
+      "customDuotone": false,
+      "customGradient": false,
       "defaultDuotone": false,
       "defaultGradients": false,
       "defaultPalette": false,
       "link": true,
       "palette": [
         {
-          "slug": "blanc-casse",
-          "color": "#F6F5EE",
-          "name": "Blanc Cassé"
+          "slug": "primary",
+          "color": "#1E3A5F",
+          "name": "Principale"
         },
         {
-          "slug": "bleu",
-          "color": "#64A0DC",
-          "name": "Bleu"
+          "slug": "secondary",
+          "color": "#4F7CAC",
+          "name": "Secondaire"
         },
         {
-          "slug": "jaune",
-          "color": "#FAD246",
-          "name": "Jaune"
+          "slug": "accent",
+          "color": "#E07A3F",
+          "name": "Accent"
         },
         {
-          "slug": "rose",
-          "color": "#F2CBD2",
-          "name": "Rose"
+          "slug": "text",
+          "color": "#1A1A1A",
+          "name": "Texte"
         },
         {
-          "slug": "orange",
-          "color": "#DC5328",
-          "name": "Orange"
+          "slug": "background",
+          "color": "#FFFFFF",
+          "name": "Fond"
         },
         {
-          "slug": "rouge",
-          "color": "#B43228",
-          "name": "Rouge"
+          "slug": "light",
+          "color": "#F4F4F1",
+          "name": "Clair"
         },
         {
-          "slug": "bordeaux",
-          "color": "#691700",
-          "name": "Bordeaux"
-        },
-        {
-          "slug": "noir",
-          "color": "#000000",
-          "name": "Noir"
+          "slug": "dark",
+          "color": "#111827",
+          "name": "Foncé"
         }
       ]
     },
@@ -98,24 +94,32 @@
     },
     "typography": {
       "defaultFontSizes": false,
-      "customFontSize": true,
+      "customFontSize": false,
       "lineHeight": true,
       "fluid": false,
       "fontFamilies": [
         {
-          "name": "Inter",
-          "slug": "inter",
-          "fontFamily": "Inter, sans-serif"
+          "name": "Titres",
+          "slug": "heading",
+          "fontFamily": "'Instrument Serif', serif",
+          "fontFace": [
+            { "fontFamily": "Instrument Serif", "fontWeight": "400", "fontStyle": "normal", "fontDisplay": "swap", "src": ["file:./resources/fonts/instrument-serif-v5-latin-regular.woff2"] },
+            { "fontFamily": "Instrument Serif", "fontWeight": "400", "fontStyle": "italic", "fontDisplay": "swap", "src": ["file:./resources/fonts/instrument-serif-v5-latin-italic.woff2"] }
+          ]
         },
         {
-          "name": "Instrument",
-          "slug": "instrument",
-          "fontFamily": "Instrument, serif"
-        },
-        {
-          "name": "LT Museum",
-          "slug": "lt-museum",
-          "fontFamily": "LT Museum, serif"
+          "name": "Texte",
+          "slug": "body",
+          "fontFamily": "'Inter', sans-serif",
+          "fontFace": [
+            { "fontFamily": "Inter", "fontWeight": "200", "fontStyle": "normal", "fontDisplay": "swap", "src": ["file:./resources/fonts/inter-v20-latin-200.woff2"] },
+            { "fontFamily": "Inter", "fontWeight": "400", "fontStyle": "normal", "fontDisplay": "swap", "src": ["file:./resources/fonts/inter-v20-latin-regular.woff2"] },
+            { "fontFamily": "Inter", "fontWeight": "400", "fontStyle": "italic", "fontDisplay": "swap", "src": ["file:./resources/fonts/inter-v20-latin-italic.woff2"] },
+            { "fontFamily": "Inter", "fontWeight": "600", "fontStyle": "normal", "fontDisplay": "swap", "src": ["file:./resources/fonts/inter-v20-latin-600.woff2"] },
+            { "fontFamily": "Inter", "fontWeight": "700", "fontStyle": "normal", "fontDisplay": "swap", "src": ["file:./resources/fonts/inter-v20-latin-700.woff2"] },
+            { "fontFamily": "Inter", "fontWeight": "700", "fontStyle": "italic", "fontDisplay": "swap", "src": ["file:./resources/fonts/inter-v20-latin-700italic.woff2"] },
+            { "fontFamily": "Inter", "fontWeight": "900", "fontStyle": "normal", "fontDisplay": "swap", "src": ["file:./resources/fonts/inter-v20-latin-900.woff2"] }
+          ]
         }
       ],
       "fontSizes": [
@@ -200,12 +204,23 @@
     }
   },
   "styles": {
+    "color": {
+      "text": "var(--wp--preset--color--text)",
+      "background": "var(--wp--preset--color--background)"
+    },
     "typography": {
-      "fontFamily": "'Inter', sans-serif",
-      "fontSize": "16px"
+      "fontFamily": "var(--wp--preset--font-family--body)",
+      "fontSize": "var(--wp--preset--font-size--small)"
     },
     "spacing": {
       "blockGap": "2rem"
+    },
+    "elements": {
+      "heading": {
+        "typography": {
+          "fontFamily": "var(--wp--preset--font-family--heading)"
+        }
+      }
     }
   }
 }

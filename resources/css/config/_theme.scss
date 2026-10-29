@@ -1,0 +1,49 @@
+// Généré depuis theme.json par vite.config.js — ne pas éditer
+
+$colors: (
+  "primary": var(--wp--preset--color--primary),
+  "secondary": var(--wp--preset--color--secondary),
+  "accent": var(--wp--preset--color--accent),
+  "text": var(--wp--preset--color--text),
+  "background": var(--wp--preset--color--background),
+  "light": var(--wp--preset--color--light),
+  "dark": var(--wp--preset--color--dark),
+);
+
+$colors-hex: (
+  "primary": #1E3A5F,
+  "secondary": #4F7CAC,
+  "accent": #E07A3F,
+  "text": #1A1A1A,
+  "background": #FFFFFF,
+  "light": #F4F4F1,
+  "dark": #111827,
+);
+
+$fonts: (
+  "heading": var(--wp--preset--font-family--heading),
+  "body": var(--wp--preset--font-family--body),
+);
+
+$font-sizes: (
+  "xx-small": var(--wp--preset--font-size--xx-small),
+  "x-small": var(--wp--preset--font-size--x-small),
+  "small": var(--wp--preset--font-size--small),
+  "medium": var(--wp--preset--font-size--medium),
+  "medium-large": var(--wp--preset--font-size--medium-large),
+  "medium-x-large": var(--wp--preset--font-size--medium-x-large),
+  "medium-xx-large": var(--wp--preset--font-size--medium-xx-large),
+  "large": var(--wp--preset--font-size--large),
+  "x-large": var(--wp--preset--font-size--x-large),
+  "xx-large": var(--wp--preset--font-size--xx-large),
+);
+
+$spacing: (
+  "20": var(--wp--preset--spacing--20),
+  "30": var(--wp--preset--spacing--30),
+  "40": var(--wp--preset--spacing--40),
+  "50": var(--wp--preset--spacing--50),
+  "60": var(--wp--preset--spacing--60),
+  "70": var(--wp--preset--spacing--70),
+  "80": var(--wp--preset--spacing--80),
+);

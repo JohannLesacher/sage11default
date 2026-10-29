@@ -1,5 +1,3 @@
-@use "../config/variables" as *;
-
 .sr-only {
   position: absolute;
   width: 1px;
@@ -26,14 +24,11 @@
 
 html {
   scroll-behavior: smooth;
-  font-family: $textFont;
 }
 
 body {
-  background-color: $blancCasse;
   line-height: 1.5;
   scroll-behavior: smooth;
-  font-size: var(--wp--preset--font-size--medium);
 
   &.has-fixed-header {
     .main {
