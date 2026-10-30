@@ -10,7 +10,7 @@ class Slide extends BlockComposer
 
     public function classes(): string
     {
-        return 'splide__slide block-slide'.($this->animated() ? ' is-animated is-animated--slide' : '');
+        return 'splide__slide block-slide' . ($this->animated() ? ' is-animated is-animated--slide' : '');
     }
 
     public function animation(): ?string

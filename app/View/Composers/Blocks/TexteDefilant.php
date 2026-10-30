@@ -16,7 +16,7 @@ class TexteDefilant extends BlockComposer
 
     public function classes(): string
     {
-        return 'block-texte-defilant'.($this->pause() ? ' has-pause' : '');
+        return 'block-texte-defilant' . ($this->pause() ? ' has-pause' : '');
     }
 
     public function texte(): string

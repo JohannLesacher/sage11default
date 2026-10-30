@@ -1,5 +1,5 @@
-@use "@splidejs/splide/css/core";
-@use "@styles/config/mixins";
+@use '@splidejs/splide/css/core';
+@use '@styles/config/mixins';
 
 .block-slider {
   --slider-arrow-size: 3rem;
@@ -10,8 +10,8 @@
   &.alignfull {
     @include mixins.breakpoint(tablet, up) {
       --slider-padding-inline: calc(
-        max(var(--container-padding), (100dvw - var(--wide-width)) / 2)
-        + (var(--wide-width) - var(--content-width)) / 2
+        max(var(--container-padding), (100dvw - var(--wide-width)) / 2) +
+          (var(--wide-width) - var(--content-width)) / 2
       );
     }
   }

@@ -21,13 +21,18 @@ trait ExtendsCoreBlock
         register_block_style($blockName, ['name' => $style, 'label' => $label]);
         wp_register_style($handle, Vite::asset("resources/blocks/{$folder}/style.scss"), [], null);
 
-        add_filter("render_block_{$blockName}", function ($content, $block) use ($style, $handle) {
-            if (str_contains($block['attrs']['className'] ?? '', "is-style-{$style}")) {
-                wp_enqueue_style($handle);
-            }
+        add_filter(
+            "render_block_{$blockName}",
+            function ($content, $block) use ($style, $handle) {
+                if (str_contains($block['attrs']['className'] ?? '', "is-style-{$style}")) {
+                    wp_enqueue_style($handle);
+                }
 
-            return $content;
-        }, 10, 2);
+                return $content;
+            },
+            10,
+            2,
+        );
 
         add_action('enqueue_block_assets', function () use ($handle) {
             if (is_admin()) {

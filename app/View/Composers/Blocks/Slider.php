@@ -55,7 +55,7 @@ class Slider extends BlockComposer
     private function gap(): string
     {
         $gap = $this->attribute('style')['spacing']['blockGap'] ?? null;
-        $gap = is_array($gap) ? ($gap['left'] ?? $gap['top'] ?? null) : $gap;
+        $gap = is_array($gap) ? $gap['left'] ?? $gap['top'] ?? null : $gap;
 
         if (! is_string($gap) || $gap === '') {
             return '1.5rem';
@@ -71,13 +71,16 @@ class Slider extends BlockComposer
             'next' => __('Diapositive suivante', 'sage'),
             'first' => __('Aller à la première diapositive', 'sage'),
             'last' => __('Aller à la dernière diapositive', 'sage'),
+            // translators: %s: slide number.
             'slideX' => __('Aller à la diapositive %s', 'sage'),
+            // translators: %s: page number.
             'pageX' => __('Aller à la page %s', 'sage'),
             'play' => __('Lancer la lecture automatique', 'sage'),
             'pause' => __('Mettre en pause la lecture automatique', 'sage'),
             'carousel' => __('carrousel', 'sage'),
             'select' => __('Sélectionner une diapositive', 'sage'),
             'slide' => __('diapositive', 'sage'),
+            // translators: Splide replaces each %s in order: current slide, total slides.
             'slideLabel' => __('%s sur %s', 'sage'),
         ];
     }

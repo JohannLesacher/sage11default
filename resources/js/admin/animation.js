@@ -67,11 +67,7 @@ function addAnimationProps(extraProps, blockType, attributes) {
   return extraProps;
 }
 
-addFilter(
-  'blocks.getSaveContent.extraProps',
-  'theme/add-class',
-  addAnimationProps,
-);
+addFilter('blocks.getSaveContent.extraProps', 'theme/add-class', addAnimationProps);
 
 addFilter('blocks.registerBlockType', 'theme/attributes', (settings, name) => {
   if (!ALLOWED_BLOCKS.includes(name)) return settings;

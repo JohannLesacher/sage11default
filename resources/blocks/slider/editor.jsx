@@ -8,7 +8,17 @@ const TEMPLATE = [['sur-mesure/slide'], ['sur-mesure/slide'], ['sur-mesure/slide
 
 registerBlockType(metadata, {
   edit: ({ attributes, setAttributes }) => {
-    const { perPage, perPageTablet, perPageMobile, arrows, pagination, loop, autoplay, interval, label } = attributes;
+    const {
+      perPage,
+      perPageTablet,
+      perPageMobile,
+      arrows,
+      pagination,
+      loop,
+      autoplay,
+      interval,
+      label,
+    } = attributes;
 
     return (
       <>
@@ -38,13 +48,21 @@ registerBlockType(metadata, {
           </PanelBody>
 
           <PanelBody title="Navigation">
-            <ToggleControl label="Flèches" checked={arrows} onChange={(value) => setAttributes({ arrows: value })} />
+            <ToggleControl
+              label="Flèches"
+              checked={arrows}
+              onChange={(value) => setAttributes({ arrows: value })}
+            />
             <ToggleControl
               label="Pagination (points)"
               checked={pagination}
               onChange={(value) => setAttributes({ pagination: value })}
             />
-            <ToggleControl label="Boucle infinie" checked={loop} onChange={(value) => setAttributes({ loop: value })} />
+            <ToggleControl
+              label="Boucle infinie"
+              checked={loop}
+              onChange={(value) => setAttributes({ loop: value })}
+            />
             <ToggleControl
               label="Lecture automatique"
               checked={autoplay}

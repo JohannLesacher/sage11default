@@ -1,42 +1,67 @@
-<p align="center">
-  <a href="https://roots.io/sage/"><img alt="Sage" src="https://cdn.roots.io/app/uploads/logo-sage.svg" height="100"></a>
-</p>
+# sage11default
 
-<p align="center">
-  <a href="https://packagist.org/packages/roots/sage"><img alt="Packagist Installs" src="https://img.shields.io/packagist/dt/roots/sage?label=projects%20created&colorB=2b3072&colorA=525ddc&style=flat-square"></a>
-  <a href="https://github.com/roots/sage/actions/workflows/main.yml"><img alt="Build Status" src="https://img.shields.io/github/actions/workflow/status/roots/sage/main.yml?branch=main&logo=github&label=CI&style=flat-square"></a>
-  <a href="https://twitter.com/rootswp"><img alt="Follow Roots" src="https://img.shields.io/badge/follow%20@rootswp-1da1f2?logo=twitter&logoColor=ffffff&message=&style=flat-square"></a>
-  <a href="https://github.com/sponsors/roots"><img src="https://img.shields.io/badge/sponsor%20roots-525ddc?logo=github&style=flat-square&logoColor=ffffff&message=" alt="Sponsor Roots"></a>
-</p>
+Thème de base WordPress construit sur [Sage 11](https://roots.io/sage/) (Blade, Vite, [Acorn](https://roots.io/acorn/)), pensé comme point de départ pour des projets Bedrock. Outillage aligné sur [Radicle](https://roots.io/radicle/).
 
-# Sage
+## Prérequis
 
-**Advanced hybrid WordPress starter theme with Laravel Blade and Tailwind CSS**
+- PHP ≥ 8.3, Composer
+- Node ≥ 24
+- WordPress (Bedrock) avec MetaBox pour les réglages et métas
+- WP-CLI pour les scripts de traduction
 
-- 🔧 Clean, efficient theme templating with Laravel Blade
-- ⚡️ Modern front-end development workflow powered by Vite
-- 🎨 Out of the box support for Tailwind CSS
-- 🚀 Harness the power of Laravel with [Acorn integration](https://github.com/roots/acorn)
-- 📦 Block editor support built-in
+## Installation
 
-Sage brings proper PHP templating and modern JavaScript tooling to WordPress themes. Write organized, component-based code using Laravel Blade, enjoy instant builds and CSS hot-reloading with Vite, and leverage Laravel's robust feature set through Acorn.
+```sh
+composer install
+npm install
+npm run dev     # serveur Vite + HMR
+npm run build   # assets de production dans public/build/
+```
 
-[Read the docs to get started](https://roots.io/sage/docs/installation/)
+## Commandes
 
-## Support us
+| Commande                    | Rôle                                                        |
+| --------------------------- | ----------------------------------------------------------- |
+| `composer format`           | Vérifie le formatage PHP (Mago)                             |
+| `composer format:fix`       | Formate le PHP                                              |
+| `composer lint`             | Analyse le PHP (Mago)                                       |
+| `npm run format`            | Formate JS, JSX, SCSS, JSON, Markdown (oxfmt)               |
+| `npm run format:check`      | Vérifie le formatage sans écrire                            |
+| `npm run lint`              | Analyse le JS (oxlint) ; `lint:fix` corrige automatiquement |
+| `npm run translate`         | Génère `resources/lang/sage.pot` et met à jour les `.po`    |
+| `npm run translate:compile` | Compile les `.mo` et les JSON de traduction JS              |
+| `wp acorn make:block`       | Génère un bloc natif (voir plus bas)                        |
 
-Roots is an independent open source org, supported only by developers like you. Your sponsorship funds [WP Packages](https://wp-packages.org/) and the entire Roots ecosystem, and keeps them independent. Support us by purchasing [Radicle](https://roots.io/radicle/) or [sponsoring us on GitHub](https://github.com/sponsors/roots) — sponsors get access to our private Discord.
+La CI (`.github/workflows/main.yml`) lance le formatage, le lint et le build.
 
-### Sponsors
+## Structure
 
-<a href="https://carrot.com/"><img src="https://cdn.roots.io/app/uploads/carrot.svg" alt="Carrot" height="90"></a> <a href="https://wordpress.com/"><img src="https://cdn.roots.io/app/uploads/wordpress.svg" alt="WordPress.com" height="90"></a> <a href="https://www.itineris.co.uk/"><img src="https://cdn.roots.io/app/uploads/itineris.svg" alt="Itineris" height="90"></a> <a href="https://kinsta.com/?kaid=OFDHAJIXUDIV"><img src="https://cdn.roots.io/app/uploads/kinsta.svg" alt="Kinsta" height="90"></a> <a href="https://ploi.io/"><img src="https://cdn.roots.io/app/uploads/ploi.svg" alt="Ploi" height="90"></a> <a href="https://40q.agency/"><img src="https://cdn.roots.io/app/uploads/40q.svg" alt="40Q" height="90"></a>
+```
+app/
+  Blocks/            extensions de blocs core (Core{Name}.php)
+  Providers/         BlockServiceProvider, ThemeServiceProvider
+  View/Composers/    composers de vues, Blocks/ pour les blocs
+config/theme.php     réglages du thème (header, tailles d'images, langues…)
+resources/
+  blocks/{name}/     block.json, editor.jsx, style.scss, script.js
+  css/ js/           assets globaux
+  views/blocks/      rendu Blade des blocs
+theme.json           palette, typographie, tailles de layout, points de rupture
+```
 
-## Community
+## Blocs
 
-Keep track of development and community news.
+Tous les blocs sont natifs (JSX via le runtime React de WordPress, rendu serveur en Blade). Ils sont enregistrés automatiquement depuis `resources/blocks/` dans la catégorie `sur-mesure`.
 
-- Join us on Discord by [sponsoring us on GitHub](https://github.com/sponsors/roots)
-- Join us on [Roots Discourse](https://discourse.roots.io/)
-- Follow [@rootswp on Twitter](https://twitter.com/rootswp)
-- Follow the [Roots Blog](https://roots.io/blog/)
-- Subscribe to the [Roots Newsletter](https://roots.io/subscribe/)
+```sh
+wp acorn make:block "Mon bloc"            # aperçu serveur (ServerPreview)
+wp acorn make:block "Mon bloc" --inline   # édition RichText en place
+wp acorn make:block "Mon bloc" --inner    # InnerBlocks
+# options : --js (script front), --vc (View Composer)
+```
+
+Après création d'un bloc, relancer `npm run dev` ou `npm run build` pour que Vite connaisse ses assets.
+
+## Tokens
+
+Les points de rupture et tailles de layout viennent de `theme.json` : mixin SCSS `breakpoint()` et `resources/js/config/breakpoints.js` côté JS. Ne pas les dupliquer en dur.

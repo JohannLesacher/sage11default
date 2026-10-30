@@ -1,4 +1,4 @@
-@use "../config/mixins";
+@use '../config/mixins';
 
 // Liens et titres (police, couleur, soulignement) : styles.elements de theme.json
 
@@ -41,7 +41,12 @@ body {
   }
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-synthesis: none;
   font-optical-sizing: none;
 }

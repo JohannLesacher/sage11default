@@ -2,7 +2,7 @@
   opacity: 0;
   will-change: opacity, transform;
 
-  &[data-animation="text-chars"] {
+  &[data-animation='text-chars'] {
     opacity: 1;
 
     [data-char] {
@@ -15,7 +15,7 @@
   .is-animated {
     opacity: 1;
 
-    &[data-animation="text-chars"] [data-char] {
+    &[data-animation='text-chars'] [data-char] {
       opacity: 1;
     }
   }

@@ -13,20 +13,28 @@ use enshrined\svgSanitize\Sanitizer;
  *
  * @see https://wordpress.org/support/topic/importmap-wordpress-interactivity/
  */
-add_action('after_setup_theme', function () {
-    $modules = wp_script_modules();
+add_action(
+    'after_setup_theme',
+    function () {
+        $modules = wp_script_modules();
 
-    remove_action('wp_footer', [$modules, 'print_import_map']);
-    remove_action('wp_footer', [$modules, 'print_enqueued_script_modules']);
-    remove_action('wp_footer', [$modules, 'print_script_module_preloads']);
+        remove_action('wp_footer', [$modules, 'print_import_map']);
+        remove_action('wp_footer', [$modules, 'print_enqueued_script_modules']);
+        remove_action('wp_footer', [$modules, 'print_script_module_preloads']);
 
-    add_action('wp_head', function () use ($modules) {
-        $modules->print_import_map();
-        $modules->print_enqueued_script_modules();
-        $modules->print_script_module_preloads();
-        echo "\r\n";
-    }, 8);
-}, 11);
+        add_action(
+            'wp_head',
+            function () use ($modules) {
+                $modules->print_import_map();
+                $modules->print_enqueued_script_modules();
+                $modules->print_script_module_preloads();
+                echo "\r\n";
+            },
+            8,
+        );
+    },
+    11,
+);
 
 /**
  * Allow SVG (administrateurs uniquement, WordPress ne le gère pas nativement)
@@ -47,7 +55,7 @@ add_filter('wp_handle_upload_prefilter', function ($file) {
         return $file;
     }
 
-    $sanitizer = new Sanitizer;
+    $sanitizer = new Sanitizer();
     $sanitizer->removeRemoteReferences(true);
 
     $clean = $sanitizer->sanitize((string) file_get_contents($file['tmp_name']));
@@ -66,20 +74,25 @@ add_filter('wp_handle_upload_prefilter', function ($file) {
 /**
  * Animation option (blocs listés dans config/theme.php)
  */
-add_filter('register_block_type_args', function ($args, $name) {
-    if (in_array($name, config('theme.animation.blocks'), true)) {
-        $args['attributes']['animateOnScroll'] = [
-            'type' => 'boolean',
-            'default' => false,
-        ];
-        $args['attributes']['animationType'] = [
-            'type' => 'string',
-            'default' => 'fade-up',
-        ];
-    }
+add_filter(
+    'register_block_type_args',
+    function ($args, $name) {
+        if (in_array($name, config('theme.animation.blocks'), true)) {
+            $args['attributes']['animateOnScroll'] = [
+                'type' => 'boolean',
+                'default' => false,
+            ];
+            $args['attributes']['animationType'] = [
+                'type' => 'string',
+                'default' => 'fade-up',
+            ];
+        }
 
-    return $args;
-}, 10, 2);
+        return $args;
+    },
+    10,
+    2,
+);
 
 /**
  * Custom block category
@@ -106,7 +119,7 @@ add_action('init', function () {
 
 add_filter('image_size_names_choose', function ($sizes) {
     foreach (config('theme.image_sizes') as $name => $size) {
-        if (isset($size['label'])) {
+        if (($size['label'] ?? null) !== null) {
             $sizes[$name] = $size['label'];
         }
     }

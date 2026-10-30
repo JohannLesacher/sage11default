@@ -1,7 +1,7 @@
-import {animate, splitText, stagger} from 'animejs';
+import { animate, splitText, stagger } from 'animejs';
 
 const ANIMATIONS = {
-  'fade': {
+  fade: {
     opacity: [0, 1],
   },
   'fade-up': {
@@ -16,7 +16,7 @@ const ANIMATIONS = {
     opacity: [0, 1],
     translateX: [24, 0],
   },
-  'scale': {
+  scale: {
     opacity: [0, 1],
     scale: [0.95, 1],
   },
@@ -24,11 +24,11 @@ const ANIMATIONS = {
 
 const animateTextChars = (els) => {
   els.forEach((el, i) => {
-    const {chars} = splitText(el, {chars: true});
+    const { chars } = splitText(el, { chars: true });
     animate(chars, {
       opacity: [0.3, 1],
       duration: 700,
-      delay: stagger(30, {start: i * 120}),
+      delay: stagger(30, { start: i * 120 }),
       ease: 'out(3)',
     });
   });
@@ -36,12 +36,12 @@ const animateTextChars = (els) => {
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-document.addEventListener('DOMContentLoaded', () => {
+export function init() {
   const elements = document.querySelectorAll('.is-animated');
   if (!elements.length) return;
 
   if (prefersReducedMotion) {
-    elements.forEach(el => el.classList.add('is-visible'));
+    elements.forEach((el) => el.classList.add('is-visible'));
     return;
   }
 
@@ -83,34 +83,40 @@ document.addEventListener('DOMContentLoaded', () => {
     flushTimer = setTimeout(flush, 50);
   };
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      queue(entry.target, observer);
-    });
-  }, {
-    rootMargin: '0px 0px -50px 0px',
-    threshold: 0.1,
-  });
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        queue(entry.target, observer);
+      });
+    },
+    {
+      rootMargin: '0px 0px -50px 0px',
+      threshold: 0.1,
+    },
+  );
 
   // Slider slides: clipped horizontally by overflow container.
   // Threshold 0.1 d'area échoue quand seul 1px H visible. Threshold 0 + rootMargin H étendu
   // = vertical garde comportement initial, horizontal accepte 1px.
-  const sliderObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      queue(entry.target, sliderObserver);
-    });
-  }, {
-    rootMargin: '0px 9999px -50px 9999px',
-    threshold: 0.1,
-  });
+  const sliderObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        queue(entry.target, sliderObserver);
+      });
+    },
+    {
+      rootMargin: '0px 9999px -50px 9999px',
+      threshold: 0.1,
+    },
+  );
 
-  elements.forEach(el => {
+  elements.forEach((el) => {
     if (el.classList.contains('is-animated--slide')) {
       sliderObserver.observe(el);
     } else {
       observer.observe(el);
     }
   });
-});
+}

@@ -1,0 +1,12 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "singleQuote": true,
+  "ignorePatterns": [
+    "resources/css/config/_theme.scss",
+    "resources/js/config/breakpoints.js",
+    ".claude/**",
+    "public/build/**",
+    "composer.lock",
+    "package-lock.json"
+  ]
+}

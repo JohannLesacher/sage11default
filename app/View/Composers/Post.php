@@ -42,7 +42,7 @@ class Post extends Composer
             return sprintf(
                 /* translators: %s is replaced with the search query */
                 __('Search Results for %s', 'sage'),
-                get_search_query()
+                get_search_query(),
             );
         }
 
@@ -60,7 +60,7 @@ class Post extends Composer
     {
         return wp_link_pages([
             'echo' => 0,
-            'before' => '<p>'.__('Pages:', 'sage'),
+            'before' => '<p>' . __('Pages:', 'sage'),
             'after' => '</p>',
         ]);
     }
@@ -68,10 +68,11 @@ class Post extends Composer
     /**
      * Should display title
      */
-    public function shouldDisplayTitle(): bool {
+    public function shouldDisplayTitle(): bool
+    {
         // Page jamais enregistrée depuis l'ajout de la metabox : on applique le défaut (affiché)
-        if ( is_page() && metadata_exists( 'post', get_the_ID(), 'display_title' ) ) {
-            return (bool) get_post_meta( get_the_ID(), 'display_title', true );
+        if (is_page() && metadata_exists('post', get_the_ID(), 'display_title')) {
+            return (bool) get_post_meta(get_the_ID(), 'display_title', true);
         }
 
         return true;

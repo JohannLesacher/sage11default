@@ -18,8 +18,7 @@ export function registerResponsiveOption(blockName, option) {
 
 const classOf = (name) => `is-responsive-${name}`;
 
-const hasClass = (className, cls) =>
-  new RegExp(`(^|\\s)${cls}(\\s|$)`).test(className || '');
+const hasClass = (className, cls) => new RegExp(`(^|\\s)${cls}(\\s|$)`).test(className || '');
 
 const addClass = (className, cls) =>
   hasClass(className, cls) ? className : `${className || ''} ${cls}`.trim();

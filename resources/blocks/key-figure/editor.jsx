@@ -17,7 +17,8 @@ function ValueColorControl({ attributes, setAttributes, clientId }) {
   const palette = colorSettings.colors.flatMap((origin) => origin.colors);
 
   const colorValue =
-    palette.find((color) => color.slug === attributes.valueColor)?.color ?? attributes.customValueColor;
+    palette.find((color) => color.slug === attributes.valueColor)?.color ??
+    attributes.customValueColor;
 
   const onColorChange = (value) => {
     const colorObject = getColorObjectByColorValue(palette, value);
@@ -54,9 +55,11 @@ function ValueColorControl({ attributes, setAttributes, clientId }) {
 registerBlockType(metadata, {
   edit: (props) => {
     const { attributes, setAttributes, isSelected } = props;
-    const { prefixe, valeur, unite, libelle, valueColor, customValueColor } = attributes;
+    const { valeur, libelle, valueColor, customValueColor } = attributes;
 
-    const valueStyle = { color: valueColor ? `var(--wp--preset--color--${valueColor})` : customValueColor };
+    const valueStyle = {
+      color: valueColor ? `var(--wp--preset--color--${valueColor})` : customValueColor,
+    };
 
     // Préfixe et unité optionnels : visibles vides seulement quand le bloc est sélectionné
     const part = (key, className, placeholder) =>

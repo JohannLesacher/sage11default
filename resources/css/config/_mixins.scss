@@ -1,5 +1,5 @@
-@use "sass:map";
-@use "theme";
+@use 'sass:map';
+@use 'theme';
 
 // Media query sur un point de rupture de theme.json (mobile 480px, tablet 782px : viewport de WordPress ;
 // large 1024px : custom.breakpoints). down = jusqu'au point inclus, up = au-delà.

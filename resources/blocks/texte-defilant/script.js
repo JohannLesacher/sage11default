@@ -19,10 +19,7 @@ const fill = (block) => {
   while (track.children.length < total) track.append(group.cloneNode(true));
 
   const speed = SPEEDS[block.dataset.vitesse] ?? SPEEDS.normal;
-  block.style.setProperty(
-    '--marquee-duration',
-    `${(groupWidth * perHalf) / speed}s`,
-  );
+  block.style.setProperty('--marquee-duration', `${(groupWidth * perHalf) / speed}s`);
 };
 
 const blocks = document.querySelectorAll('.block-texte-defilant');

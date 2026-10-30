@@ -1,4 +1,4 @@
-@use "@styles/config/mixins";
+@use '@styles/config/mixins';
 
 // Style « Logos » du bloc core/gallery.
 // .has-nested-images et :not(#individual-image) reprennent les sélecteurs de core
@@ -48,7 +48,9 @@
       object-fit: contain;
       filter: grayscale(1);
       opacity: 0.7;
-      transition: filter 200ms, opacity 200ms;
+      transition:
+        filter 200ms,
+        opacity 200ms;
 
       @media (prefers-reduced-motion: reduce) {
         transition: none;

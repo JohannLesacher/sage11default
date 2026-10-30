@@ -8,21 +8,18 @@ let rafId = null;
 
 const NO_DESCEND_TAGS = new Set(['UL', 'OL']);
 
-const canDescend = (members) =>
-  members.every((el) => !NO_DESCEND_TAGS.has(el.tagName));
+const canDescend = (members) => members.every((el) => !NO_DESCEND_TAGS.has(el.tagName));
 
 const EXCLUDED_SELECTORS = ['div.wp-block-button'];
 
 const isExcluded = (el) =>
-  el.classList.contains(EXCLUDE_CLASS) ||
-  EXCLUDED_SELECTORS.some((sel) => el.matches(sel));
+  el.classList.contains(EXCLUDE_CLASS) || EXCLUDED_SELECTORS.some((sel) => el.matches(sel));
 
 // Elements that already carry a min-height (from CSS or markup) before the
 // script runs. We never overwrite their min-height — they keep their own.
 const locked = new WeakSet();
 
-const hasOwnMinHeight = (el) =>
-  parseFloat(window.getComputedStyle(el).minHeight) > 0;
+const hasOwnMinHeight = (el) => parseFloat(window.getComputedStyle(el).minHeight) > 0;
 
 const buildLevel = (rawContainers) => {
   const containers = rawContainers.filter((c) => !isExcluded(c));
@@ -33,9 +30,7 @@ const buildLevel = (rawContainers) => {
 
   const rows = [];
   for (let i = 0; i < rowCount; i++) {
-    const members = containers
-      .map((c) => c.children[i])
-      .filter((el) => !isExcluded(el));
+    const members = containers.map((c) => c.children[i]).filter((el) => !isExcluded(el));
     if (members.length === 0) continue;
     members.forEach((el) => {
       if (hasOwnMinHeight(el)) locked.add(el);
@@ -128,14 +123,7 @@ const destroy = (container) => {
 
 const init = () => {
   document.querySelectorAll(SELECTOR).forEach(observe);
+  document.addEventListener('tabChanged', schedule);
 };
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', init);
-} else {
-  init();
-}
-
-document.addEventListener('tabChanged', schedule);
-
-export { observe, destroy };
+export { init, observe, destroy };

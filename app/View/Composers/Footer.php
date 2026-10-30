@@ -36,7 +36,7 @@ class Footer extends Composer
         return array_filter([
             'address' => $settings->translated('footer_address'),
             'phone' => $phone,
-            'phoneHref' => $phone !== '' ? 'tel:'.preg_replace('/[^\d+]/', '', $phone) : '',
+            'phoneHref' => $phone !== '' ? 'tel:' . preg_replace('/[^\d+]/', '', $phone) : '',
             'email' => $settings->translated('footer_email'),
         ]);
     }
@@ -56,9 +56,9 @@ class Footer extends Composer
 
     private function copyright(ThemeSettings $settings): string
     {
-        $default = get_bloginfo('name').'. Tous droits réservés.';
+        $default = get_bloginfo('name') . '. Tous droits réservés.';
 
-        return '© '.date('Y').' '.$settings->translated('footer_copyright_text', $default);
+        return '© ' . date('Y') . ' ' . $settings->translated('footer_copyright_text', $default);
     }
 
     private function buildNav(string $location): array

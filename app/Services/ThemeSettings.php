@@ -49,7 +49,7 @@ class ThemeSettings
             foreach ($this->languages() as $lang) {
                 $meta_boxes[] = [
                     'title' => 'Footer',
-                    'id' => 'theme-settings-footer-'.$lang,
+                    'id' => 'theme-settings-footer-' . $lang,
                     'settings_pages' => 'theme-settings',
                     'tab' => $lang,
                     'fields' => $this->footerFields($lang),
@@ -126,9 +126,7 @@ class ThemeSettings
 
     private function languages(): array
     {
-        return function_exists('pll_languages_list')
-            ? pll_languages_list(['fields' => 'slug'])
-            : ['fr'];
+        return function_exists('pll_languages_list') ? pll_languages_list(['fields' => 'slug']) : ['fr'];
     }
 
     private function footerFields(string $lang): array
@@ -155,7 +153,7 @@ class ThemeSettings
                 'name' => 'Texte copyright',
                 'type' => 'text',
                 'placeholder' => 'Tous droits réservés.',
-                'desc' => "L'année courante est ajoutée automatiquement : © ".date('Y').' {votre texte}',
+                'desc' => "L'année courante est ajoutée automatiquement : © " . date('Y') . ' {votre texte}',
             ],
         ];
     }

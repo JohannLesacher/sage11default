@@ -48,7 +48,9 @@ class MakeBlockCommand extends Command
         }
 
         $this->info("Bloc sur-mesure/{$this->slug} généré (auto-enregistré).");
-        $this->warn('Relancer `npm run dev` ou `npm run build` : les nouveaux assets doivent être connus de Vite avant le rendu du bloc.');
+        $this->warn(
+            'Relancer `npm run dev` ou `npm run build` : les nouveaux assets doivent être connus de Vite avant le rendu du bloc.',
+        );
 
         return self::SUCCESS;
     }
@@ -81,19 +83,22 @@ class MakeBlockCommand extends Command
     {
         $attributes = $this->option('inner') ? (object) [] : ['titre' => ['type' => 'string', 'default' => '']];
 
-        return json_encode([
-            '$schema' => 'https://schemas.wp.org/trunk/block.json',
-            'apiVersion' => 3,
-            'name' => "sur-mesure/{$this->slug}",
-            'title' => $this->title,
-            'category' => 'sur-mesure',
-            'icon' => 'admin-generic',
-            'attributes' => $attributes,
-            'supports' => [
-                'align' => ['wide', 'full'],
-                'anchor' => true,
+        return json_encode(
+            [
+                '$schema' => 'https://schemas.wp.org/trunk/block.json',
+                'apiVersion' => 3,
+                'name' => "sur-mesure/{$this->slug}",
+                'title' => $this->title,
+                'category' => 'sur-mesure',
+                'icon' => 'admin-generic',
+                'attributes' => $attributes,
+                'supports' => [
+                    'align' => ['wide', 'full'],
+                    'anchor' => true,
+                ],
             ],
-        ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)."\n";
+            JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE,
+        ) . "\n";
     }
 
     private function view(): string
@@ -108,78 +113,78 @@ class MakeBlockCommand extends Command
     private function previewEditor(): string
     {
         return <<<'JSX'
-import { registerBlockType } from '@wordpress/blocks';
-import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, TextControl } from '@wordpress/components';
-import ServerPreview, { binder } from '@scripts/admin/components/server-preview';
-import metadata from './block.json';
+            import { registerBlockType } from '@wordpress/blocks';
+            import { InspectorControls } from '@wordpress/block-editor';
+            import { PanelBody, TextControl } from '@wordpress/components';
+            import ServerPreview, { binder } from '@scripts/admin/components/server-preview';
+            import metadata from './block.json';
 
-registerBlockType(metadata, {
-  edit: ({ name, attributes, setAttributes }) => {
-    const bind = binder(attributes, setAttributes);
+            registerBlockType(metadata, {
+              edit: ({ name, attributes, setAttributes }) => {
+                const bind = binder(attributes, setAttributes);
 
-    return (
-      <>
-        <InspectorControls>
-          <PanelBody title="Réglages">
-            <TextControl label="Titre" {...bind('titre')} />
-          </PanelBody>
-        </InspectorControls>
+                return (
+                  <>
+                    <InspectorControls>
+                      <PanelBody title="Réglages">
+                        <TextControl label="Titre" {...bind('titre')} />
+                      </PanelBody>
+                    </InspectorControls>
 
-        <ServerPreview name={name} attributes={attributes} />
-      </>
-    );
-  },
-});
+                    <ServerPreview name={name} attributes={attributes} />
+                  </>
+                );
+              },
+            });
 
-JSX;
+            JSX;
     }
 
     private function inlineEditor(): string
     {
         return <<<JSX
-import { registerBlockType } from '@wordpress/blocks';
-import { RichText, useBlockProps } from '@wordpress/block-editor';
-import metadata from './block.json';
+            import { registerBlockType } from '@wordpress/blocks';
+            import { RichText, useBlockProps } from '@wordpress/block-editor';
+            import metadata from './block.json';
 
-/**
- * Édition directe : le JSX reprend le balisage de la vue Blade (à garder en phase).
- */
-registerBlockType(metadata, {
-  edit: ({ attributes, setAttributes }) => (
-    <section {...useBlockProps({ className: 'block-{$this->slug}' })}>
-      <RichText
-        tagName="h2"
-        placeholder="Titre"
-        allowedFormats={[]}
-        value={attributes.titre}
-        onChange={(titre) => setAttributes({ titre })}
-      />
-    </section>
-  ),
-});
+            /**
+             * Édition directe : le JSX reprend le balisage de la vue Blade (à garder en phase).
+             */
+            registerBlockType(metadata, {
+              edit: ({ attributes, setAttributes }) => (
+                <section {...useBlockProps({ className: 'block-{$this->slug}' })}>
+                  <RichText
+                    tagName="h2"
+                    placeholder="Titre"
+                    allowedFormats={[]}
+                    value={attributes.titre}
+                    onChange={(titre) => setAttributes({ titre })}
+                  />
+                </section>
+              ),
+            });
 
-JSX;
+            JSX;
     }
 
     private function innerEditor(): string
     {
         return <<<'JSX'
-import { registerBlockType } from '@wordpress/blocks';
-import { InnerBlocks, useBlockProps } from '@wordpress/block-editor';
-import metadata from './block.json';
+            import { registerBlockType } from '@wordpress/blocks';
+            import { InnerBlocks, useBlockProps } from '@wordpress/block-editor';
+            import metadata from './block.json';
 
-registerBlockType(metadata, {
-  edit: () => (
-    <div {...useBlockProps()}>
-      <InnerBlocks />
-    </div>
-  ),
+            registerBlockType(metadata, {
+              edit: () => (
+                <div {...useBlockProps()}>
+                  <InnerBlocks />
+                </div>
+              ),
 
-  save: () => <InnerBlocks.Content />,
-});
+              save: () => <InnerBlocks.Content />,
+            });
 
-JSX;
+            JSX;
     }
 
     private function frontScript(): string
@@ -190,17 +195,17 @@ JSX;
     private function composer(): string
     {
         return <<<PHP
-<?php
+            <?php
 
-namespace App\View\Composers\Blocks;
+            namespace App\View\Composers\Blocks;
 
-use App\View\BlockComposer;
+            use App\View\BlockComposer;
 
-class {$this->className} extends BlockComposer
-{
-    protected static \$views = ['blocks.{$this->slug}'];
-}
+            class {$this->className} extends BlockComposer
+            {
+                protected static \$views = ['blocks.{$this->slug}'];
+            }
 
-PHP;
+            PHP;
     }
 }

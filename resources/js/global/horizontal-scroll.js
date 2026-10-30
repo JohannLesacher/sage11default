@@ -46,9 +46,7 @@ export class HorizontalScroll {
       translation = -this.maxTranslation;
     } else {
       scrollbarPercent =
-        ((scrollerRect.bottom - totalScrollHeight) /
-          (viewportHeight - totalScrollHeight)) *
-        100;
+        ((scrollerRect.bottom - totalScrollHeight) / (viewportHeight - totalScrollHeight)) * 100;
       translation = (this.maxTranslation * scrollbarPercent) / -100;
     }
 
@@ -96,7 +94,7 @@ export class HorizontalScroll {
 }
 
 // Monte/démonte les instances selon le media query, une seule fois par page
-export function initHorizontalScroll() {
+export function init() {
   const elements = document.querySelectorAll(HorizontalScroll.SELECTOR);
   if (!elements.length) return;
 
@@ -123,7 +121,8 @@ function mount(elements) {
     for (const entry of entries) {
       const instance = instances.get(entry.target);
       if (!instance) continue;
-      entry.isIntersecting ? instance.attach() : instance.detach();
+      if (entry.isIntersecting) instance.attach();
+      else instance.detach();
     }
   });
 

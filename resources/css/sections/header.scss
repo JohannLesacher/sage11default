@@ -1,4 +1,4 @@
-@use "../config/mixins";
+@use '../config/mixins';
 
 .banner {
   --banner-bg: transparent;
@@ -10,7 +10,9 @@
   background-color: var(--banner-bg);
   color: var(--banner-color);
   z-index: 1000;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s;
+  transition:
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    background 0.3s;
   align-items: center;
 
   &__wrapper {
@@ -95,7 +97,10 @@
         opacity: 0;
         visibility: hidden;
         transform: translateY(0.5rem);
-        transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+        transition:
+          opacity 0.2s,
+          transform 0.2s,
+          visibility 0.2s;
       }
 
       &--left {
@@ -166,7 +171,9 @@
     transform: none !important;
     overflow-y: auto;
     align-items: flex-start;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s;
+    transition:
+      transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+      background 0.3s;
 
     .brand,
     .banner__actions {

@@ -34,11 +34,11 @@ class KeyFigure extends BlockComposer
         $attributes = $this->view->getData()['attributes'] ?? [];
 
         if (! empty($attributes['valueColor'])) {
-            return 'color: var(--wp--preset--color--'.sanitize_html_class($attributes['valueColor']).')';
+            return 'color: var(--wp--preset--color--' . sanitize_html_class($attributes['valueColor']) . ')';
         }
 
         if (! empty($attributes['customValueColor'])) {
-            $color = safecss_filter_attr('color: '.$attributes['customValueColor']);
+            $color = safecss_filter_attr('color: ' . $attributes['customValueColor']);
 
             return $color ?: null;
         }

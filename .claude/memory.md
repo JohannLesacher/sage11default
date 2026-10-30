@@ -19,6 +19,7 @@
 - **CPTs**: `evenement` (slug: `evenements`) — avec meta `date_event`
 - **Taxonomies**: aucune pour l'instant
 - **Pre-commit**: Husky → `npm run format:all:check` (Prettier + Pint + Blade Formatter)
+- **Update (2026-10-30)**: Pre-commit line above obsolete — tooling aligned on Radicle: Mago (`composer format` / `lint`, replaces Pint), oxfmt + oxlint (`npm run format` / `lint`); CI runs both. Husky hook not re-checked
 - **Remotes**: `origin` = JohannLesacher/sage11default (starter template), `upstream` = roots/sage (`upstream/main`)
 
 ## Architectural decisions
@@ -86,5 +87,6 @@
 - **`{{ }}` double-encodes WordPress entities (2026-10-29)**: Blade `e()` re-encodes `&rsquo;` (wptexturize) / `&amp;` (bloginfo) → `&amp;rsquo;` on screen; for WP data use `{!! esc_html() !!}` / `{!! esc_attr() !!}` (no double encoding). `{{ }}` OK for technical values (align, slugs)
 - **Update (2026-10-29)**: `MakeBlockCommand` composer stub import fixed (line above obsolete); command now refuses to overwrite existing files without `--force`
 - **JSX dev scan (2026-10-29)**: Vite dep scan ignores `oxc` config and looks for `react/jsx-dev-runtime` → "Failed to run dependency scan" + no pre-bundling; fixed with `optimizeDeps.rolldownOptions.transform.jsx` (`automatic`, `development: false`)
+- **Mago without `php-version` targets PHP 8.4 (2026-10-30)**: `mago format` rewrote `(new X())->m()` to `new X()->m()` → parse error on PHP 8.3 in `BlockServiceProvider.php`; keep `php-version = "8.3"` in `mago.toml`, run `php -l` after mass reformat
 
 ## Important files

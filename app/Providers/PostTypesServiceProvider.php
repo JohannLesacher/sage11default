@@ -7,63 +7,68 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
 
-class PostTypesServiceProvider extends ServiceProvider {
+class PostTypesServiceProvider extends ServiceProvider
+{
+    public function register(): void
+    {
+        $path = app_path('PostTypes');
 
-    public function register(): void {
-        $path = app_path( 'PostTypes' );
-
-        if ( ! File::isDirectory( $path ) ) {
+        if (! File::isDirectory($path)) {
             return;
         }
 
-        foreach ( File::glob( "{$path}/*.php" ) as $file ) {
-            $class = 'App\\PostTypes\\' . pathinfo( $file, PATHINFO_FILENAME );
-            $this->app->singleton( $class );
+        foreach (File::glob("{$path}/*.php") as $file) {
+            $class = 'App\\PostTypes\\' . pathinfo($file, PATHINFO_FILENAME);
+            $this->app->singleton($class);
         }
     }
 
-    public function boot(): void {
-        add_action( 'init', function (): void {
-            Collection::make( config( 'post-types.post_types' ) )
-                      ->each( function ( $args, $post_type ) {
-                          register_extended_post_type(
-                              $post_type,
-                              $args,
-                              Arr::pull( $args, 'names' )
-                          );
-                      } );
-        }, 100 );
+    public function boot(): void
+    {
+        add_action(
+            'init',
+            function (): void {
+                Collection::make(config('post-types.post_types'))->each(function ($args, $post_type) {
+                    register_extended_post_type($post_type, $args, Arr::pull($args, 'names'));
+                });
+            },
+            100,
+        );
 
-        add_action( 'init', function (): void {
-            Collection::make( config( 'post-types.taxonomies' ) )
-                      ->each( function ( $args, $taxonomy ) {
-                          register_extended_taxonomy(
-                              $taxonomy,
-                              Arr::pull( $args, 'post_types' ),
-                              $args,
-                              Arr::pull( $args, 'names' )
-                          );
-                      } );
-        }, 100 );
+        add_action(
+            'init',
+            function (): void {
+                Collection::make(config('post-types.taxonomies'))->each(function ($args, $taxonomy) {
+                    register_extended_taxonomy(
+                        $taxonomy,
+                        Arr::pull($args, 'post_types'),
+                        $args,
+                        Arr::pull($args, 'names'),
+                    );
+                });
+            },
+            100,
+        );
 
-        add_filter( 'rwmb_meta_boxes', [ $this, 'loadPostTypesMetas' ] );
+        add_filter('rwmb_meta_boxes', [$this, 'loadPostTypesMetas']);
     }
 
-    public function loadPostTypesMetas( array $meta_boxes ): array {
-        $path = app_path( 'PostTypes' );
+    public function loadPostTypesMetas(array $meta_boxes): array
+    {
+        $path = app_path('PostTypes');
 
-        if ( ! File::isDirectory( $path ) ) {
+        if (! File::isDirectory($path)) {
             return $meta_boxes;
         }
 
-        foreach ( File::glob( "{$path}/*.php" ) as $file ) {
-            $class = 'App\\PostTypes\\' . pathinfo( $file, PATHINFO_FILENAME );
+        foreach (File::glob("{$path}/*.php") as $file) {
+            $class = 'App\\PostTypes\\' . pathinfo($file, PATHINFO_FILENAME);
 
-            if ( class_exists( $class ) ) {
-                $instance = $this->app->make( $class );
+            if (class_exists($class)) {
+                $instance = $this->app->make($class);
 
-                if ( method_exists( $instance, 'addMetas' ) ) {
-                    $meta_boxes = $instance->addMetas( $meta_boxes );
+                if (method_exists($instance, 'addMetas')) {
+                    $meta_boxes = $instance->addMetas($meta_boxes);
                 }
             }
         }

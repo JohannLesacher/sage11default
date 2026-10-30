@@ -1,12 +1,12 @@
-@use "sass:color";
-@use "sass:map";
-@use "../config/variables" as *;
+@use 'sass:color';
+@use 'sass:map';
+@use '../config/variables' as *;
 
 // Gravity Forms — thème "Orbital" (framework) aligné sur theme.json.
 // Les réglages par formulaire en admin deviennent inutiles : tout passe par les variables --gf-*.
 // Pour un client, ajuster uniquement les variables ci-dessous.
 
-$gf-primary: "primary";
+$gf-primary: 'primary';
 $gf-label-color: var(--wp--preset--color--text);
 $gf-text-color: var(--wp--preset--color--text);
 $gf-ctrl-bg: var(--wp--preset--color--background);
@@ -20,7 +20,10 @@ $gf-primary-var: map.get($colors, $gf-primary);
 .gform-theme.gform-theme--framework.gform_wrapper {
   // Couleurs globales (cases à cocher, radios, focus, bouton)
   --gf-color-primary: #{$gf-primary-var};
-  --gf-color-primary-rgb: #{color.channel($gf-primary-hex, "red", $space: rgb)}, #{color.channel($gf-primary-hex, "green", $space: rgb)}, #{color.channel($gf-primary-hex, "blue", $space: rgb)};
+  --gf-color-primary-rgb:
+    #{color.channel($gf-primary-hex, 'red', $space: rgb)},
+    #{color.channel($gf-primary-hex, 'green', $space: rgb)},
+    #{color.channel($gf-primary-hex, 'blue', $space: rgb)};
   --gf-color-primary-contrast: var(--wp--preset--color--background);
   --gf-color-primary-darker: color-mix(in srgb, #{$gf-primary-var} 80%, black);
   --gf-color-primary-lighter: color-mix(in srgb, #{$gf-primary-var} 80%, white);
@@ -92,7 +95,7 @@ $gf-primary-var: map.get($colors, $gf-primary);
   }
 
   .gform_button,
-  button[type="submit"] {
+  button[type='submit'] {
     transition: background-color 0.2s ease;
 
     &:focus {

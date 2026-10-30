@@ -1,0 +1,35 @@
+php-version = "8.3"
+
+[source]
+paths = ["app/"]
+excludes = []
+
+[formatter]
+print-width = 120
+null-type-hint = "question"
+space-before-arrow-function-parameter-list-parenthesis = true
+space-after-logical-not-unary-prefix-operator = true
+sort-uses = true
+
+[linter]
+integrations = ["laravel"]
+
+[linter.rules]
+literal-named-argument = { enabled = false } # too noisy with WordPress i18n functions (__(), _e(), etc.)
+no-else-clause = { enabled = true }
+no-assign-in-condition = { enabled = false } # common WordPress pattern: if ($x = get_option(...))
+no-empty = { enabled = false }
+no-global = { enabled = false } # unavoidable in WordPress ($GLOBALS['wpdb'], global $post, etc.)
+no-literal-password = { enabled = false }
+no-empty-comment = { enabled = false }
+no-eval = { enabled = true }
+no-multi-assignments = { enabled = false }
+no-redundant-nullsafe = { enabled = false } # WordPress functions often return false instead of null
+no-redundant-parentheses = { enabled = true }
+no-redundant-use = { enabled = true }
+no-shorthand-ternary = { enabled = false }
+prefer-arrow-function = { enabled = false }
+prefer-first-class-callable = { enabled = false }
+prefer-static-closure = { enabled = false }
+strict-types = { enabled = false }
+too-many-methods = { threshold = 20 }

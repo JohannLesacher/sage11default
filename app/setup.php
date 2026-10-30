@@ -64,90 +64,99 @@ add_filter('should_load_separate_core_block_assets', '__return_false');
  *
  * @return void
  */
-add_action('after_setup_theme', function () {
-    /**
-     * Disable full-site editing support.
-     *
-     * @link https://wptavern.com/gutenberg-10-5-embeds-pdfs-adds-verse-block-color-options-and-introduces-new-patterns
-     */
-    remove_theme_support('block-templates');
+add_action(
+    'after_setup_theme',
+    function () {
+        /**
+         * Load theme translations (`npm run translate`).
+         */
+        load_theme_textdomain('sage', get_theme_file_path('resources/lang'));
 
-    /**
-     * Register the navigation menus.
-     *
-     * @link https://developer.wordpress.org/reference/functions/register_nav_menus/
-     */
-    register_nav_menus(config('theme.menus'));
+        /**
+         * Disable full-site editing support.
+         *
+         * @link https://wptavern.com/gutenberg-10-5-embeds-pdfs-adds-verse-block-color-options-and-introduces-new-patterns
+         */
+        remove_theme_support('block-templates');
 
-    /**
-     * Disable the default block patterns.
-     *
-     * @link https://developer.wordpress.org/block-editor/developers/themes/theme-support/#disabling-the-default-block-patterns
-     */
-    remove_theme_support('core-block-patterns');
+        /**
+         * Register the navigation menus.
+         *
+         * @link https://developer.wordpress.org/reference/functions/register_nav_menus/
+         */
+        register_nav_menus(config('theme.menus'));
 
-    /**
-     * Enable plugins to manage the document title.
-     *
-     * @link https://developer.wordpress.org/reference/functions/add_theme_support/#title-tag
-     */
-    add_theme_support('title-tag');
+        /**
+         * Disable the default block patterns.
+         *
+         * @link https://developer.wordpress.org/block-editor/developers/themes/theme-support/#disabling-the-default-block-patterns
+         */
+        remove_theme_support('core-block-patterns');
 
-    /**
-     * Enable post thumbnail support.
-     *
-     * @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
-     */
-    add_theme_support('post-thumbnails');
+        /**
+         * Enable plugins to manage the document title.
+         *
+         * @link https://developer.wordpress.org/reference/functions/add_theme_support/#title-tag
+         */
+        add_theme_support('title-tag');
 
-    /**
-     * Register custom image sizes (config/theme.php).
-     */
-    foreach (config('theme.image_sizes') as $name => $size) {
-        add_image_size($name, $size['width'], $size['height'], $size['crop'] ?? false);
-    }
+        /**
+         * Enable post thumbnail support.
+         *
+         * @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
+         */
+        add_theme_support('post-thumbnails');
 
-    /**
-     * Enable responsive embed support.
-     *
-     * @link https://developer.wordpress.org/block-editor/how-to-guides/themes/theme-support/#responsive-embedded-content
-     */
-    add_theme_support('responsive-embeds');
+        /**
+         * Register custom image sizes (config/theme.php).
+         */
+        foreach (config('theme.image_sizes') as $name => $size) {
+            add_image_size($name, $size['width'], $size['height'], $size['crop'] ?? false);
+        }
 
-    /**
-     * Enable HTML5 markup support.
-     *
-     * @link https://developer.wordpress.org/reference/functions/add_theme_support/#html5
-     */
-    add_theme_support('html5', [
-        'caption',
-        'comment-form',
-        'comment-list',
-        'gallery',
-        'search-form',
-        'script',
-        'style',
-    ]);
+        /**
+         * Enable responsive embed support.
+         *
+         * @link https://developer.wordpress.org/block-editor/how-to-guides/themes/theme-support/#responsive-embedded-content
+         */
+        add_theme_support('responsive-embeds');
 
-    /**
-     * Enable selective refresh for widgets in customizer.
-     *
-     * @link https://developer.wordpress.org/reference/functions/add_theme_support/#customize-selective-refresh-widgets
-     */
-    add_theme_support('customize-selective-refresh-widgets');
+        /**
+         * Enable HTML5 markup support.
+         *
+         * @link https://developer.wordpress.org/reference/functions/add_theme_support/#html5
+         */
+        add_theme_support('html5', [
+            'caption',
+            'comment-form',
+            'comment-list',
+            'gallery',
+            'search-form',
+            'script',
+            'style',
+        ]);
 
-    /**
-     * Enable wide alignment support.
-     *
-     * @link https://developer.wordpress.org/block-editor/developers/themes/theme-support/#align-wide
-     */
-    add_theme_support( 'align-wide' );
+        /**
+         * Enable selective refresh for widgets in customizer.
+         *
+         * @link https://developer.wordpress.org/reference/functions/add_theme_support/#customize-selective-refresh-widgets
+         */
+        add_theme_support('customize-selective-refresh-widgets');
 
-    /*
-     * Excerpt support
-     */
-    add_post_type_support( 'page', 'excerpt' );
-}, 20);
+        /**
+         * Enable wide alignment support.
+         *
+         * @link https://developer.wordpress.org/block-editor/developers/themes/theme-support/#align-wide
+         */
+        add_theme_support('align-wide');
+
+        /*
+         * Excerpt support
+         */
+        add_post_type_support('page', 'excerpt');
+    },
+    20,
+);
 
 /**
  * Register the theme sidebars.

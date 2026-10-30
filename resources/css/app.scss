@@ -1,12 +1,12 @@
-@use "config/reset";
-@use "config/external";
+@use 'config/reset';
+@use 'config/external';
 
-@use "base/layout";
-@use "base/global";
-@use "base/animation";
-@use "base/responsive";
+@use 'base/layout';
+@use 'base/global';
+@use 'base/animation';
+@use 'base/responsive';
 
-@use "sections/header";
-@use "sections/footer";
+@use 'sections/header';
+@use 'sections/footer';
 
-@use "plugins/gravity-forms";
+@use 'plugins/gravity-forms';

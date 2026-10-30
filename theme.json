@@ -82,14 +82,7 @@
       "padding": true,
       "margin": true,
       "blockGap": true,
-      "units": [
-        "px",
-        "%",
-        "em",
-        "rem",
-        "vw",
-        "vh"
-      ],
+      "units": ["px", "%", "em", "rem", "vw", "vh"],
       "defaultSpacingSizes": false,
       "spacingScale": { "steps": 0 },
       "spacingSizes": [
@@ -113,8 +106,20 @@
           "slug": "heading",
           "fontFamily": "'Instrument Serif', serif",
           "fontFace": [
-            { "fontFamily": "Instrument Serif", "fontWeight": "400", "fontStyle": "normal", "fontDisplay": "swap", "src": ["file:./resources/fonts/instrument-serif-v5-latin-regular.woff2"] },
-            { "fontFamily": "Instrument Serif", "fontWeight": "400", "fontStyle": "italic", "fontDisplay": "swap", "src": ["file:./resources/fonts/instrument-serif-v5-latin-italic.woff2"] }
+            {
+              "fontFamily": "Instrument Serif",
+              "fontWeight": "400",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": ["file:./resources/fonts/instrument-serif-v5-latin-regular.woff2"]
+            },
+            {
+              "fontFamily": "Instrument Serif",
+              "fontWeight": "400",
+              "fontStyle": "italic",
+              "fontDisplay": "swap",
+              "src": ["file:./resources/fonts/instrument-serif-v5-latin-italic.woff2"]
+            }
           ]
         },
         {
@@ -122,13 +127,55 @@
           "slug": "body",
           "fontFamily": "'Inter', sans-serif",
           "fontFace": [
-            { "fontFamily": "Inter", "fontWeight": "200", "fontStyle": "normal", "fontDisplay": "swap", "src": ["file:./resources/fonts/inter-v20-latin-200.woff2"] },
-            { "fontFamily": "Inter", "fontWeight": "400", "fontStyle": "normal", "fontDisplay": "swap", "src": ["file:./resources/fonts/inter-v20-latin-regular.woff2"] },
-            { "fontFamily": "Inter", "fontWeight": "400", "fontStyle": "italic", "fontDisplay": "swap", "src": ["file:./resources/fonts/inter-v20-latin-italic.woff2"] },
-            { "fontFamily": "Inter", "fontWeight": "600", "fontStyle": "normal", "fontDisplay": "swap", "src": ["file:./resources/fonts/inter-v20-latin-600.woff2"] },
-            { "fontFamily": "Inter", "fontWeight": "700", "fontStyle": "normal", "fontDisplay": "swap", "src": ["file:./resources/fonts/inter-v20-latin-700.woff2"] },
-            { "fontFamily": "Inter", "fontWeight": "700", "fontStyle": "italic", "fontDisplay": "swap", "src": ["file:./resources/fonts/inter-v20-latin-700italic.woff2"] },
-            { "fontFamily": "Inter", "fontWeight": "900", "fontStyle": "normal", "fontDisplay": "swap", "src": ["file:./resources/fonts/inter-v20-latin-900.woff2"] }
+            {
+              "fontFamily": "Inter",
+              "fontWeight": "200",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": ["file:./resources/fonts/inter-v20-latin-200.woff2"]
+            },
+            {
+              "fontFamily": "Inter",
+              "fontWeight": "400",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": ["file:./resources/fonts/inter-v20-latin-regular.woff2"]
+            },
+            {
+              "fontFamily": "Inter",
+              "fontWeight": "400",
+              "fontStyle": "italic",
+              "fontDisplay": "swap",
+              "src": ["file:./resources/fonts/inter-v20-latin-italic.woff2"]
+            },
+            {
+              "fontFamily": "Inter",
+              "fontWeight": "600",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": ["file:./resources/fonts/inter-v20-latin-600.woff2"]
+            },
+            {
+              "fontFamily": "Inter",
+              "fontWeight": "700",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": ["file:./resources/fonts/inter-v20-latin-700.woff2"]
+            },
+            {
+              "fontFamily": "Inter",
+              "fontWeight": "700",
+              "fontStyle": "italic",
+              "fontDisplay": "swap",
+              "src": ["file:./resources/fonts/inter-v20-latin-700italic.woff2"]
+            },
+            {
+              "fontFamily": "Inter",
+              "fontWeight": "900",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": ["file:./resources/fonts/inter-v20-latin-900.woff2"]
+            }
           ]
         }
       ],

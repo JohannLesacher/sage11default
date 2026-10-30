@@ -27,24 +27,37 @@ function themeJsonTokens() {
     const { settings } = JSON.parse(readFileSync(src, 'utf8'));
 
     // Points de rupture : viewport de WordPress (mobile, tablet ; défauts core si absents) + custom.breakpoints
-    const breakpoints = { mobile: '480px', tablet: '782px', ...settings.viewport, ...settings.custom?.breakpoints };
+    const breakpoints = {
+      mobile: '480px',
+      tablet: '782px',
+      ...settings.viewport,
+      ...settings.custom?.breakpoints,
+    };
 
-    writeFileSync('resources/css/config/_theme.scss', [
-      '// Généré depuis theme.json par vite.config.js — ne pas éditer\n',
-      map('colors', settings.color.palette, 'color'),
-      `$colors-hex: (\n${settings.color.palette.map((color) => `  "${color.slug}": ${color.color},`).join('\n')}\n);\n`,
-      map('fonts', settings.typography.fontFamilies, 'font-family'),
-      map('font-sizes', settings.typography.fontSizes, 'font-size'),
-      map('spacing', settings.spacing.spacingSizes, 'spacing'),
-      `$breakpoints: (\n${Object.entries(breakpoints).map(([name, size]) => `  "${name}": ${size},`).join('\n')}\n);\n`,
-    ].join('\n'));
+    writeFileSync(
+      'resources/css/config/_theme.scss',
+      [
+        '// Généré depuis theme.json par vite.config.js — ne pas éditer\n',
+        map('colors', settings.color.palette, 'color'),
+        `$colors-hex: (\n${settings.color.palette.map((color) => `  "${color.slug}": ${color.color},`).join('\n')}\n);\n`,
+        map('fonts', settings.typography.fontFamilies, 'font-family'),
+        map('font-sizes', settings.typography.fontSizes, 'font-size'),
+        map('spacing', settings.spacing.spacingSizes, 'spacing'),
+        `$breakpoints: (\n${Object.entries(breakpoints)
+          .map(([name, size]) => `  "${name}": ${size},`)
+          .join('\n')}\n);\n`,
+      ].join('\n'),
+    );
 
-    writeFileSync('resources/js/config/breakpoints.js', [
-      '// Généré depuis theme.json par vite.config.js — ne pas éditer',
-      '// Points de rupture en px : « jusqu\'à » = width <= valeur, « au-delà » = width > valeur',
-      `export const breakpoints = ${JSON.stringify(Object.fromEntries(Object.entries(breakpoints).map(([name, size]) => [name, parseInt(size, 10)])))};`,
-      '',
-    ].join('\n'));
+    writeFileSync(
+      'resources/js/config/breakpoints.js',
+      [
+        '// Généré depuis theme.json par vite.config.js — ne pas éditer',
+        "// Points de rupture en px : « jusqu'à » = width <= valeur, « au-delà » = width > valeur",
+        `export const breakpoints = ${JSON.stringify(Object.fromEntries(Object.entries(breakpoints).map(([name, size]) => [name, parseInt(size, 10)])))};`,
+        '',
+      ].join('\n'),
+    );
   };
 
   return {
@@ -113,7 +126,8 @@ export default defineConfig({
     rolldownOptions: {
       output: {
         entryFileNames: (chunk) => `assets/${blockPrefix(chunk.facadeModuleId)}[name]-[hash].js`,
-        assetFileNames: (asset) => `assets/${blockPrefix(asset.originalFileNames?.[0])}[name]-[hash][extname]`,
+        assetFileNames: (asset) =>
+          `assets/${blockPrefix(asset.originalFileNames?.[0])}[name]-[hash][extname]`,
       },
     },
   },

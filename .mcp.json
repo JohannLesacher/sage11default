@@ -2,9 +2,7 @@
   "mcpServers": {
     "figma": {
       "command": "npx",
-      "args": [
-        "@figma/mcp-server-figma"
-      ]
+      "args": ["@figma/mcp-server-figma"]
     },
     "wordpress": {
       "command": "wp",

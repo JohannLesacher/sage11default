@@ -36,7 +36,7 @@ class Carte extends BlockComposer
     {
         $lat = $this->latitude();
         $lon = $this->longitude();
-        $deltaLon = 0.01 * 2 ** (self::ZOOM_DEFAUT - $this->zoom());
+        $deltaLon = 0.01 * (2 ** (self::ZOOM_DEFAUT - $this->zoom()));
         $deltaLat = $deltaLon / 2;
 
         $bbox = implode(',', array_map([$this, 'format'], [
@@ -50,7 +50,7 @@ class Carte extends BlockComposer
             'https://www.openstreetmap.org/export/embed.html?bbox=%s&layer=mapnik&marker=%s,%s',
             $bbox,
             $this->format($lat),
-            $this->format($lon)
+            $this->format($lon),
         );
     }
 
@@ -60,7 +60,7 @@ class Carte extends BlockComposer
             'https://maps.google.com/maps?q=%s,%s&z=%d&hl=fr&output=embed',
             $this->format($this->latitude()),
             $this->format($this->longitude()),
-            $this->zoom()
+            $this->zoom(),
         );
     }
 
