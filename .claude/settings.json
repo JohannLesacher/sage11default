@@ -5,31 +5,13 @@
     "command": "~/.claude/statusline.sh"
   },
   "permissions": {
-    "allow": [
-      "Bash(npm run build)",
-      "Bash(npm run dev)",
-      "Bash(npm run format:all:check)",
-      "Bash(npm run translate)",
-      "Bash(npx prettier:*)",
-      "Bash(wp mcp-adapter:*)",
-      "Bash(wp acorn:*)",
-      "Bash(vendor/bin/pint:*)",
-      "mcp__figma__get_design_context",
-      "mcp__figma__get_screenshot",
-      "mcp__figma__get_metadata",
-      "mcp__figma__get_variable_defs",
-      "mcp__figma__get_code_connect_map",
-      "mcp__figma__whoami"
-    ],
     "deny": [
       "Bash(rm -rf:*)",
       "Bash(git push --force:*)",
       "Bash(chmod 777:*)",
       "Read(.env)",
       "Read(.env.*)",
-      "Read(auth.json)",
-      "Read(node_modules/**)",
-      "Read(vendor/**/*.php)"
+      "Read(auth.json)"
     ]
   },
   "enableAllProjectMcpServers": true,
