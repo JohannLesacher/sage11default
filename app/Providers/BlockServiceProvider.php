@@ -2,13 +2,12 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\File;
+use App\Blocks\Base\BlockExtension;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 use ReflectionClass;
 use WP_Block;
-
-use function Roots\view;
 
 /**
  * Blocs : chaque resources/blocks/{name}/block.json est enregistré automatiquement.
@@ -27,7 +26,7 @@ class BlockServiceProvider extends ServiceProvider
 
     public function bootBlocks(): void
     {
-        foreach (File::glob(resource_path('blocks') . '/*/block.json') as $file) {
+        foreach (glob(resource_path('blocks') . '/*/block.json') ?: [] as $file) {
             $this->registerBlock(basename(dirname($file)));
         }
 
@@ -47,6 +46,10 @@ class BlockServiceProvider extends ServiceProvider
             ),
         ]);
 
+        if (! $type) {
+            return;
+        }
+
         // Front : assets dans le <head> si le contenu contient le bloc, sinon au rendu (pattern, widget…)
         add_action('enqueue_block_assets', function () use ($name, $type) {
             if (is_admin() || has_block($type->name)) {
@@ -55,25 +58,33 @@ class BlockServiceProvider extends ServiceProvider
         });
     }
 
+    /**
+     * @param  array<mixed>  $attributes
+     */
     private function render(string $name, array $attributes, string $content, WP_Block $block): string
     {
         $this->loadAssets($name);
 
-        return view("blocks.{$name}", [
+        return View::make("blocks.{$name}", [
             'attributes' => $attributes,
             'content' => $content,
             'block' => $block,
             // Aperçu dans l'éditeur (ServerSideRender passe par l'API REST)
             'is_preview' => wp_is_serving_rest_request(),
             // Classes, styles et ancre des supports Gutenberg : <div {!! $wrapperAttributes('block-x') !!}>
-            'wrapperAttributes' => fn (
-                string $class = '',
-                array $extra = [],
-            ) => get_block_wrapper_attributes(array_filter(
-                ['class' => $class] + $extra,
-                fn ($value) => $value !== '' && $value !== null,
-            )),
+            'wrapperAttributes' => $this->wrapperAttributes(...),
         ])->render();
+    }
+
+    /**
+     * @param  array<string, string|null>  $extra
+     */
+    private function wrapperAttributes(string $class = '', array $extra = []): string
+    {
+        return get_block_wrapper_attributes(array_filter(
+            ['class' => $class] + $extra,
+            fn (?string $value) => $value !== null && $value !== '',
+        ));
     }
 
     private function loadAssets(string $name): void
@@ -87,18 +98,23 @@ class BlockServiceProvider extends ServiceProvider
         }
     }
 
+    /**
+     * @return list<class-string<BlockExtension>>
+     */
     private function blockClasses(): array
     {
-        return array_values(array_filter(
-            array_map(
-                fn ($file) => 'App\\Blocks\\' . pathinfo($file, PATHINFO_FILENAME),
-                File::glob(app_path('Blocks') . '/*.php'),
-            ),
-            fn ($className) => (
-                class_exists($className)
-                && ! (new ReflectionClass($className))->isAbstract()
-                && method_exists($className, 'boot')
-            ),
-        ));
+        $classes = [];
+
+        foreach (glob(app_path('Blocks') . '/*.php') ?: [] as $file) {
+            $className = 'App\\Blocks\\' . pathinfo($file, PATHINFO_FILENAME);
+
+            if (
+                is_subclass_of($className, BlockExtension::class) && ! (new ReflectionClass($className))->isAbstract()
+            ) {
+                $classes[] = $className;
+            }
+        }
+
+        return $classes;
     }
 }

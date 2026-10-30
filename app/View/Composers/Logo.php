@@ -11,6 +11,6 @@ class Logo extends Composer
 
     public function logoId(): int
     {
-        return (int) app(ThemeSettings::class)->get('logo', 0);
+        return app(ThemeSettings::class)->integer('logo');
     }
 }

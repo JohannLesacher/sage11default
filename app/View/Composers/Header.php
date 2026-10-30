@@ -2,6 +2,7 @@
 
 namespace App\View\Composers;
 
+use App\Services\ThemeConfig;
 use Log1x\Navi\Facades\Navi;
 use Roots\Acorn\View\Composer;
 
@@ -9,18 +10,26 @@ class Header extends Composer
 {
     protected static $views = ['sections.header'];
 
+    /**
+     * @return array<string, mixed>
+     */
     public function with(): array
     {
+        $header = ThemeConfig::header();
+
         return [
             'navigation' => $this->getNavigation(),
             'languages' => $this->getLanguages(),
-            'is_fixed' => config('theme.header.fixed'),
-            'has_lang' => config('theme.header.lang'),
-            'cta' => config('theme.header.cta'),
-            'align' => config('theme.header.align'),
+            'is_fixed' => $header['fixed'],
+            'has_lang' => $header['lang'],
+            'cta' => $header['cta'],
+            'align' => $header['align'],
         ];
     }
 
+    /**
+     * @return array<mixed>
+     */
     private function getNavigation(): array
     {
         $nav = Navi::build('primary_navigation');
@@ -28,8 +37,13 @@ class Header extends Composer
         return $nav->isEmpty() ? [] : $nav->all();
     }
 
+    /**
+     * @return array<mixed>
+     */
     private function getLanguages(): array
     {
-        return function_exists('pll_the_languages') ? (pll_the_languages(['raw' => 1]) ?: []) : [];
+        $languages = function_exists('pll_the_languages') ? pll_the_languages(['raw' => 1]) : null;
+
+        return is_array($languages) ? $languages : [];
     }
 }

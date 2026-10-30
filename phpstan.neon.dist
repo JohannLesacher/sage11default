@@ -1,0 +1,10 @@
+parameters:
+    level: max
+    phpVersion: 80300
+    paths:
+        - app/
+    scanFiles:
+        # WordPress first: its __() wins over Laravel's, as at runtime
+        - vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
+        # Laravel helpers (config(), app()…) loaded by Acorn at boot, not by Composer
+        - vendor/roots/acorn/src/Illuminate/Foundation/helpers.php

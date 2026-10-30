@@ -9,7 +9,7 @@ class Post extends Composer
     /**
      * List of views served by this composer.
      *
-     * @var array
+     * @var string[]
      */
     protected static $views = [
         'partials.page-header',
@@ -27,8 +27,10 @@ class Post extends Composer
         }
 
         if (is_home()) {
-            if ($home = get_option('page_for_posts', true)) {
-                return get_the_title($home);
+            $home = get_option('page_for_posts');
+
+            if (is_numeric($home) && (int) $home > 0) {
+                return get_the_title((int) $home);
             }
 
             return __('Latest Posts', 'sage');
@@ -71,8 +73,10 @@ class Post extends Composer
     public function shouldDisplayTitle(): bool
     {
         // Page jamais enregistrée depuis l'ajout de la metabox : on applique le défaut (affiché)
-        if (is_page() && metadata_exists('post', get_the_ID(), 'display_title')) {
-            return (bool) get_post_meta(get_the_ID(), 'display_title', true);
+        $id = get_the_ID();
+
+        if (is_page() && $id !== false && metadata_exists('post', $id, 'display_title')) {
+            return (bool) get_post_meta($id, 'display_title', true);
         }
 
         return true;

@@ -9,8 +9,12 @@ class Evenements extends BlockComposer
 {
     protected static $views = ['blocks.evenements'];
 
+    /** @var array<int, array{titre: string, url: string|false, date: string|int|false, datetime: string|int|false, image: string}>|null */
     private ?array $evenements = null;
 
+    /**
+     * @return array<int, array{titre: string, url: string|false, date: string|int|false, datetime: string|int|false, image: string}>
+     */
     public function evenements(): array
     {
         return $this->evenements ??= array_map(
@@ -19,13 +23,13 @@ class Evenements extends BlockComposer
                 'url' => get_permalink($post),
                 'date' => get_the_date('', $post),
                 'datetime' => get_the_date('c', $post),
-                'image' => $this->attribute('afficherImage', true) ? get_the_post_thumbnail($post, 'medium_large', [
+                'image' => $this->boolean('afficherImage', true) ? get_the_post_thumbnail($post, 'medium_large', [
                         'class' => 'block-evenements__image',
                     ]) : '',
             ],
             get_posts([
                 'post_type' => 'evenement',
-                'numberposts' => max(1, min(12, (int) $this->attribute('nombre', 3))),
+                'numberposts' => max(1, min(12, $this->integer('nombre', 3))),
                 'no_found_rows' => true,
             ]),
         );

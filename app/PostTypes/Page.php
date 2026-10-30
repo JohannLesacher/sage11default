@@ -2,11 +2,11 @@
 
 namespace App\PostTypes;
 
-class Page
+class Page implements HasMetaBoxes
 {
     private string $post_type = 'page';
 
-    public function addMetas($meta_boxes)
+    public function addMetas(array $meta_boxes): array
     {
         $meta_boxes[] = [
             'title' => 'Réglages',

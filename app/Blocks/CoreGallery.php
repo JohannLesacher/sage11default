@@ -2,12 +2,13 @@
 
 namespace App\Blocks;
 
+use App\Blocks\Base\BlockExtension;
 use App\Blocks\Base\ExtendsCoreBlock;
 
 /**
  * Extension de core/gallery : style de bloc « Logos » (resources/blocks/core-gallery/style.scss).
  */
-class CoreGallery
+class CoreGallery implements BlockExtension
 {
     use ExtendsCoreBlock;
 

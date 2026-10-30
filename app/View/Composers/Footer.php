@@ -16,6 +16,9 @@ class Footer extends Composer
         'youtube' => 'YouTube',
     ];
 
+    /**
+     * @return array<string, mixed>
+     */
     public function with(): array
     {
         $settings = app(ThemeSettings::class);
@@ -29,6 +32,9 @@ class Footer extends Composer
         ];
     }
 
+    /**
+     * @return array<string, string>
+     */
     private function contact(ThemeSettings $settings): array
     {
         $phone = $settings->translated('footer_phone');
@@ -41,12 +47,15 @@ class Footer extends Composer
         ]);
     }
 
+    /**
+     * @return list<array{network: string, label: string, url: string}>
+     */
     private function social(ThemeSettings $settings): array
     {
         $links = [];
 
         foreach (self::SOCIAL as $network => $label) {
-            if ($url = $settings->get("footer_social_{$network}")) {
+            if ($url = $settings->string("footer_social_{$network}")) {
                 $links[] = ['network' => $network, 'label' => $label, 'url' => $url];
             }
         }
@@ -61,6 +70,9 @@ class Footer extends Composer
         return '© ' . date('Y') . ' ' . $settings->translated('footer_copyright_text', $default);
     }
 
+    /**
+     * @return array<mixed>
+     */
     private function buildNav(string $location): array
     {
         $nav = Navi::build($location);

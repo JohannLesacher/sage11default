@@ -9,7 +9,7 @@ class Comments extends Composer
     /**
      * List of views served by this composer.
      *
-     * @var array
+     * @var string[]
      */
     protected static $views = [
         'partials.comments',
@@ -20,18 +20,18 @@ class Comments extends Composer
      */
     public function title(): string
     {
+        $count = (int) get_comments_number();
+
         return sprintf(
             /* translators: %1$s is replaced with the number of comments and %2$s with the post title */
             _nx(
                 '%1$s response to &ldquo;%2$s&rdquo;',
                 '%1$s responses to &ldquo;%2$s&rdquo;',
-                get_comments_number(),
+                $count,
                 'comments title',
                 'sage',
             ),
-            get_comments_number() === 1
-                ? _x('One', 'comments title', 'sage')
-                : number_format_i18n(get_comments_number()),
+            $count === 1 ? _x('One', 'comments title', 'sage') : number_format_i18n($count),
             get_the_title(),
         );
     }
@@ -91,6 +91,6 @@ class Comments extends Composer
     {
         return ! comments_open()
         && (int) get_comments_number() !== 0
-        && post_type_supports(get_post_type(), 'comments');
+        && post_type_supports((string) get_post_type(), 'comments');
     }
 }

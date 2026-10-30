@@ -6,22 +6,30 @@
 
 namespace App;
 
+use App\Services\ThemeConfig;
 use Illuminate\Support\Facades\Vite;
 
 /**
  * Inject styles into the block editor.
- *
- * @return array
  */
-add_filter('block_editor_settings_all', function ($settings) {
-    $style = Vite::asset('resources/css/editor.scss');
+add_filter(
+    'block_editor_settings_all',
+    /**
+     * @param  array<string, mixed>  $settings
+     * @return array<string, mixed>
+     */
+    function (array $settings): array {
+        $style = Vite::asset('resources/css/editor.scss');
 
-    $settings['styles'][] = [
-        'css' => "@import url('{$style}')",
-    ];
+        $styles = is_array($settings['styles'] ?? null) ? $settings['styles'] : [];
+        $styles[] = [
+            'css' => "@import url('{$style}')",
+        ];
+        $settings['styles'] = $styles;
 
-    return $settings;
-});
+        return $settings;
+    },
+);
 
 /**
  * Inject scripts into the block editor.
@@ -34,17 +42,17 @@ add_action('admin_head', function () {
     }
 
     if (! Vite::isRunningHot()) {
-        $dependencies = json_decode(Vite::content('editor.deps.json'));
+        $dependencies = json_decode(Vite::content('editor.deps.json'), true);
 
-        foreach ($dependencies as $dependency) {
-            if (! wp_script_is($dependency)) {
+        foreach (is_array($dependencies) ? $dependencies : [] as $dependency) {
+            if (is_string($dependency) && $dependency !== '' && ! wp_script_is($dependency)) {
                 wp_enqueue_script($dependency);
             }
         }
     }
     // Config partagée avec les scripts éditeur (source unique : config/theme.php)
     printf('<script>window.theme = %s;</script>', wp_json_encode([
-        'animationBlocks' => config('theme.animation.blocks'),
+        'animationBlocks' => ThemeConfig::animationBlocks(),
     ]));
 
     echo Vite::withEntryPoints([
@@ -84,7 +92,7 @@ add_action(
          *
          * @link https://developer.wordpress.org/reference/functions/register_nav_menus/
          */
-        register_nav_menus(config('theme.menus'));
+        register_nav_menus(ThemeConfig::menus());
 
         /**
          * Disable the default block patterns.
@@ -110,7 +118,7 @@ add_action(
         /**
          * Register custom image sizes (config/theme.php).
          */
-        foreach (config('theme.image_sizes') as $name => $size) {
+        foreach (ThemeConfig::imageSizes() as $name => $size) {
             add_image_size($name, $size['width'], $size['height'], $size['crop'] ?? false);
         }
 

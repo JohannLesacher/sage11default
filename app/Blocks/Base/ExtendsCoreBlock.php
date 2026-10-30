@@ -23,8 +23,10 @@ trait ExtendsCoreBlock
 
         add_filter(
             "render_block_{$blockName}",
-            function ($content, $block) use ($style, $handle) {
-                if (str_contains($block['attrs']['className'] ?? '', "is-style-{$style}")) {
+            function (string $content, array $block) use ($style, $handle): string {
+                $className = data_get($block, 'attrs.className');
+
+                if (is_string($className) && str_contains($className, "is-style-{$style}")) {
                     wp_enqueue_style($handle);
                 }
 

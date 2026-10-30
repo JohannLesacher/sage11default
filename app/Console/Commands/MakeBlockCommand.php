@@ -25,7 +25,8 @@ class MakeBlockCommand extends Command
 
     public function handle(): int
     {
-        $name = Str::ascii($this->argument('name'));
+        $name = $this->argument('name');
+        $name = Str::ascii(is_string($name) ? $name : '');
         $this->className = Str::studly($name);
         $this->slug = Str::kebab($this->className);
         $this->title = Str::ucfirst(str_replace('-', ' ', $this->slug));
@@ -55,6 +56,9 @@ class MakeBlockCommand extends Command
         return self::SUCCESS;
     }
 
+    /**
+     * @return array<string, string> chemin => contenu
+     */
     private function files(): array
     {
         $files = [

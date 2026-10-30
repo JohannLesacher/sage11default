@@ -23,7 +23,10 @@
     "roots/acorn": "^6.0"
   },
   "require-dev": {
-    "carthage-software/mago": "^1.0"
+    "carthage-software/mago": "^1.0",
+    "phpstan/extension-installer": "^1.4",
+    "phpstan/phpstan": "^2.1",
+    "szepeviktor/phpstan-wordpress": "^2.0"
   },
   "suggest": {
     "log1x/sage-directives": "A collection of useful Blade directives for WordPress and Sage (^1.0)."
@@ -31,7 +34,10 @@
   "config": {
     "optimize-autoloader": true,
     "preferred-install": "dist",
-    "sort-packages": true
+    "sort-packages": true,
+    "allow-plugins": {
+      "phpstan/extension-installer": true
+    }
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
@@ -39,6 +45,7 @@
     "format": "mago format --check",
     "format:fix": "mago format",
     "lint": "mago lint",
+    "analyse": "phpstan analyse --memory-limit=1G",
     "post-autoload-dump": [
       "Roots\\Acorn\\ComposerScripts::postAutoloadDump"
     ]

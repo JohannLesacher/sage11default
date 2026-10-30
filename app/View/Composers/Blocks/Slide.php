@@ -15,11 +15,11 @@ class Slide extends BlockComposer
 
     public function animation(): ?string
     {
-        return $this->animated() ? $this->attribute('animationType', 'fade-up') : null;
+        return $this->animated() ? $this->string('animationType', 'fade-up') : null;
     }
 
     private function animated(): bool
     {
-        return (bool) $this->attribute('animateOnScroll', false);
+        return $this->boolean('animateOnScroll');
     }
 }

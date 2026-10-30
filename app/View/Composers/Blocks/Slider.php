@@ -10,60 +10,65 @@ class Slider extends BlockComposer
 
     public function label(): string
     {
-        return $this->attribute('label') ?: __('Carrousel', 'sage');
+        return $this->string('label') ?: __('Carrousel', 'sage');
     }
 
     public function splideOptions(): string
     {
-        $perPage = max(1, (int) $this->attribute('perPage', 3));
+        $perPage = max(1, $this->integer('perPage', 3));
 
         $options = [
-            'type' => $this->attribute('loop') ? 'loop' : 'slide',
+            'type' => $this->boolean('loop') ? 'loop' : 'slide',
             'perPage' => $perPage,
             'gap' => $this->gap(),
-            'arrows' => (bool) $this->attribute('arrows', true),
-            'pagination' => (bool) $this->attribute('pagination'),
-            'autoplay' => (bool) $this->attribute('autoplay'),
-            'interval' => max(1, (int) $this->attribute('interval', 5)) * 1000,
+            'arrows' => $this->boolean('arrows', true),
+            'pagination' => $this->boolean('pagination'),
+            'autoplay' => $this->boolean('autoplay'),
+            'interval' => max(1, $this->integer('interval', 5)) * 1000,
             // Clés = largeur max (Splide) : points de rupture tablet et mobile de theme.json (settings.viewport)
             'breakpoints' => [
                 $this->breakpoint('tablet', 782) => [
-                    'perPage' => (int) ($this->attribute('perPageTablet') ?? max(1, $perPage - 1)),
+                    'perPage' => $this->integer('perPageTablet', max(1, $perPage - 1)),
                 ],
                 $this->breakpoint('mobile', 480) => [
-                    'perPage' => (int) ($this->attribute('perPageMobile') ?? 1),
+                    'perPage' => $this->integer('perPageMobile', 1),
                 ],
             ],
             'i18n' => $this->i18n(),
         ];
 
-        if ($this->attribute('align') === 'full') {
+        if ($this->string('align') === 'full') {
             $options['padding'] = [
                 'left' => 'var(--slider-padding-inline)',
                 'right' => 'var(--slider-padding-inline)',
             ];
         }
 
-        return wp_json_encode($options);
+        return wp_json_encode($options) ?: '{}';
     }
 
     private function breakpoint(string $name, int $default): int
     {
-        return (int) (wp_get_global_settings(['viewport', $name]) ?: $default);
+        $value = wp_get_global_settings(['viewport', $name]);
+
+        return is_numeric($value) ? (int) $value : $default;
     }
 
     private function gap(): string
     {
-        $gap = $this->attribute('style')['spacing']['blockGap'] ?? null;
+        $gap = data_get($this->attributes(), 'style.spacing.blockGap');
         $gap = is_array($gap) ? $gap['left'] ?? $gap['top'] ?? null : $gap;
 
         if (! is_string($gap) || $gap === '') {
             return '1.5rem';
         }
 
-        return preg_replace('/^var:preset\|([\w-]+)\|([\w-]+)$/', 'var(--wp--preset--$1--$2)', $gap);
+        return preg_replace('/^var:preset\|([\w-]+)\|([\w-]+)$/', 'var(--wp--preset--$1--$2)', $gap) ?? $gap;
     }
 
+    /**
+     * @return array<string, string>
+     */
     private function i18n(): array
     {
         return [

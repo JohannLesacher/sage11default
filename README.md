@@ -25,6 +25,7 @@ npm run build   # assets de production dans public/build/
 | `composer format`           | Vérifie le formatage PHP (Mago)                             |
 | `composer format:fix`       | Formate le PHP                                              |
 | `composer lint`             | Analyse le PHP (Mago)                                       |
+| `composer analyse`          | Analyse statique PHPStan (niveau max, stubs WordPress)      |
 | `npm run format`            | Formate JS, JSX, SCSS, JSON, Markdown (oxfmt)               |
 | `npm run format:check`      | Vérifie le formatage sans écrire                            |
 | `npm run lint`              | Analyse le JS (oxlint) ; `lint:fix` corrige automatiquement |
@@ -42,6 +43,7 @@ app/
   Providers/         BlockServiceProvider, ThemeServiceProvider
   View/Composers/    composers de vues, Blocks/ pour les blocs
 config/theme.php     réglages du thème (header, tailles d'images, langues…)
+                     lus via App\Services\ThemeConfig (accès typé)
 resources/
   blocks/{name}/     block.json, editor.jsx, style.scss, script.js
   css/ js/           assets globaux

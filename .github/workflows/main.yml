@@ -98,3 +98,6 @@ jobs:
 
       - name: Lint PHP
         run: composer lint
+
+      - name: Analyse PHP
+        run: composer analyse
