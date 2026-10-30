@@ -1,6 +1,6 @@
 <footer class="site-footer">
   <div class="site-footer__logo">
-    @include('partials.logo')
+    @include('partials.logo', ['footer' => true])
   </div>
 
   @if($contact)

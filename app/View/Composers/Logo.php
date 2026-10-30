@@ -11,6 +11,16 @@ class Logo extends Composer
 
     public function logoId(): int
     {
-        return app(ThemeSettings::class)->integer('logo');
+        $settings = app(ThemeSettings::class);
+
+        if ($this->data->get('footer')) {
+            $footerId = $settings->integer('logo_footer');
+
+            if ($footerId) {
+                return $footerId;
+            }
+        }
+
+        return $settings->integer('logo');
     }
 }

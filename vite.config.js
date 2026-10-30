@@ -107,6 +107,9 @@ export default defineConfig({
         'resources/js/app.js',
         'resources/css/editor.scss',
         'resources/js/editor.js',
+        // Widget du tableau de bord (DashboardServiceProvider)
+        'resources/css/admin/dashboard-video.scss',
+        'resources/js/admin/dashboard-video.js',
         // Scan dynamique des blocs
         ...globSync('resources/blocks/*/{style.scss,script.js}'),
       ],

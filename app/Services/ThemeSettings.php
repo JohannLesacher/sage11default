@@ -96,6 +96,12 @@ class ThemeSettings
                             'type' => 'single_image',
                             'desc' => 'Remplace le logo SVG du thème dans le header et le footer.',
                         ],
+                        [
+                            'id' => 'logo_footer',
+                            'name' => 'Logo footer',
+                            'type' => 'single_image',
+                            'desc' => 'Variante du logo pour le footer (ex. autre couleur). Si vide, le logo principal est utilisé.',
+                        ],
                     ],
                 ];
 

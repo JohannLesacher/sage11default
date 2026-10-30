@@ -2,6 +2,7 @@
 
 use App\Providers\ThemeServiceProvider;
 use App\Providers\BlockServiceProvider;
+use App\Providers\DashboardServiceProvider;
 use App\Providers\PostTypesServiceProvider;
 use App\Providers\ThemeSettingsServiceProvider;
 use Roots\Acorn\Application;
@@ -41,6 +42,7 @@ Application::configure()
         PostTypesServiceProvider::class,
         BlockServiceProvider::class,
         ThemeSettingsServiceProvider::class,
+        DashboardServiceProvider::class,
     ])
     ->boot();
 
