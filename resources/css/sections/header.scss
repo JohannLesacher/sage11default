@@ -17,7 +17,17 @@
 
   &__wrapper {
     grid-column: content;
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    column-gap: var(--wp--preset--spacing--60);
+
+    // Menu centré sur la page, indépendamment de la largeur du logo et des actions
+    @include mixins.breakpoint(large, up) {
+      &:has(.banner__nav--center) {
+        grid-template-columns: 1fr auto 1fr;
+      }
+    }
   }
 
   &.is-fixed {
@@ -39,7 +49,8 @@
   }
 
   .brand {
-    grid-column: content-start;
+    grid-column: 1;
+    justify-self: start;
     display: flex;
     align-items: center;
     z-index: 1010;
@@ -55,7 +66,7 @@
   }
 
   &__nav {
-    grid-column: content;
+    grid-column: 2;
     display: none;
 
     ul {
@@ -105,7 +116,6 @@
 
       &--left {
         justify-self: start;
-        margin-left: var(--wp--preset--spacing--60);
       }
       &--center {
         justify-self: center;
@@ -117,13 +127,12 @@
   }
 
   &__actions {
-    grid-column: content-end;
+    grid-column: 3;
     justify-self: end;
     display: flex;
     align-items: center;
     gap: var(--wp--preset--spacing--40);
     z-index: 1010;
-    margin-left: auto;
 
     .banner__lang {
       display: none;
@@ -137,8 +146,6 @@
   }
 
   .burger {
-    grid-column: content-end;
-    justify-self: end;
     width: 28px;
     height: 18px;
     gap: 1px;

@@ -1,0 +1,56 @@
+.cereal-one-video {
+  &__player {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000;
+  }
+
+  &__title {
+    margin: 16px 0 8px;
+  }
+
+  &__chapters {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      margin: 0;
+    }
+  }
+
+  &__chapter {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+    padding: 4px 6px;
+    border: 0;
+    border-radius: 2px;
+    background: none;
+    color: var(--wp-admin-theme-color, #2271b1);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--wp-admin-theme-color-darker-10, #135e96);
+      text-decoration: underline;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--wp-admin-theme-color, #2271b1);
+      outline-offset: 1px;
+    }
+  }
+
+  &__time {
+    min-width: 3.5em;
+    color: #50575e;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__support {
+    margin: 16px 0 0;
+  }
+}
